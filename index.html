@@ -702,25 +702,90 @@
             opacity: 1;
         }
 
-        /* Responsive Styles */
+        /* ========== অ্যানিমেটেড অ্যাড বাটন স্টাইল ========== */
+        .ad-wrapper {
+            text-align: center;
+            margin: 15px 0 5px 0;
+        }
+
+        .animated-ad-btn {
+            position: relative;
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff0055, #ffdd00, #00ff55, #0055ff);
+            background-size: 400%;
+            border-radius: 50px;
+            z-index: 1;
+            animation: glow-animation 8s linear infinite, pulse-animation 1.5s ease-in-out infinite;
+            border: none;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes glow-animation {
+            0% { background-position: 0%; }
+            100% { background-position: 400%; }
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .animated-ad-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+        }
+
+        .animated-ad-btn::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            z-index: -1;
+            background: inherit;
+            filter: blur(20px);
+            border-radius: 55px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .animated-ad-btn:hover::before {
+            opacity: 1;
+        }
+
+        .animated-ad-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* মোবাইল ডিভাইসের জন্য রেস্পন্সিভ */
         @media (max-width: 480px) {
+            .animated-ad-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
             .service-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
             }
-            
             .service-card i {
                 font-size: 18px;
             }
-            
             .service-card p {
                 font-size: 9px;
             }
-            
             .login-box {
                 padding: 30px 20px;
             }
-            
             .slider-container {
                 height: 120px;
             }
@@ -904,6 +969,15 @@
                 <i class="fas fa-bolt" style="color:#9C27B0;"></i>
                 <p>ড্রাইভ অফার</p>
             </div>
+        </div>
+
+        <!-- অ্যানিমেটেড অ্যাড বাটন -->
+        <div class="ad-wrapper">
+            <a href="https://www.profitablecpmratenetwork.com/gh2kfhy1?key=a9bb172bf236ef11ded7d695303a6d29" 
+               target="_blank" 
+               class="animated-ad-btn">
+                🔥 স্পেশাল অফার দেখুন! 🎁
+            </a>
         </div>
     </div>
 
@@ -1325,50 +1399,7 @@
         document.getElementById('loginBtn').disabled = false;
         document.getElementById('loginBtn').innerHTML = 'লগইন করুন';
         
-        // স্বাগতম মেসেজটি এখানে মুছে দেওয়া হয়েছে
-        // setTimeout(() => {
-        //     showWelcomeMessage();
-        // }, 1000);
-        
         loadPopupNotice();
-    }
-    
-    function showWelcomeMessage() {
-        if (!currentUser) return;
-        
-        const welcomeMessages = [
-            `স্বাগতম ${currentUser.name}!`,
-            "ASF Telecom-এ আপনাকে স্বাগতম!",
-            "আপনার সেবায় আমরা সদা প্রস্তুত।",
-            "দ্রুত ও নিরাপদ সার্ভিসের জন্য ASF Telecom।"
-        ];
-        
-        const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-        
-        const popup = document.createElement('div');
-        popup.className = 'modal';
-        popup.style.display = 'flex';
-        popup.style.zIndex = '12000';
-        
-        popup.innerHTML = `
-            <div class="modal-content" style="max-width: 350px;">
-                <h3 style="margin-bottom:15px; color:#1a237e;">স্বাগতম!</h3>
-                <div style="margin-bottom:20px; color:#666; text-align:center; font-size:16px;">
-                    ${randomMessage}
-                </div>
-                <button class="btn btn-green btn-full" onclick="this.parentElement.parentElement.style.display='none'">
-                    <i class="fas fa-check"></i> ঠিক আছে
-                </button>
-            </div>
-        `;
-        
-        document.body.appendChild(popup);
-        
-        setTimeout(() => {
-            if (popup.parentElement) {
-                popup.style.display = 'none';
-            }
-        }, 5000);
     }
     
     function loadUserData() {
