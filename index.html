@@ -2,8 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASF Telecom - ইউজার প্যানেল</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ASF Telecom - ইউজার প্যানেল | সম্পূর্ণ লেনদেন হিস্ট্রি</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Firebase SDKs -->
@@ -13,7 +13,7 @@
     <!-- Firebase Config -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyACKaxw5Gk0K7bH6xqPkwDnX3VbimXAbw8",
+            apiKey: "AIzaSyACKaxw5Gk0K7bH6xqPkwDn3XbimXAbw8",
             authDomain: "asftelicompro.firebaseapp.com",
             databaseURL: "https://asftelicompro-default-rtdb.firebaseio.com",
             projectId: "asftelicompro",
@@ -374,6 +374,7 @@
         .btn-green { background: #2e7d32; }
         .btn-red { background: #d32f2f; }
         .btn-orange { background: #f57c00; }
+        .btn-purple { background: #9C27B0; }
         .btn-full { width: 100%; margin-top: 10px; }
         
         /* Back Button */
@@ -424,6 +425,16 @@
             color: #666;
         }
         body.dark-mode .history-details { color: #b0b0b0; }
+        
+        .balance-info {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+            font-size: 11px;
+            color: #1a237e;
+            font-weight: bold;
+        }
+        body.dark-mode .balance-info { border-top-color: #444; color: #90caf9; }
 
         /* Loading Spinner */
         .loading-spinner {
@@ -600,6 +611,16 @@
             margin: 15px 0;
             text-align: center;
         }
+        
+        /* Info Message */
+        .info-message {
+            background: #2196F3;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
 
         /* Modal for Drive Offer Purchase */
         .modal {
@@ -702,7 +723,7 @@
             opacity: 1;
         }
 
-        /* ========== অ্যানিমেটেড অ্যাড বাটন স্টাইল ========== */
+        /* অ্যানিমেটেড অ্যাড বাটন স্টাইল */
         .ad-wrapper {
             text-align: center;
             margin: 15px 0 5px 0;
@@ -767,7 +788,6 @@
             transform: scale(0.96);
         }
 
-        /* মোবাইল ডিভাইসের জন্য রেস্পন্সিভ */
         @media (max-width: 480px) {
             .animated-ad-btn {
                 padding: 10px 20px;
@@ -802,13 +822,11 @@
         </div>
         <h2>ASF Telecom - ইউজার লগইন</h2>
         
-        <!-- Fixed Mobile Number Display -->
         <div id="fixedNumberDisplay" class="fixed-number-display" style="display: none;">
             <p id="displayMobile">মোবাইল: ০১৭৮০৩৫২১৬৩</p>
             <p class="change-number-link" onclick="changeMobileNumber()">নাম্বার পরিবর্তন করুন</p>
         </div>
         
-        <!-- Mobile Input (hidden when fixed number is set) -->
         <div id="mobileInputGroup" class="input-group">
             <input type="text" id="loginMobile" class="login-input" placeholder="মোবাইল নাম্বার" autocomplete="off">
         </div>
@@ -829,10 +847,10 @@
     </div>
 </div>
 
-<!-- Main Content (Hidden until login) -->
+<!-- Main Content -->
 <div id="mainContent">
 
-<!-- Sidebar for Profile -->
+<!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <div style="text-align:right; margin-bottom:20px;">
         <i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i>
@@ -856,7 +874,6 @@
         <p><i class="fas fa-user-circle"></i> রোল: <span id="sideUserRole">user</span></p>
     </div>
     
-    <!-- Menu Items -->
     <div class="menu-item" onclick="showSection('dashboard'); toggleSidebar();">
         <i class="fas fa-home"></i>
         <span>ড্যাশবোর্ড</span>
@@ -882,7 +899,6 @@
         <span>প্রোফাইল</span>
     </div>
     
-    <!-- Support Links -->
     <div style="margin-top: 20px;">
         <h4 style="margin-bottom: 10px; color: #1a237e;">সাপোর্ট</h4>
         <div class="support-links">
@@ -895,7 +911,6 @@
         </div>
     </div>
     
-    <!-- Logout Button -->
     <button class="btn btn-red btn-full" onclick="userLogout()" style="margin-top: 30px;">
         <i class="fas fa-sign-out-alt"></i> লগ আউট
     </button>
@@ -914,7 +929,6 @@
             <p style="font-size:10px; opacity:0.8;">টাচ করুন দেখতে</p>
         </div>
         
-        <!-- Profile Image -->
         <div>
             <img id="userDisplayImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
                  class="user-profile-img" onclick="toggleSidebar()" style="cursor:pointer;">
@@ -925,25 +939,18 @@
 <div class="container">
     <!-- Dashboard Section -->
     <div id="dashboardSection" class="active-section">
-        <!-- Slider -->
-        <div class="slider-container" id="sliderContainer">
-            <!-- Slider content will be loaded from Firebase -->
-        </div>
+        <div class="slider-container" id="sliderContainer"></div>
         
-        <!-- Notice with Marquee -->
         <div class="notice-box" id="noticeBox" style="display:none;" onclick="handleNoticeClick(event)">
             <div class="notice-header">
                 <i class="fas fa-bullhorn"></i>
                 <h4>নোটিশ</h4>
             </div>
             <div class="notice-marquee">
-                <div class="marquee-content" id="marqueeContent">
-                    <!-- Notice content will be loaded from Firebase -->
-                </div>
+                <div class="marquee-content" id="marqueeContent"></div>
             </div>
         </div>
         
-        <!-- Service Grid -->
         <div class="service-grid">
             <div class="service-card" data-section="recharge" onclick="setActiveServiceCard(this); showSection('recharge')">
                 <i class="fas fa-mobile-alt" style="color:#f44336;"></i>
@@ -971,7 +978,6 @@
             </div>
         </div>
 
-        <!-- অ্যানিমেটেড অ্যাড বাটন -->
         <div class="ad-wrapper">
             <a href="https://www.profitablecpmratenetwork.com/gh2kfhy1?key=a9bb172bf236ef11ded7d695303a6d29" 
                target="_blank" 
@@ -1029,7 +1035,12 @@
             <option value="rocket_cashout">রকেট ক্যাশ আউট</option>
             <option value="upay">উপায়</option>
             <option value="paybill">পে বিল</option>
+            <option value="user_send">👥 ইউজার ট্রান্সফার (ইউজার সেন্ট)</option>
         </select>
+        
+        <div id="userTransferInfo" style="background:#e3f2fd; padding:12px; border-radius:10px; margin-bottom:15px; display:none;">
+            <i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন। টাকা সরাসরি তার একাউন্টে চলে যাবে।
+        </div>
         
         <input type="text" id="mbankNumber" placeholder="একাউন্ট নাম্বার" oninput="updateMbankSummary()">
         <input type="number" id="mbankAmount" placeholder="টাকার পরিমাণ" min="10" max="50000" oninput="updateMbankSummary()">
@@ -1108,7 +1119,7 @@
     </div>
 </div>
 
-</div> <!-- End of mainContent -->
+</div>
 
 <!-- Notice Popup -->
 <div id="noticePopup" class="notice-popup">
@@ -1116,19 +1127,13 @@
         <div class="close-notice-popup" onclick="closeNoticePopup()">
             <i class="fas fa-times"></i>
         </div>
-        
         <h3 style="margin-bottom:15px; color:#1a237e;">নোটিশ</h3>
-        
-        <div id="noticePopupContent" style="margin-bottom:20px; color:#666; text-align:left; max-height:300px; overflow-y:auto;">
-            লোড হচ্ছে...
-        </div>
-        
+        <div id="noticePopupContent" style="margin-bottom:20px; color:#666; text-align:left; max-height:300px; overflow-y:auto;"></div>
         <div id="noticePopupLink" style="margin-top:15px; display:none;">
             <a href="#" id="noticeLink" target="_blank" class="btn btn-blue btn-full">
                 <i class="fas fa-external-link-alt"></i> লিংক ওপেন করুন
             </a>
         </div>
-        
         <button class="btn btn-green btn-full" onclick="closeNoticePopup()">
             <i class="fas fa-check"></i> ঠিক আছে
         </button>
@@ -1141,17 +1146,13 @@
         <div class="close-modal" onclick="closePopupNoticeModal()">
             <i class="fas fa-times"></i>
         </div>
-        
         <h3 id="popupNoticeTitle" style="margin-bottom:15px; color:#1a237e;">নোটিশ</h3>
-        
         <div id="popupNoticeMessage" style="margin-bottom:20px; color:#666; text-align:left; max-height:300px; overflow-y:auto;"></div>
-        
         <div id="popupNoticeLink" style="margin-top:15px; display:none;">
             <a href="#" id="popupNoticeLinkAnchor" target="_blank" class="btn btn-blue btn-full">
                 <i class="fas fa-external-link-alt"></i> লিংক ওপেন করুন
             </a>
         </div>
-        
         <button class="btn btn-green btn-full" onclick="closePopupNoticeModal()">
             <i class="fas fa-check"></i> ঠিক আছে
         </button>
@@ -1164,21 +1165,15 @@
         <div class="close-modal" onclick="closePurchaseModal()">
             <i class="fas fa-times"></i>
         </div>
-        
         <h3 id="modalTitle" style="margin-bottom:15px; color:#1a237e;">ড্রাইভ অফার ক্রয়</h3>
-        
         <p id="modalDescription" style="margin-bottom:20px; color:#666;"></p>
-        
         <input type="text" id="purchaseNumber" placeholder="মোবাইল নাম্বার দিন" maxlength="11">
-        
         <div id="modalOperatorInfo" style="background:#f5f5f5; padding:10px; border-radius:8px; margin:10px 0; display:none;">
             <p style="margin:0; font-size:12px;">অপারেটর: <span id="detectedOperator">ডিটেক্ট করা হচ্ছে...</span></p>
         </div>
-        
         <button class="btn btn-green btn-full" onclick="confirmPurchase()">
             <i class="fas fa-check-circle"></i> ক্রয় কনফার্ম করুন
         </button>
-        
         <div id="modalMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
 </div>
@@ -1250,7 +1245,6 @@
     function formatBanglaMobile(mobile) {
         const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
         let formatted = '';
-        
         for (let i = 0; i < mobile.length; i++) {
             const char = mobile[i];
             if (char >= '0' && char <= '9') {
@@ -1259,7 +1253,6 @@
                 formatted += char;
             }
         }
-        
         return formatted;
     }
     
@@ -1276,7 +1269,6 @@
         document.querySelectorAll('.service-card').forEach(card => {
             card.classList.remove('active');
         });
-        
         if (cardElement) {
             cardElement.classList.add('active');
             activeServiceCard = cardElement;
@@ -1300,13 +1292,11 @@
         
         if (!mobile) {
             const savedMobile = localStorage.getItem('userFixedMobile');
-            if (savedMobile) {
-                mobile = savedMobile;
-            }
+            if (savedMobile) mobile = savedMobile;
         }
         
         if (!mobile || !password) {
-            loginError.textContent = "পাসওয়ার্ড দিন!";
+            loginError.textContent = "মোবাইল ও পাসওয়ার্ড দিন!";
             loginError.style.display = 'block';
             return;
         }
@@ -1321,7 +1311,6 @@
         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লগইন হচ্ছে...';
         loginError.style.display = 'none';
         
-        // Initialize Firebase if not already done
         if (!initializeFirebase()) {
             loginError.textContent = "Firebase সংযোগ ব্যর্থ!";
             loginError.style.display = 'block';
@@ -1371,9 +1360,7 @@
         currentUser = userData;
         
         const savedProfileImage = localStorage.getItem(`profileImage_${userId}`);
-        if (savedProfileImage) {
-            currentUser.profileImage = savedProfileImage;
-        }
+        if (savedProfileImage) currentUser.profileImage = savedProfileImage;
         
         localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('userId', userId);
@@ -1381,7 +1368,6 @@
         
         document.body.classList.add('logged-in');
         
-        // Ensure Firebase is initialized
         if (!initializeFirebase()) {
             console.error("Firebase not initialized after login");
             return;
@@ -1393,6 +1379,7 @@
         loadSupportLinks();
         setupUserDataListener();
         setupNoticeListener();
+        setupBalanceRequestListener(); // ব্যালেন্স রিকোয়েস্ট লিসেনার
         
         document.getElementById('loginPassword').value = '';
         document.getElementById('loginError').style.display = 'none';
@@ -1400,6 +1387,95 @@
         document.getElementById('loginBtn').innerHTML = 'লগইন করুন';
         
         loadPopupNotice();
+    }
+    
+    // এডমিন থেকে ব্যালেন্স এড/কাট লিসেনার
+    function setupBalanceRequestListener() {
+        if (!database || !currentUserId) return;
+        
+        // ইউজারের ব্যালেন্স রিকোয়েস্টের স্ট্যাটাস চেক করা
+        database.ref('balanceRequests').orderByChild('userId').equalTo(currentUserId).on('child_changed', (snapshot) => {
+            const request = snapshot.val();
+            if (request.status === 'approved' || request.status === 'cancelled') {
+                // হিস্ট্রিতে যোগ করার জন্য
+                addAdminTransactionToHistory(request);
+                // ব্যালেন্স ইতিমধ্যে আপডেট হয়ে গেছে (এডমিন আপডেট করে)
+                loadUserData(); // রিফ্রেশ
+            }
+        });
+        
+        // সরাসরি ব্যালেন্স আপডেট লিসেনার (এডমিন ডাইরেক্ট এডিট করলে)
+        database.ref('users/' + currentUserId + '/balance').on('value', (snapshot) => {
+            const newBalance = snapshot.val();
+            if (currentUser && newBalance !== undefined && currentUser.balance !== newBalance) {
+                const previousBalance = currentUser.balance;
+                currentUser.balance = newBalance;
+                localStorage.setItem('userData', JSON.stringify(currentUser));
+                loadUserData();
+                
+                // যদি এটি ডাইরেক্ট এডমিন পরিবর্তন হয়, তাহলে হিস্ট্রি যোগ করুন
+                // (এটি ব্যালেন্স রিকোয়েস্টের মাধ্যমে না হয়ে সরাসরি হলে)
+                // আমরা চেক করবো যে এই পরিবর্তনের জন্য কোনো রিকোয়েস্ট আছে কিনা
+                checkAndAddDirectBalanceChange(previousBalance, newBalance);
+            }
+        });
+    }
+    
+    function checkAndAddDirectBalanceChange(previousBalance, newBalance) {
+        // ব্যালেন্স রিকোয়েস্ট চেক করুন যে এই পরিবর্তনটি কোনো রিকোয়েস্ট থেকে এসেছে কিনা
+        database.ref('balanceRequests').orderByChild('userId').equalTo(currentUserId).once('value').then(snap => {
+            let found = false;
+            snap.forEach(child => {
+                const req = child.val();
+                if (req.status === 'pending' && req.amount === (newBalance - previousBalance)) {
+                    found = true;
+                }
+            });
+            if (!found && previousBalance !== newBalance) {
+                // ডাইরেক্ট এডমিন পরিবর্তন, হিস্ট্রি যোগ করুন
+                const changeAmount = newBalance - previousBalance;
+                const changeType = changeAmount > 0 ? 'ব্যালেন্স এড (এডমিন)' : 'ব্যালেন্স কাট (এডমিন)';
+                const transaction = {
+                    category: changeType,
+                    operatorName: "এডমিন",
+                    amount: Math.abs(changeAmount),
+                    userId: currentUserId,
+                    userName: currentUser.name,
+                    number: currentUser.phone,
+                    time: new Date().toLocaleString('bn-BD'),
+                    timestamp: Date.now(),
+                    status: "Success",
+                    trxID: "ADMIN" + Date.now().toString().slice(-8),
+                    previousBalance: previousBalance,
+                    newBalance: newBalance,
+                    note: changeAmount > 0 ? `${Math.abs(changeAmount)} টাকা ব্যালেন্স যোগ করা হয়েছে` : `${Math.abs(changeAmount)} টাকা কেটে নেওয়া হয়েছে`
+                };
+                database.ref('orders').push(transaction);
+            }
+        });
+    }
+    
+    function addAdminTransactionToHistory(request) {
+        if (!currentUser) return;
+        const previousBalance = request.status === 'approved' ? (currentUser.balance - request.amount) : currentUser.balance;
+        const newBalance = request.status === 'approved' ? currentUser.balance : currentUser.balance;
+        
+        const transaction = {
+            category: request.status === 'approved' ? 'ব্যালেন্স রিকোয়েস্ট এপ্রুভ' : 'ব্যালেন্স রিকোয়েস্ট ক্যান্সেল',
+            operatorName: "এডমিন",
+            amount: request.amount,
+            userId: currentUserId,
+            userName: currentUser.name,
+            number: currentUser.phone,
+            time: new Date().toLocaleString('bn-BD'),
+            timestamp: Date.now(),
+            status: request.status === 'approved' ? 'Success' : 'Cancelled',
+            trxID: request.transactionId || ("REQ" + Date.now().toString().slice(-8)),
+            previousBalance: previousBalance,
+            newBalance: newBalance,
+            note: request.status === 'approved' ? `${request.amount} টাকা ব্যালেন্স এপ্রুভ হয়েছে` : `${request.amount} টাকার রিকোয়েস্ট ক্যান্সেল হয়েছে`
+        };
+        database.ref('orders').push(transaction);
     }
     
     function loadUserData() {
@@ -1433,12 +1509,11 @@
         database.ref('users/' + currentUserId).on('value', (snapshot) => {
             if (snapshot.exists()) {
                 const updatedUserData = snapshot.val();
+                const previousBalance = currentUser ? currentUser.balance : 0;
                 currentUser = updatedUserData;
                 
                 const savedProfileImage = localStorage.getItem(`profileImage_${currentUserId}`);
-                if (savedProfileImage && !currentUser.profileImage) {
-                    currentUser.profileImage = savedProfileImage;
-                }
+                if (savedProfileImage && !currentUser.profileImage) currentUser.profileImage = savedProfileImage;
                 
                 localStorage.setItem('userData', JSON.stringify(currentUser));
                 loadUserData();
@@ -1452,9 +1527,7 @@
     }
     
     function checkLoginStatus() {
-        // Initialize Firebase first
         initializeFirebase();
-        
         const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
         const userId = localStorage.getItem('userId');
         const userDataStr = localStorage.getItem('userData');
@@ -1470,7 +1543,6 @@
                 localStorage.removeItem('userData');
             }
         }
-        
         setupFixedMobileNumber();
     }
     
@@ -1481,18 +1553,10 @@
             localStorage.removeItem('userData');
             currentUser = null;
             currentUserId = null;
-            
-            if (sliderInterval) {
-                clearInterval(sliderInterval);
-            }
-            
+            if (sliderInterval) clearInterval(sliderInterval);
             document.body.classList.remove('logged-in');
             showSection('dashboard');
-            
-            if (database && currentUserId) {
-                database.ref('users/' + currentUserId).off('value');
-            }
-            
+            if (database && currentUserId) database.ref('users/' + currentUserId).off('value');
             document.getElementById('loginPassword').value = '';
             setupFixedMobileNumber();
         }
@@ -1502,102 +1566,58 @@
     function showSection(id) {
         document.querySelectorAll('.service-section').forEach(s => s.classList.remove('active-section'));
         document.getElementById('dashboardSection').classList.remove('active-section');
-        
         const section = document.getElementById(id + 'Section');
-        if (section) {
-            section.classList.add('active-section');
-        }
-        
+        if (section) section.classList.add('active-section');
         if (id === 'dashboard') {
-            document.querySelectorAll('.service-card').forEach(card => {
-                card.classList.remove('active');
-            });
+            document.querySelectorAll('.service-card').forEach(card => card.classList.remove('active'));
             activeServiceCard = null;
         } else {
             setActiveServiceCard(null, id);
         }
-        
-        switch(id) {
-            case 'dashboard':
-                break;
-            case 'history':
-                loadUserHistory();
-                break;
-            case 'profile':
-                break;
-            case 'driveOffers':
-                loadDriveOffers();
-                break;
-        }
+        if (id === 'history') loadUserHistory();
     }
     
-    // ==================== SIDEBAR FUNCTIONS ====================
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
-    }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
     
     // ==================== SLIDER FUNCTIONS ====================
     function loadSlider() {
         const sliderContainer = document.getElementById('sliderContainer');
-        
         if (!database) {
-            sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666; font-size:14px;">স্লাইডার লোড হচ্ছে...</div>';
+            sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666;">স্লাইডার লোড হচ্ছে...</div>';
             return;
         }
-        
         database.ref('sliderImages').once('value').then(snap => {
             sliderImages = [];
             const sliderData = snap.val() || {};
-            
             for (let i = 1; i <= 5; i++) {
                 const sliderKey = `slider${i}`;
                 if (sliderData[sliderKey] && sliderData[sliderKey].url && sliderData[sliderKey].url.trim() !== '') {
                     sliderImages.push(sliderData[sliderKey].url);
                 }
             }
-            
             if (sliderImages.length === 0) {
-                sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666; font-size:14px;">স্লাইডার ইমেজ পাওয়া যায়নি</div>';
+                sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666;">স্লাইডার ইমেজ পাওয়া যায়নি</div>';
                 return;
             }
-            
             createSlider();
-            
         }).catch(error => {
             console.error("Error loading slider:", error);
-            sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666; font-size:14px;">স্লাইডার লোড করতে সমস্যা</div>';
+            sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666;">স্লাইডার লোড করতে সমস্যা</div>';
         });
     }
     
     function createSlider() {
         const sliderContainer = document.getElementById('sliderContainer');
-        
-        if (sliderImages.length === 0) {
-            sliderContainer.innerHTML = '<div style="text-align:center; padding:50px; color:#666; font-size:14px;">স্লাইডার ইমেজ পাওয়া যায়নি</div>';
-            return;
-        }
-        
-        let sliderHTML = `
-            <div style="position:relative; width:100%; height:100%;">
-                <img class="slider-image" id="sliderImage" src="${sliderImages[0]}" style="width:100%; height:100%; object-fit:cover;">
-                <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:5px;">
-        `;
-        
+        if (sliderImages.length === 0) return;
+        let sliderHTML = `<div style="position:relative; width:100%; height:100%;">
+            <img class="slider-image" id="sliderImage" src="${sliderImages[0]}" style="width:100%; height:100%; object-fit:cover;">
+            <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:5px;">`;
         for (let i = 0; i < sliderImages.length; i++) {
             sliderHTML += `<div style="width:8px; height:8px; border-radius:50%; background:${i === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; cursor:pointer;" onclick="showSliderImage(${i})"></div>`;
         }
-        
-        sliderHTML += `
-                </div>
-            </div>
-        `;
-        
+        sliderHTML += `</div></div>`;
         sliderContainer.innerHTML = sliderHTML;
-        
-        if (sliderInterval) {
-            clearInterval(sliderInterval);
-        }
-        
+        if (sliderInterval) clearInterval(sliderInterval);
         if (sliderImages.length > 1) {
             sliderInterval = setInterval(() => {
                 currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length;
@@ -1611,7 +1631,6 @@
         currentSliderIndex = index;
         document.getElementById('sliderImage').src = sliderImages[index];
         updateSliderDots();
-        
         if (sliderInterval) {
             clearInterval(sliderInterval);
             sliderInterval = setInterval(() => {
@@ -1625,9 +1644,7 @@
     function updateSliderDots() {
         const dots = document.querySelectorAll('#sliderContainer div div div');
         dots.forEach((dot, index) => {
-            if (dot && dot.style) {
-                dot.style.background = index === currentSliderIndex ? 'white' : 'rgba(255,255,255,0.5)';
-            }
+            if (dot && dot.style) dot.style.background = index === currentSliderIndex ? 'white' : 'rgba(255,255,255,0.5)';
         });
     }
     
@@ -1635,89 +1652,37 @@
     function loadNotice() {
         const noticeBox = document.getElementById('noticeBox');
         const marqueeContent = document.getElementById('marqueeContent');
-        
-        // শুরুতে লোডিং স্টেট সেট করুন
         noticeBox.style.display = 'block';
         marqueeContent.textContent = "নোটিশ লোড হচ্ছে...";
-        marqueeContent.style.animation = 'none'; // অ্যানিমেশন বন্ধ রাখুন
-        
-        if (!database) {
-            // Firebase না থাকলে ডিফল্ট মেসেজ দেখান
-            setTimeout(() => {
-                if (marqueeContent.textContent === "নোটিশ লোড হচ্ছে...") {
-                    marqueeContent.textContent = "Firebase সংযোগ ব্যর্থ!";
-                }
-            }, 3000);
-            return;
-        }
-        
+        if (!database) return;
         database.ref('notice').once('value').then(snap => {
             const noticeData = snap.val();
-            
             if (noticeData && noticeData.message && noticeData.message.trim() !== '') {
-                // নোটিশ ডেটা পাওয়া গেলে
                 marqueeContent.textContent = noticeData.message;
-                
-                if (noticeData.color) {
-                    marqueeContent.style.color = noticeData.color;
-                }
-                
-                // অ্যানিমেশন শুরু করুন
-                setTimeout(() => {
-                    marqueeContent.style.animation = '';
-                }, 100);
-                
-                if (noticeData.status === 'inactive') {
-                    noticeBox.style.display = 'none';
-                } else {
-                    noticeBox.style.display = 'block';
-                }
+                if (noticeData.color) marqueeContent.style.color = noticeData.color;
+                if (noticeData.status === 'inactive') noticeBox.style.display = 'none';
+                else noticeBox.style.display = 'block';
             } else {
-                // নোটিশ ডেটা না থাকলে
                 noticeBox.style.display = 'none';
             }
         }).catch(error => {
             console.error("Error loading notice:", error);
             marqueeContent.textContent = "নোটিশ লোড করতে সমস্যা!";
-            setTimeout(() => {
-                noticeBox.style.display = 'none';
-            }, 3000);
         });
     }
     
     function setupNoticeListener() {
         if (!database) return;
-        
         database.ref('notice').on('value', (snapshot) => {
             const noticeData = snapshot.val();
-            
             const noticeBox = document.getElementById('noticeBox');
             const marqueeContent = document.getElementById('marqueeContent');
-            
             if (noticeData && noticeData.message && noticeData.message.trim() !== '') {
-                // নোটিশ ডেটা আপডেট হলে
                 marqueeContent.textContent = noticeData.message;
-                
-                if (noticeData.color) {
-                    marqueeContent.style.color = noticeData.color;
-                }
-                
-                // অ্যানিমেশন রিসেট করুন
-                const marqueeElement = document.querySelector('.marquee-content');
-                if (marqueeElement) {
-                    marqueeElement.style.animation = 'none';
-                    setTimeout(() => {
-                        marqueeElement.style.animation = '';
-                    }, 10);
-                }
-                
-                if (noticeData.status === 'inactive') {
-                    noticeBox.style.display = 'none';
-                } else {
-                    noticeBox.style.display = 'block';
-                }
+                if (noticeData.color) marqueeContent.style.color = noticeData.color;
+                if (noticeData.status === 'inactive') noticeBox.style.display = 'none';
+                else noticeBox.style.display = 'block';
             } else {
-                // নোটিশ ডেটা না থাকলে
                 noticeBox.style.display = 'none';
             }
         });
@@ -1726,10 +1691,8 @@
     function handleNoticeClick(event) {
         const marqueeContent = document.getElementById('marqueeContent');
         const noticeText = marqueeContent.textContent;
-        
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const urls = noticeText.match(urlRegex);
-        
         if (urls && urls.length > 0) {
             window.open(urls[0], '_blank');
         } else {
@@ -1741,10 +1704,8 @@
         const popupContent = document.getElementById('noticePopupContent');
         const noticeLink = document.getElementById('noticeLink');
         const noticePopupLink = document.getElementById('noticePopupLink');
-        
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const urls = noticeText.match(urlRegex);
-        
         if (urls && urls.length > 0) {
             noticeLink.href = urls[0];
             noticePopupLink.style.display = 'block';
@@ -1752,10 +1713,8 @@
         } else {
             noticePopupLink.style.display = 'none';
         }
-        
         popupContent.textContent = noticeText || "কোনো নোটিশ নেই";
         document.getElementById('noticePopup').style.display = 'flex';
-        
         isMarqueePaused = true;
         document.querySelector('.marquee-content').classList.add('paused');
     }
@@ -1766,71 +1725,47 @@
         document.querySelector('.marquee-content').classList.remove('paused');
     }
     
-    // ==================== POPUP NOTICE FUNCTIONS ====================
     function loadPopupNotice() {
         if (!database) return;
-        
         database.ref('popupNotice').once('value').then(snap => {
             const popupNoticeData = snap.val();
-            
-            if (popupNoticeData && popupNoticeData.status === 'active' && 
-                popupNoticeData.message && popupNoticeData.message.trim() !== '') {
-                
+            if (popupNoticeData && popupNoticeData.status === 'active' && popupNoticeData.message && popupNoticeData.message.trim() !== '') {
                 document.getElementById('popupNoticeTitle').textContent = popupNoticeData.title || "নোটিশ";
                 document.getElementById('popupNoticeMessage').textContent = popupNoticeData.message;
-                
                 if (popupNoticeData.link && popupNoticeData.link.trim() !== '') {
                     document.getElementById('popupNoticeLinkAnchor').href = popupNoticeData.link;
                     document.getElementById('popupNoticeLink').style.display = 'block';
                 } else {
                     document.getElementById('popupNoticeLink').style.display = 'none';
                 }
-                
-                setTimeout(() => {
-                    document.getElementById('popupNoticeModal').style.display = 'flex';
-                }, 2000);
+                setTimeout(() => document.getElementById('popupNoticeModal').style.display = 'flex', 2000);
             }
-        }).catch(error => {
-            console.error("Error loading popup notice:", error);
-        });
+        }).catch(error => console.error("Error loading popup notice:", error));
     }
     
-    function closePopupNoticeModal() {
-        document.getElementById('popupNoticeModal').style.display = 'none';
-    }
+    function closePopupNoticeModal() { document.getElementById('popupNoticeModal').style.display = 'none'; }
     
     // ==================== RECHARGE FUNCTIONS ====================
     function detectOperator(number) {
         if (!number || number.length < 3) return null;
-        
         const prefix = number.substring(0, 3);
         switch(prefix) {
-            case '013':
-            case '017':
-                return { code: 'GP', name: 'গ্রামীণফোন (GP)' };
-            case '014':
-            case '019':
-                return { code: 'BL', name: 'বাংলালিংক (BL)' };
-            case '018':
-                return { code: 'Robi', name: 'রবি (Robi)' };
-            case '016':
-                return { code: 'Airtel', name: 'এয়ারটেল (Airtel)' };
-            case '015':
-                return { code: 'Teletalk', name: 'টেলিটক (Teletalk)' };
-            default:
-                return null;
+            case '013': case '017': return { code: 'GP', name: 'গ্রামীণফোন (GP)' };
+            case '014': case '019': return { code: 'BL', name: 'বাংলালিংক (BL)' };
+            case '018': return { code: 'Robi', name: 'রবি (Robi)' };
+            case '016': return { code: 'Airtel', name: 'এয়ারটেল (Airtel)' };
+            case '015': return { code: 'Teletalk', name: 'টেলিটক (Teletalk)' };
+            default: return null;
         }
     }
     
     function updateRechargeSummary() {
         const number = document.getElementById('rechargeNumber').value.trim();
         const amount = document.getElementById('rechargeAmount').value;
-        
         if (number && number.length >= 3) {
             const operator = detectOperator(number);
             const operatorDisplay = document.getElementById('operatorDisplay');
             const operatorName = document.getElementById('operatorName');
-            
             if (operator) {
                 currentOperator = operator;
                 operatorName.textContent = operator.name;
@@ -1844,15 +1779,12 @@
             document.getElementById('operatorDisplay').style.display = 'none';
             currentOperator = null;
         }
-        
         if (currentOperator && amount && parseFloat(amount) >= 20) {
             const amt = parseFloat(amount);
-            const total = amt;
-            
             document.getElementById('summaryNumber').textContent = number;
             document.getElementById('summaryOperator').textContent = currentOperator.name;
             document.getElementById('summaryAmount').textContent = `৳${amt}`;
-            document.getElementById('summaryTotal').textContent = `৳${total}`;
+            document.getElementById('summaryTotal').textContent = `৳${amt}`;
             document.getElementById('rechargeSummary').style.display = 'block';
         } else {
             document.getElementById('rechargeSummary').style.display = 'none';
@@ -1862,71 +1794,32 @@
     function submitRecharge() {
         const number = document.getElementById('rechargeNumber').value.trim();
         const amount = document.getElementById('rechargeAmount').value;
-        
-        if (!number || !amount) {
-            showMessage('rechargeMessage', 'সব তথ্য পূরণ করুন!', 'error');
-            return;
-        }
-        
-        if (!number.match(/^01[3-9]\d{8}$/)) {
-            showMessage('rechargeMessage', 'সঠিক মোবাইল নাম্বার দিন!', 'error');
-            return;
-        }
-        
+        if (!number || !amount) { showMessage('rechargeMessage', 'সব তথ্য পূরণ করুন!', 'error'); return; }
+        if (!number.match(/^01[3-9]\d{8}$/)) { showMessage('rechargeMessage', 'সঠিক মোবাইল নাম্বার দিন!', 'error'); return; }
         const amt = parseFloat(amount);
-        
-        if (amt < 20) {
-            showMessage('rechargeMessage', 'ন্যূনতম রিচার্জ ২০ টাকা!', 'error');
-            return;
-        }
-        
-        if (amt > 10000) {
-            showMessage('rechargeMessage', 'সর্বোচ্চ রিচার্জ ১০,০০০ টাকা!', 'error');
-            return;
-        }
-        
+        if (amt < 20 || amt > 10000) { showMessage('rechargeMessage', 'ন্যূনতম ২০ ও সর্বোচ্চ ১০,০০০ টাকা!', 'error'); return; }
         const operator = detectOperator(number);
-        if (!operator) {
-            showMessage('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error');
-            return;
-        }
+        if (!operator) { showMessage('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
+        if (currentUser.balance < amt) { showMessage('rechargeMessage', 'পর্যাপ্ত ব্যালেন্স নেই!', 'error'); return; }
         
-        if (currentUser.balance < amt) {
-            showMessage('rechargeMessage', 'পর্যাপ্ত ব্যালেন্স নেই! ব্যালেন্স রিকোয়েস্ট করুন।', 'error');
-            return;
-        }
-        
+        const previousBalance = currentUser.balance;
+        const newBalance = previousBalance - amt;
         const orderData = {
-            category: "Mobile Recharge",
-            operator: operator.code,
-            operatorName: operator.name,
-            amount: amt,
-            userId: currentUserId,
-            userName: currentUser.name,
-            number: number,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending",
-            trxID: "TRX" + Date.now().toString().slice(-8)
+            category: "মোবাইল রিচার্জ", operator: operator.code, operatorName: operator.name,
+            amount: amt, userId: currentUserId, userName: currentUser.name, number: number,
+            time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success",
+            trxID: "TRX" + Date.now().toString().slice(-8), previousBalance: previousBalance, newBalance: newBalance
         };
-        
-        const newBalance = currentUser.balance - amt;
         database.ref('users/' + currentUserId + '/balance').set(newBalance)
+            .then(() => database.ref('orders').push(orderData))
             .then(() => {
-                return database.ref('orders').push(orderData);
-            })
-            .then(() => {
-                showMessage('rechargeMessage', 'রিচার্জ সফল! ট্রানজেকশন আইডি: ' + orderData.trxID, 'success');
+                showMessage('rechargeMessage', 'রিচার্জ সফল! TrxID: ' + orderData.trxID, 'success');
                 resetRechargeForm();
-                
                 currentUser.balance = newBalance;
                 localStorage.setItem('userData', JSON.stringify(currentUser));
                 loadUserData();
             })
-            .catch(error => {
-                console.error("Error creating order:", error);
-                showMessage('rechargeMessage', 'অর্ডার তৈরি করতে সমস্যা!', 'error');
-            });
+            .catch(error => { console.error("Error:", error); showMessage('rechargeMessage', 'অর্ডার তৈরি করতে সমস্যা!', 'error'); });
     }
     
     function resetRechargeForm() {
@@ -1942,11 +1835,13 @@
         const service = document.getElementById('mbankService').value;
         const number = document.getElementById('mbankNumber').value.trim();
         const amount = document.getElementById('mbankAmount').value;
-        
+        const userTransferInfo = document.getElementById('userTransferInfo');
+        userTransferInfo.style.display = service === 'user_send' ? 'block' : 'none';
         if (service && number && amount) {
             const amt = parseFloat(amount);
-            
-            document.getElementById('mbankServiceName').textContent = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
+            let serviceText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
+            if (service === 'user_send') serviceText = 'ইউজার ট্রান্সফার';
+            document.getElementById('mbankServiceName').textContent = serviceText;
             document.getElementById('mbankSummaryNumber').textContent = number;
             document.getElementById('mbankSummaryAmount').textContent = `৳${amt}`;
             document.getElementById('mbankSummaryTotal').textContent = `৳${amt}`;
@@ -1956,64 +1851,85 @@
         }
     }
     
-    function submitMbank() {
+    async function submitMbank() {
         const service = document.getElementById('mbankService').value;
         const number = document.getElementById('mbankNumber').value.trim();
         const amount = document.getElementById('mbankAmount').value;
-        
-        if (!service || !number || !amount) {
-            showMessage('mbankMessage', 'সব তথ্য পূরণ করুন!', 'error');
-            return;
-        }
-        
+        if (!service || !number || !amount) { showMessage('mbankMessage', 'সব তথ্য পূরণ করুন!', 'error'); return; }
         const amt = parseFloat(amount);
+        if (amt < 10 || amt > 50000) { showMessage('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকার মধ্যে হতে হবে!', 'error'); return; }
+        if (currentUser.balance < amt) { showMessage('mbankMessage', 'পর্যাপ্ত ব্যালেন্স নেই!', 'error'); return; }
         
-        if (amt < 10) {
-            showMessage('mbankMessage', 'ন্যূনতম অ্যামাউন্ট ১০ টাকা!', 'error');
-            return;
-        }
-        
-        if (amt > 50000) {
-            showMessage('mbankMessage', 'সর্বোচ্চ অ্যামাউন্ট ৫০,০০০ টাকা!', 'error');
-            return;
-        }
-        
-        if (currentUser.balance < amt) {
-            showMessage('mbankMessage', 'পর্যাপ্ত ব্যালেন্স নেই! ব্যালেন্স রিকোয়েস্ট করুন।', 'error');
-            return;
-        }
-        
-        const orderData = {
-            category: "M-Bank",
-            operator: service,
-            operatorName: document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text,
-            amount: amt,
-            userId: currentUserId,
-            userName: currentUser.name,
-            number: number,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending",
-            trxID: "TRX" + Date.now().toString().slice(-8)
-        };
-        
-        const newBalance = currentUser.balance - amt;
-        database.ref('users/' + currentUserId + '/balance').set(newBalance)
-            .then(() => {
-                return database.ref('orders').push(orderData);
-            })
-            .then(() => {
-                showMessage('mbankMessage', 'অর্ডার সফল! ট্রানজেকশন আইডি: ' + orderData.trxID, 'success');
-                resetMbankForm();
+        // User Transfer Logic
+        if (service === 'user_send') {
+            const currentUserPhone = currentUser.phone || currentUserId.replace('user_', '');
+            if (number === currentUserPhone) { showMessage('mbankMessage', 'আপনি নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
+            const targetUserId = 'user_' + number;
+            try {
+                const targetUserSnap = await database.ref('users/' + targetUserId).once('value');
+                if (!targetUserSnap.exists()) { showMessage('mbankMessage', `"${number}" নম্বরের কোনো ইউজার নেই!`, 'error'); return; }
+                const targetUserData = targetUserSnap.val();
+                if (targetUserData.status === 'blocked') { showMessage('mbankMessage', 'টার্গেট ইউজার ব্লক!', 'error'); return; }
                 
+                const previousBalanceSender = currentUser.balance;
+                const newBalanceSender = previousBalanceSender - amt;
+                const previousBalanceReceiver = targetUserData.balance || 0;
+                const newBalanceReceiver = previousBalanceReceiver + amt;
+                
+                await database.ref('users/' + currentUserId + '/balance').set(newBalanceSender);
+                await database.ref('users/' + targetUserId + '/balance').set(newBalanceReceiver);
+                
+                const trxId = "UTRX" + Date.now().toString().slice(-8);
+                const senderOrder = {
+                    category: "ইউজার ট্রান্সফার (সেন্ড)", operatorName: "ইউজার ট্রান্সফার",
+                    amount: amt, userId: currentUserId, userName: currentUser.name, number: number,
+                    time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success",
+                    trxID: trxId, note: `${number} নম্বরে টাকা পাঠানো হয়েছে`,
+                    previousBalance: previousBalanceSender, newBalance: newBalanceSender
+                };
+                await database.ref('orders').push(senderOrder);
+                
+                const receiverOrder = {
+                    category: "ইউজার ট্রান্সফার (রিসিভ)", operatorName: "ইউজার ট্রান্সফার",
+                    amount: amt, userId: targetUserId, userName: targetUserData.name, number: currentUserPhone,
+                    time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success",
+                    trxID: trxId, note: `${currentUserPhone} থেকে টাকা পেয়েছেন`,
+                    previousBalance: previousBalanceReceiver, newBalance: newBalanceReceiver
+                };
+                await database.ref('orders').push(receiverOrder);
+                
+                currentUser.balance = newBalanceSender;
+                localStorage.setItem('userData', JSON.stringify(currentUser));
+                loadUserData();
+                showMessage('mbankMessage', `সফলভাবে ${amt} টাকা পাঠানো হয়েছে! TrxID: ${trxId}`, 'success');
+                resetMbankForm();
+            } catch (error) {
+                console.error("User transfer error:", error);
+                showMessage('mbankMessage', 'ট্রান্সফার করতে সমস্যা!', 'error');
+            }
+            return;
+        }
+        
+        // Normal M-Bank
+        const previousBalance = currentUser.balance;
+        const newBalance = previousBalance - amt;
+        const orderData = {
+            category: "এম-ব্যাংক", operator: service,
+            operatorName: document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text,
+            amount: amt, userId: currentUserId, userName: currentUser.name, number: number,
+            time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success",
+            trxID: "TRX" + Date.now().toString().slice(-8), previousBalance: previousBalance, newBalance: newBalance
+        };
+        database.ref('users/' + currentUserId + '/balance').set(newBalance)
+            .then(() => database.ref('orders').push(orderData))
+            .then(() => {
+                showMessage('mbankMessage', 'অর্ডার সফল! TrxID: ' + orderData.trxID, 'success');
+                resetMbankForm();
                 currentUser.balance = newBalance;
                 localStorage.setItem('userData', JSON.stringify(currentUser));
                 loadUserData();
             })
-            .catch(error => {
-                console.error("Error creating order:", error);
-                showMessage('mbankMessage', 'অর্ডার তৈরি করতে সমস্যা!', 'error');
-            });
+            .catch(error => { console.error("Error:", error); showMessage('mbankMessage', 'অর্ডার তৈরি করতে সমস্যা!', 'error'); });
     }
     
     function resetMbankForm() {
@@ -2021,50 +1937,33 @@
         document.getElementById('mbankNumber').value = '';
         document.getElementById('mbankAmount').value = '';
         document.getElementById('mbankSummary').style.display = 'none';
+        document.getElementById('userTransferInfo').style.display = 'none';
     }
     
     // ==================== HISTORY FUNCTIONS ====================
     function loadUserHistory() {
         const historyList = document.getElementById('historyList');
-        
         historyList.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
-        
         database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value')
             .then(snap => {
                 const orders = [];
-                snap.forEach(child => {
-                    const order = child.val();
-                    orders.push(order);
-                });
-                
-                orders.sort((a, b) => {
-                    const timeA = a.timestamp || 0;
-                    const timeB = b.timestamp || 0;
-                    return timeB - timeA;
-                });
-                
+                snap.forEach(child => { orders.push(child.val()); });
+                orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 displayHistory(orders);
             })
-            .catch(error => {
-                console.error("Error loading history:", error);
-                historyList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">লেনদেন লোড করতে সমস্যা</div>';
-            });
+            .catch(error => { console.error("Error loading history:", error); historyList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">লেনদেন লোড করতে সমস্যা</div>'; });
     }
     
     function displayHistory(orders) {
         const historyList = document.getElementById('historyList');
-        
         if (orders.length === 0) {
             historyList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">কোনো লেনদেন নেই</div>';
             return;
         }
-        
         let historyHTML = '';
-        
         orders.forEach(order => {
             const statusClass = order.status === 'Success' ? 'history-status-success' : 
                               order.status === 'Pending' ? 'history-status-pending' : 'history-status-cancelled';
-            
             const statusText = order.status === 'Success' ? 'সফল' : 
                               order.status === 'Pending' ? 'পেন্ডিং' : 'বাতিল';
             
@@ -2074,6 +1973,7 @@
                     <div>
                         <strong>${order.category || 'N/A'}</strong>
                         <div style="font-size:11px; color:#666;">${order.operatorName || order.operator || 'N/A'}</div>
+                        ${order.note ? `<div style="font-size:10px; color:#888;">${order.note}</div>` : ''}
                     </div>
                     <div class="history-amount">৳${order.amount || '0'}</div>
                 </div>
@@ -2081,326 +1981,158 @@
                     নম্বর: ${order.number || 'N/A'}<br>
                     সময়: ${order.time || 'N/A'}<br>
                     অবস্থা: <strong>${statusText}</strong><br>
-                    ${order.trxID ? `TrxID: ${order.trxID}` : ''}
+                    ${order.trxID ? `TrxID: ${order.trxID}<br>` : ''}
+                </div>
+                <div class="balance-info">
+                    <i class="fas fa-arrow-left"></i> আগের ব্যালেন্স: ৳${(order.previousBalance || 0).toFixed(2)} &nbsp;|&nbsp;
+                    <i class="fas fa-arrow-right"></i> বর্তমান ব্যালেন্স: ৳${(order.newBalance || 0).toFixed(2)}
                 </div>
             </div>`;
         });
-        
         historyList.innerHTML = historyHTML;
     }
     
-    // ==================== PROFILE IMAGE UPLOAD FIX ====================
+    // ==================== PROFILE IMAGE UPLOAD ====================
     function handleImageUpload(event) {
         const file = event.target.files[0];
         if (!file) return;
-        
-        // Check file type
-        if (!file.type.match('image.*')) {
-            alert('শুধুমাত্র ইমেজ ফাইল আপলোড করুন! (JPEG, PNG, GIF ইত্যাদি)');
-            return;
-        }
-        
-        // Check file size (max 5MB for mobile devices)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('ইমেজ সাইজ ৫MB এর কম হতে হবে!');
-            return;
-        }
-        
+        if (!file.type.match('image.*')) { alert('শুধুমাত্র ইমেজ ফাইল আপলোড করুন!'); return; }
+        if (file.size > 5 * 1024 * 1024) { alert('ইমেজ সাইজ ৫MB এর কম হতে হবে!'); return; }
         const reader = new FileReader();
         reader.onload = function(e) {
             const imageData = e.target.result;
-            
-            // Create a new image to check dimensions and compress if needed
             const img = new Image();
             img.onload = function() {
-                // Create canvas for resizing if image is too large
-                const maxWidth = 500;
-                const maxHeight = 500;
-                let width = img.width;
-                let height = img.height;
-                
-                // Calculate new dimensions maintaining aspect ratio
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width = Math.round((width * maxHeight) / height);
-                        height = maxHeight;
-                    }
-                }
-                
-                // Create canvas and draw resized image
+                const maxWidth = 500, maxHeight = 500;
+                let width = img.width, height = img.height;
+                if (width > height) { if (width > maxWidth) { height = Math.round((height * maxWidth) / width); width = maxWidth; } }
+                else { if (height > maxHeight) { width = Math.round((width * maxHeight) / height); height = maxHeight; } }
                 const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = width; canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                
-                // Get compressed image data
                 const compressedImageData = canvas.toDataURL('image/jpeg', 0.8);
-                
-                // Update all profile images
                 document.getElementById('sideUserImg').src = compressedImageData;
                 document.getElementById('userDisplayImg').src = compressedImageData;
                 document.getElementById('profileUserImg').src = compressedImageData;
-                
-                // Save to localStorage
                 localStorage.setItem(`profileImage_${currentUserId}`, compressedImageData);
-                
                 if (!currentUser) currentUser = {};
                 currentUser.profileImage = compressedImageData;
-                
-                // Save to Firebase
                 database.ref('users/' + currentUserId + '/profileImage').set(compressedImageData)
-                    .then(() => {
-                        localStorage.setItem('userData', JSON.stringify(currentUser));
-                        showMessage('profileMessage', 'প্রোফাইল ছবি সফলভাবে আপডেট করা হয়েছে!', 'success');
-                    })
-                    .catch(error => {
-                        console.error("Error saving profile image to Firebase:", error);
-                        localStorage.setItem('userData', JSON.stringify(currentUser));
-                        showMessage('profileMessage', 'প্রোফাইল ছবি লোকাল স্টোরেজে সেভ করা হয়েছে!', 'success');
-                    });
+                    .then(() => showMessage('profileMessage', 'প্রোফাইল ছবি আপডেট হয়েছে!', 'success'))
+                    .catch(error => { console.error("Error:", error); showMessage('profileMessage', 'ছবি লোকাল স্টোরেজে সেভ হয়েছে!', 'success'); });
             };
             img.src = imageData;
         };
-        
-        reader.onerror = function() {
-            alert('ছবি লোড করতে সমস্যা! অনুগ্রহ করে অন্য একটি ছবি নির্বাচন করুন।');
-        };
-        
         reader.readAsDataURL(file);
-        
-        // Reset the file input to allow selecting the same file again
         event.target.value = '';
     }
-
-    // ==================== IMPROVED IMAGE UPLOAD TRIGGER ====================
-    function openImageUpload() {
-        // Create a custom file input dialog for better mobile experience
-        const fileInput = document.getElementById('profileImageUpload');
-        
-        // Add event listener for file selection
-        fileInput.onchange = null; // Remove previous listeners
-        fileInput.onchange = handleImageUpload;
-        
-        // Trigger file selection
-        fileInput.click();
-    }
-
-    // ==================== MOBILE FRIENDLY PROFILE IMAGE UPLOAD ====================
+    
+    function openImageUpload() { document.getElementById('profileImageUpload').click(); }
+    
     function setupMobileImageUpload() {
-        const profileImageContainers = document.querySelectorAll('.profile-image-container');
-        
-        profileImageContainers.forEach(container => {
-            const img = container.querySelector('img');
-            const overlay = container.querySelector('.profile-image-overlay');
-            
-            if (img && overlay) {
-                // Make the entire container clickable
-                container.style.cursor = 'pointer';
-                
-                container.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openImageUpload();
-                });
-                
-                // Prevent default behavior on overlay
-                overlay.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openImageUpload();
-                });
-            }
+        const containers = document.querySelectorAll('.profile-image-container');
+        containers.forEach(container => {
+            container.style.cursor = 'pointer';
+            container.addEventListener('click', (e) => { e.preventDefault(); openImageUpload(); });
         });
     }
     
     function updateProfile() {
         const name = document.getElementById('profileName').value.trim();
         const email = document.getElementById('profileEmail').value.trim();
-        
-        if (!name) {
-            showMessage('profileMessage', 'নাম দিন!', 'error');
-            return;
-        }
-        
-        const updates = {
-            name: name,
-            email: email
-        };
-        
-        currentUser.name = name;
-        currentUser.email = email;
-        
+        if (!name) { showMessage('profileMessage', 'নাম দিন!', 'error'); return; }
+        const updates = { name: name, email: email };
+        currentUser.name = name; currentUser.email = email;
         localStorage.setItem('userData', JSON.stringify(currentUser));
         loadUserData();
-        
         database.ref('users/' + currentUserId).update(updates)
-            .then(() => {
-                showMessage('profileMessage', 'প্রোফাইল আপডেট করা হয়েছে!', 'success');
-            })
-            .catch(error => {
-                console.error("Error updating profile in Firebase:", error);
-                showMessage('profileMessage', 'প্রোফাইল লোকাল স্টোরেজে সেভ করা হয়েছে!', 'success');
-            });
+            .then(() => showMessage('profileMessage', 'প্রোফাইল আপডেট করা হয়েছে!', 'success'))
+            .catch(error => { console.error("Error:", error); showMessage('profileMessage', 'প্রোফাইল লোকাল স্টোরেজে সেভ হয়েছে!', 'success'); });
     }
     
     // ==================== BALANCE DISPLAY TOGGLE ====================
     function toggleBalanceDisplay() {
         if (!currentUser) return;
-        
         const balance = currentUser.balance || 0;
-        const balanceFormatted = `৳${balance.toFixed(2)}`;
-        
         const headerBalance = document.getElementById('headerBalance');
-        
         if (isBalanceVisible) {
             headerBalance.textContent = 'ব্যালেন্স';
             isBalanceVisible = false;
-            
-            if (balanceToggleTimeout) {
-                clearTimeout(balanceToggleTimeout);
-            }
+            if (balanceToggleTimeout) clearTimeout(balanceToggleTimeout);
         } else {
-            headerBalance.textContent = balanceFormatted;
+            headerBalance.textContent = `৳${balance.toFixed(2)}`;
             isBalanceVisible = true;
-            
-            balanceToggleTimeout = setTimeout(() => {
-                headerBalance.textContent = 'ব্যালেন্স';
-                isBalanceVisible = false;
-            }, 5000);
+            balanceToggleTimeout = setTimeout(() => { headerBalance.textContent = 'ব্যালেন্স'; isBalanceVisible = false; }, 5000);
         }
     }
     
     // ==================== DRIVE OFFERS ====================
-    function showDriveOffers() {
-        showSection('driveOffers');
-        loadDriveOffers();
-    }
+    function showDriveOffers() { showSection('driveOffers'); loadDriveOffers(); }
     
     function loadDriveOffers() {
         const offersList = document.getElementById('driveOffersList');
-        
         offersList.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>অফার লোড হচ্ছে...</p></div>';
-        
         database.ref('driveOffers').once('value').then(snap => {
             const offers = [];
-            snap.forEach(child => {
-                const offer = child.val();
-                if (offer.active !== false) {
-                    offer.key = child.key;
-                    offers.push(offer);
-                }
-            });
-            
-            if (offers.length === 0) {
-                offersList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">কোনো অফার নেই</div>';
-                return;
-            }
-            
+            snap.forEach(child => { const offer = child.val(); if (offer.active !== false) { offer.key = child.key; offers.push(offer); } });
+            if (offers.length === 0) { offersList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">কোনো অফার নেই</div>'; return; }
             displayDriveOffers(offers);
-            
-        }).catch(error => {
-            console.error("Error loading drive offers:", error);
-            offersList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">অফার লোড করতে সমস্যা</div>';
-        });
+        }).catch(error => { console.error("Error:", error); offersList.innerHTML = '<div style="text-align:center; padding:40px; color:#666;">অফার লোড করতে সমস্যা</div>'; });
     }
     
     function displayDriveOffers(offers) {
         const offersList = document.getElementById('driveOffersList');
-        
         let offersHTML = '';
-        
         offers.forEach(offer => {
             const saveAmount = offer.originalPrice - offer.offerPrice;
             const savePercent = Math.round((saveAmount / offer.originalPrice) * 100);
-            
             offersHTML += `
             <div style="background:white; padding:20px; border-radius:15px; margin-bottom:15px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                     <h3 style="color:#1a237e; margin:0;">${offer.title}</h3>
-                    <span style="background:#FF9800; color:white; padding:5px 10px; border-radius:20px; font-size:12px; font-weight:bold;">
-                        ${savePercent}% ছাড়
-                    </span>
+                    <span style="background:#FF9800; color:white; padding:5px 10px; border-radius:20px; font-size:12px; font-weight:bold;">${savePercent}% ছাড়</span>
                 </div>
-                
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
                     <div style="text-decoration:line-through; color:#666; font-size:18px;">৳${offer.originalPrice}</div>
                     <div style="color:#d32f2f; font-size:24px; font-weight:bold;">৳${offer.offerPrice}</div>
                 </div>
-                
-                <div style="color:#666; font-size:14px; margin-bottom:15px;">
-                    ${offer.description || ''}
-                </div>
-                
+                <div style="color:#666; font-size:14px; margin-bottom:15px;">${offer.description || ''}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#888;">
                     <span><i class="fas fa-calendar"></i> ${offer.validity} দিন</span>
                     <span><i class="fas fa-fire"></i> সীমিত অফার</span>
                 </div>
-                
                 <button class="btn btn-orange btn-full" onclick="purchaseDriveOffer(${JSON.stringify(offer).replace(/"/g, '&quot;')})" style="margin-top:15px;">
                     <i class="fas fa-shopping-cart"></i> ক্রয় করুন
                 </button>
             </div>`;
         });
-        
         offersList.innerHTML = offersHTML;
     }
     
     function purchaseDriveOffer(offer) {
         currentDriveOffer = offer;
-        
         document.getElementById('modalTitle').textContent = offer.title;
         document.getElementById('modalDescription').textContent = `আপনি কি ${offer.title} অফারটি ক্রয় করতে চান? মূল্য: ৳${offer.offerPrice}`;
         document.getElementById('purchaseNumber').value = '';
         document.getElementById('modalOperatorInfo').style.display = 'none';
         document.getElementById('modalMessage').innerHTML = '';
-        
         document.getElementById('purchaseModal').style.display = 'flex';
-        
-        setTimeout(() => {
-            document.getElementById('purchaseNumber').focus();
-        }, 300);
+        setTimeout(() => document.getElementById('purchaseNumber').focus(), 300);
     }
     
-    function closePurchaseModal() {
-        document.getElementById('purchaseModal').style.display = 'none';
-        currentDriveOffer = null;
-    }
+    function closePurchaseModal() { document.getElementById('purchaseModal').style.display = 'none'; currentDriveOffer = null; }
     
     function confirmPurchase() {
         const number = document.getElementById('purchaseNumber').value.trim();
-        
-        if (!number) {
-            showModalMessage('মোবাইল নাম্বার দিন!', 'error');
-            return;
-        }
-        
-        if (!number.match(/^01[3-9]\d{8}$/)) {
-            showModalMessage('সঠিক মোবাইল নাম্বার দিন!', 'error');
-            return;
-        }
-        
-        if (!currentDriveOffer) {
-            showModalMessage('অফার তথ্য পাওয়া যায়নি!', 'error');
-            return;
-        }
-        
-        if (currentUser.balance < currentDriveOffer.offerPrice) {
-            showModalMessage('পর্যাপ্ত ব্যালেন্স নেই! ব্যালেন্স রিকোয়েস্ট করুন।', 'error');
-            return;
-        }
-        
+        if (!number) { showModalMessage('মোবাইল নাম্বার দিন!', 'error'); return; }
+        if (!number.match(/^01[3-9]\d{8}$/)) { showModalMessage('সঠিক মোবাইল নাম্বার দিন!', 'error'); return; }
+        if (!currentDriveOffer) { showModalMessage('অফার তথ্য পাওয়া যায়নি!', 'error'); return; }
+        if (currentUser.balance < currentDriveOffer.offerPrice) { showModalMessage('পর্যাপ্ত ব্যালেন্স নেই!', 'error'); return; }
         const operator = detectOperator(number);
         const operatorName = operator ? operator.name : 'অজানা অপারেটর';
-        
         document.getElementById('detectedOperator').textContent = operatorName;
         document.getElementById('modalOperatorInfo').style.display = 'block';
-        
         if (confirm(`আপনি কি ${currentDriveOffer.title} অফারটি ক্রয় করতে চান?\nমূল্য: ৳${currentDriveOffer.offerPrice}\nনম্বর: ${number}\nঅপারেটর: ${operatorName}`)) {
             createDriveOfferRequest(number, operatorName);
         }
@@ -2408,198 +2140,99 @@
     
     function createDriveOfferRequest(number, operator) {
         if (!currentDriveOffer) return;
-        
+        const previousBalance = currentUser.balance;
+        const newBalance = previousBalance - currentDriveOffer.offerPrice;
         const requestData = {
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            offerTitle: currentDriveOffer.title,
-            offerPrice: currentDriveOffer.offerPrice,
-            number: number,
-            operator: operator,
-            status: "pending",
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            note: `ড্রাইভ অফার: ${currentDriveOffer.title}`
+            category: "ড্রাইভ অফার", operatorName: currentDriveOffer.title,
+            amount: currentDriveOffer.offerPrice, userId: currentUserId, userName: currentUser.name, number: number,
+            time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success",
+            trxID: "DOFF" + Date.now().toString().slice(-8), note: `ড্রাইভ অফার: ${currentDriveOffer.title}`,
+            previousBalance: previousBalance, newBalance: newBalance
         };
-        
-        const newBalance = currentUser.balance - currentDriveOffer.offerPrice;
         database.ref('users/' + currentUserId + '/balance').set(newBalance)
+            .then(() => database.ref('orders').push(requestData))
             .then(() => {
-                return database.ref('driveOrders').push(requestData);
-            })
-            .then(() => {
-                showModalMessage('অর্ডার তৈরি হয়েছে! অ্যাডমিন কনফার্ম করবেন।', 'success');
-                
+                showModalMessage('অর্ডার সফল হয়েছে!', 'success');
                 currentUser.balance = newBalance;
                 localStorage.setItem('userData', JSON.stringify(currentUser));
                 loadUserData();
-                
-                setTimeout(() => {
-                    closePurchaseModal();
-                }, 2000);
+                setTimeout(() => closePurchaseModal(), 2000);
             })
-            .catch(error => {
-                console.error("Error creating drive order:", error);
-                showModalMessage('অর্ডার তৈরি করতে সমস্যা!', 'error');
-            });
+            .catch(error => { console.error("Error:", error); showModalMessage('অর্ডার তৈরি করতে সমস্যা!', 'error'); });
     }
     
     function showModalMessage(message, type) {
         const modalMessage = document.getElementById('modalMessage');
-        modalMessage.innerHTML = `
-            <div style="padding:10px; border-radius:5px; background:${type === 'success' ? '#4CAF50' : '#d32f2f'}; color:white;">
-                ${message}
-            </div>
-        `;
+        modalMessage.innerHTML = `<div style="padding:10px; border-radius:5px; background:${type === 'success' ? '#4CAF50' : '#d32f2f'}; color:white;">${message}</div>`;
     }
     
     // ==================== SUPPORT LINKS ====================
     function loadSupportLinks() {
         database.ref('support').once('value').then(snap => {
             const supportData = snap.val() || {};
-            
-            if (supportData.whatsapp) {
-                document.getElementById('whatsappLink').href = `https://wa.me/${supportData.whatsapp}`;
-            }
-            
-            if (supportData.telegram) {
-                document.getElementById('telegramLink').href = supportData.telegram.startsWith('@') ? 
-                    `https://t.me/${supportData.telegram.substring(1)}` : supportData.telegram;
-            }
-            
-        }).catch(error => {
-            console.error("Error loading support links:", error);
-        });
+            if (supportData.whatsapp) document.getElementById('whatsappLink').href = `https://wa.me/${supportData.whatsapp}`;
+            if (supportData.telegram) document.getElementById('telegramLink').href = supportData.telegram.startsWith('@') ? `https://t.me/${supportData.telegram.substring(1)}` : supportData.telegram;
+        }).catch(error => console.error("Error loading support links:", error));
     }
     
     // ==================== BALANCE REQUEST ====================
     function requestBalance() {
         const amount = prompt("কত টাকা ব্যালেন্স যোগ করতে চান?", "100");
         if (!amount) return;
-        
         const parsedAmount = parseFloat(amount);
-        if (isNaN(parsedAmount) || parsedAmount <= 0) {
-            alert("সঠিক অ্যামাউন্ট দিন!");
-            return;
-        }
-        
+        if (isNaN(parsedAmount) || parsedAmount <= 0) { alert("সঠিক অ্যামাউন্ট দিন!"); return; }
         const paymentMethod = prompt("পেমেন্ট মাধ্যম (Bkash/Nagad/Rocket):", "Bkash");
         if (!paymentMethod) return;
-        
         const transactionId = prompt("ট্রানজেকশন আইডি:", "TRX" + Date.now().toString().slice(-6));
         if (!transactionId) return;
-        
         const note = prompt("মন্তব্য (ঐচ্ছিক):", "ব্যালেন্স এড করুন");
-        
         const requestData = {
-            userId: currentUserId,
-            userName: currentUser.name,
-            amount: parsedAmount,
-            paymentMethod: paymentMethod,
-            transactionId: transactionId,
-            status: "pending",
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            note: note || "ব্যালেন্স এড করুন"
+            userId: currentUserId, userName: currentUser.name, amount: parsedAmount,
+            paymentMethod: paymentMethod, transactionId: transactionId, status: "pending",
+            time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), note: note || "ব্যালেন্স এড করুন"
         };
-        
         database.ref('balanceRequests').push(requestData)
-            .then(() => {
-                alert("ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে! অ্যাডমিন অনুমোদন করবেন।");
-            })
-            .catch(error => {
-                console.error("Error creating balance request:", error);
-                alert("রিকোয়েস্ট তৈরি করতে সমস্যা!");
-            });
+            .then(() => alert("ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে! অ্যাডমিন অনুমোদন করবেন।"))
+            .catch(error => { console.error("Error:", error); alert("রিকোয়েস্ট তৈরি করতে সমস্যা!"); });
     }
     
     // ==================== UTILITY FUNCTIONS ====================
     function showMessage(elementId, message, type) {
         const element = document.getElementById(elementId);
-        element.innerHTML = `
-            <div class="${type === 'success' ? 'success-message' : 'error-message'}">
-                ${message}
-            </div>
-        `;
-        
-        setTimeout(() => {
-            element.innerHTML = '';
-        }, 5000);
+        element.innerHTML = `<div class="${type === 'success' ? 'success-message' : 'error-message'}">${message}</div>`;
+        setTimeout(() => element.innerHTML = '', 5000);
     }
     
     // ==================== INITIALIZATION ====================
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Firebase first
         initializeFirebase();
-        
-        // Check login status
         checkLoginStatus();
-        
-        // Setup mobile-friendly image upload
         setupMobileImageUpload();
-        
-        // Event listeners
-        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                userLogin();
-            }
-        });
-        
-        document.getElementById('loginMobile').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                userLogin();
-            }
-        });
-        
+        document.getElementById('loginPassword').addEventListener('keypress', e => { if (e.key === 'Enter') userLogin(); });
+        document.getElementById('loginMobile').addEventListener('keypress', e => { if (e.key === 'Enter') userLogin(); });
         document.getElementById('rechargeNumber').addEventListener('input', updateRechargeSummary);
         document.getElementById('rechargeAmount').addEventListener('input', updateRechargeSummary);
-        
         document.getElementById('purchaseNumber').addEventListener('input', function() {
             const number = this.value.trim();
             if (number.length >= 3) {
                 const operator = detectOperator(number);
-                const operatorName = operator ? operator.name : 'অজানা অপারেটর';
-                
-                document.getElementById('detectedOperator').textContent = operatorName;
+                document.getElementById('detectedOperator').textContent = operator ? operator.name : 'অজানা অপারেটর';
                 document.getElementById('modalOperatorInfo').style.display = 'block';
             } else {
                 document.getElementById('modalOperatorInfo').style.display = 'none';
             }
         });
+        const mbankService = document.getElementById('mbankService');
+        if (mbankService) mbankService.addEventListener('change', updateMbankSummary);
+        const mbankNumber = document.getElementById('mbankNumber');
+        if (mbankNumber) mbankNumber.addEventListener('input', updateMbankSummary);
+        const mbankAmount = document.getElementById('mbankAmount');
+        if (mbankAmount) mbankAmount.addEventListener('input', updateMbankSummary);
         
-        document.getElementById('mbankService').addEventListener('change', updateMbankSummary);
-        document.getElementById('mbankNumber').addEventListener('input', updateMbankSummary);
-        document.getElementById('mbankAmount').addEventListener('input', updateMbankSummary);
-        
-        // Add CSS for better mobile file upload experience
         const style = document.createElement('style');
-        style.textContent = `
-            /* Better file input for mobile */
-            .profile-image-upload {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                opacity: 0;
-                cursor: pointer;
-                z-index: 10;
-            }
-            
-            /* Touch-friendly buttons */
-            .service-card, .btn, .menu-item, .back-btn {
-                touch-action: manipulation;
-            }
-            
-            /* Better hover effects for touch devices */
-            @media (hover: none) {
-                .service-card:active, .btn:active, .menu-item:active {
-                    transform: scale(0.98);
-                    transition: transform 0.1s;
-                }
-            }
-        `;
+        style.textContent = `.profile-image-upload { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; z-index: 10; }
+            .service-card, .btn, .menu-item, .back-btn { touch-action: manipulation; }
+            @media (hover: none) { .service-card:active, .btn:active, .menu-item:active { transform: scale(0.98); transition: transform 0.1s; } }`;
         document.head.appendChild(style);
     });
 </script>
