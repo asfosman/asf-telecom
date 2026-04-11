@@ -174,8 +174,48 @@
         }
         body.dark-mode .history-item { background: #1e1e1e; }
         .history-status-success { border-left-color: #4CAF50; }
-        .history-status-pending { border-left-color: #FF9800; }
+        .history-status-pending { border-left-color: #2196F3; }
         .history-status-cancelled { border-left-color: #d32f2f; }
+        
+        /* স্ট্যাটাস স্টাইল - বড় ও রঙিন */
+        .status-badge {
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 25px;
+            margin: 8px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .status-success {
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 2px 8px rgba(76,175,80,0.3);
+        }
+        .status-pending {
+            background-color: #2196F3;
+            color: white;
+            box-shadow: 0 2px 8px rgba(33,150,243,0.3);
+        }
+        .status-cancelled {
+            background-color: #d32f2f;
+            color: white;
+            box-shadow: 0 2px 8px rgba(211,47,47,0.3);
+        }
+        
+        /* ব্যালেন্স রঙের স্টাইল */
+        .previous-balance {
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .current-balance {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
         .sidebar {
             position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: white;
             z-index: 6000; transition: 0.4s; padding: 25px 20px; box-shadow: 5px 0 25px rgba(0,0,0,0.2);
@@ -273,6 +313,7 @@
             .service-grid { grid-template-columns: repeat(3, 1fr); }
             .slider-container { height: 120px; }
             .animated-ad-btn { padding: 10px 20px; font-size: 12px; }
+            .status-badge { font-size: 16px; padding: 5px 12px; }
         }
     </style>
 </head>
@@ -803,7 +844,6 @@
         let list = document.getElementById('historyList');
         list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
         
-        // সঠিকভাবে userId দিয়ে ফিল্টার করে অর্ডার আনা
         database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value').then(snap => {
             let orders = [];
             snap.forEach(child => {
@@ -820,8 +860,24 @@
             
             let html = '';
             orders.forEach(o => {
-                let statusClass = o.status === 'Success' ? 'history-status-success' : (o.status === 'Pending' ? 'history-status-pending' : 'history-status-cancelled');
-                let statusText = o.status === 'Success' ? 'সফল' : (o.status === 'Pending' ? 'পেন্ডিং' : 'বাতিল');
+                let statusClass = '';
+                let statusText = '';
+                let statusBadgeClass = '';
+                
+                if (o.status === 'Success') {
+                    statusClass = 'history-status-success';
+                    statusText = 'সফল';
+                    statusBadgeClass = 'status-success';
+                } else if (o.status === 'Pending') {
+                    statusClass = 'history-status-pending';
+                    statusText = 'পেন্ডিং';
+                    statusBadgeClass = 'status-pending';
+                } else {
+                    statusClass = 'history-status-cancelled';
+                    statusText = 'বাতিল';
+                    statusBadgeClass = 'status-cancelled';
+                }
+                
                 let previousBal = (o.previousBalance !== undefined && o.previousBalance !== null) ? o.previousBalance : (o.newBalance !== undefined ? (o.newBalance + (o.amount||0)) : 0);
                 let newBal = (o.newBalance !== undefined && o.newBalance !== null) ? o.newBalance : (o.previousBalance !== undefined ? (o.previousBalance - (o.amount||0)) : 0);
                 
@@ -837,12 +893,12 @@
                     <div style="font-size:12px; margin-top:8px;">
                         <i class="fas fa-mobile-alt"></i> ${o.number || 'N/A'}<br>
                         <i class="fas fa-clock"></i> ${o.time || 'N/A'}<br>
-                        <span class="status-badge">${statusText}</span>
+                        <div class="status-badge ${statusBadgeClass}">${statusText}</div>
                         ${o.trxID ? `<br><i class="fas fa-hashtag"></i> TrxID: ${o.trxID}` : ''}
                     </div>
                     <div class="balance-info">
-                        <i class="fas fa-arrow-left"></i> পূর্বের ব্যালেন্স: ৳${(previousBal).toFixed(2)} &nbsp;|&nbsp;
-                        <i class="fas fa-arrow-right"></i> বর্তমান ব্যালেন্স: ৳${(newBal).toFixed(2)}
+                        <i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳${(previousBal).toFixed(2)}</span> &nbsp;|&nbsp;
+                        <i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳${(newBal).toFixed(2)}</span>
                     </div>
                 </div>`;
             });
@@ -1003,7 +1059,6 @@
         setTimeout(()=>d.innerHTML='', 5000);
     }
 
-    // চেক লগইন স্ট্যাটাস
     function checkAutoLogin() {
         let loggedIn = localStorage.getItem('userLoggedIn') === 'true';
         let uid = localStorage.getItem('userId');
