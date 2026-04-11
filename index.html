@@ -177,7 +177,6 @@
         .history-status-pending { border-left-color: #2196F3; }
         .history-status-cancelled { border-left-color: #d32f2f; }
         
-        /* স্ট্যাটাস স্টাইল - বড় ও রঙিন */
         .status-badge {
             display: inline-block;
             font-size: 18px;
@@ -204,7 +203,6 @@
             box-shadow: 0 2px 8px rgba(211,47,47,0.3);
         }
         
-        /* ব্যালেন্স রঙের স্টাইল */
         .previous-balance {
             color: #2196F3;
             font-weight: bold;
@@ -284,7 +282,6 @@
         .error-message { background: #d32f2f; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .balance-info { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; font-size: 11px; font-weight: bold; }
         
-        /* অ্যানিমেটেড অ্যাড বাটন */
         .ad-wrapper { text-align: center; margin: 15px 0 5px 0; }
         .animated-ad-btn {
             position: relative;
@@ -383,7 +380,6 @@
 </div>
 
 <div class="container">
-    <!-- Dashboard -->
     <div id="dashboardSection" class="active-section">
         <div class="slider-container" id="sliderContainer"></div>
         <div class="notice-box" id="noticeBox" style="display:none;" onclick="handleNoticeClick(event)">
@@ -391,7 +387,6 @@
             <div class="notice-marquee"><div class="marquee-content" id="marqueeContent"></div></div>
         </div>
         
-        <!-- অ্যানিমেটেড অ্যাড বাটন -->
         <div class="ad-wrapper">
             <a href="https://www.profitablecpmratenetwork.com/gh2kfhy1?key=a9bb172bf236ef11ded7d695303a6d29" 
                target="_blank" class="animated-ad-btn">
@@ -409,7 +404,6 @@
         </div>
     </div>
 
-    <!-- Mobile Recharge Section -->
     <div id="rechargeSection" class="service-section">
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>মোবাইল রিচার্জ</h3>
@@ -421,7 +415,6 @@
         <div id="rechargeMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
 
-    <!-- M-Bank Section -->
     <div id="mbankSection" class="service-section">
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>এম-ব্যাংক সার্ভিস</h3>
@@ -437,7 +430,7 @@
             <option value="user_send">👥 ইউজার ট্রান্সফার (সরাসরি সফল)</option>
         </select>
         <div id="userTransferInfo" style="background:#e3f2fd; padding:12px; border-radius:10px; margin-bottom:15px; display:none;">
-            <i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন। টাকা সরাসরি তার একাউন্টে চলে যাবে (এডমিন এপ্রুভের প্রয়োজন নেই)।
+            <i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন। টাকা সরাসরি তার একাউন্টে চলে যাবে।
         </div>
         <input type="text" id="mbankNumber" placeholder="একাউন্ট নাম্বার" oninput="updateMbankSummary()">
         <input type="number" id="mbankAmount" placeholder="টাকার পরিমাণ" min="10" max="50000" oninput="updateMbankSummary()">
@@ -446,14 +439,12 @@
         <div id="mbankMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
 
-    <!-- History Section -->
     <div id="historySection" class="service-section">
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>লেনদেনের হিস্ট্রি</h3>
         <div id="historyList"><div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div></div>
     </div>
 
-    <!-- Profile Section -->
     <div id="profileSection" class="service-section">
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>প্রোফাইল ম্যানেজমেন্ট</h3>
@@ -469,7 +460,6 @@
         <div id="profileMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
 
-    <!-- Drive Offers Section -->
     <div id="driveOffersSection" class="service-section">
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>ড্রাইভ অফার</h3>
@@ -478,7 +468,6 @@
 </div>
 </div>
 
-<!-- Purchase Modal -->
 <div id="purchaseModal" class="modal">
     <div class="modal-content" style="position:relative;">
         <div class="close-modal" onclick="closePurchaseModal()"><i class="fas fa-times"></i></div>
@@ -509,8 +498,109 @@
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             database = firebase.database();
             console.log("Firebase initialized");
+            setupOrderListener();
             return true;
         } catch(e) { console.error(e); return false; }
+    }
+    
+    // অর্ডার লিসেনার - এডমিন যখন স্ট্যাটাস পরিবর্তন করে তখন ব্যালেন্স আপডেট করবে
+    function setupOrderListener() {
+        if (!database) return;
+        
+        database.ref('orders').on('child_changed', (snapshot) => {
+            const order = snapshot.val();
+            const orderKey = snapshot.key;
+            
+            // শুধু মাত্র লগইন করা ইউজারের অর্ডার চেক করবে
+            if (currentUserId && order.userId === currentUserId) {
+                handleOrderStatusChange(order, orderKey);
+            }
+        });
+    }
+    
+    // এডমিন যখন স্ট্যাটাস পরিবর্তন করে তখন ব্যালেন্স অটো আপডেট হবে
+    async function handleOrderStatusChange(order, orderKey) {
+        if (!currentUser) return;
+        
+        // যদি অর্ডার ইতিমধ্যে প্রসেস করা হয়ে থাকে তাহলে আর করবে না
+        if (order.processed === true) return;
+        
+        const oldStatus = order.previousStatus || 'Pending';
+        const newStatus = order.status;
+        
+        // যদি স্ট্যাটাস পরিবর্তন না হয় তাহলে রিটার্ন
+        if (oldStatus === newStatus) return;
+        
+        let balanceChanged = false;
+        let newBalance = currentUser.balance;
+        let previousBalance = currentUser.balance;
+        
+        // পেন্ডিং থেকে সফল হলে - ব্যালেন্স ইতিমধ্যে কেটে গেছে, কিছু করার নেই
+        if (oldStatus === 'Pending' && newStatus === 'Success') {
+            // ব্যালেন্স ইতিমধ্যে কেটে গেছে, শুধু স্ট্যাটাস আপডেট হবে
+            balanceChanged = false;
+            await database.ref('orders/' + orderKey).update({ 
+                processed: true,
+                previousStatus: newStatus
+            });
+        }
+        // পেন্ডিং থেকে ক্যান্সেল হলে - ব্যালেন্স ফেরত দিতে হবে
+        else if (oldStatus === 'Pending' && newStatus === 'Cancelled') {
+            // টাকা ফেরত দিন
+            newBalance = (currentUser.balance || 0) + order.amount;
+            previousBalance = currentUser.balance;
+            balanceChanged = true;
+            
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            await database.ref('orders/' + orderKey).update({ 
+                processed: true,
+                previousStatus: newStatus,
+                refundAmount: order.amount,
+                refundTime: new Date().toLocaleString('bn-BD'),
+                previousBalance: previousBalance,
+                newBalance: newBalance
+            });
+            
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            showMsgFromOrder('টাকা ফেরত দেওয়া হয়েছে!', 'success');
+        }
+        // সফল থেকে ক্যান্সেল হলে (এডমিন ভুল করলে) - ব্যালেন্স ফেরত
+        else if (oldStatus === 'Success' && newStatus === 'Cancelled') {
+            newBalance = (currentUser.balance || 0) + order.amount;
+            previousBalance = currentUser.balance;
+            balanceChanged = true;
+            
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            await database.ref('orders/' + orderKey).update({ 
+                processed: true,
+                previousStatus: newStatus,
+                refundAmount: order.amount,
+                refundTime: new Date().toLocaleString('bn-BD'),
+                previousBalance: previousBalance,
+                newBalance: newBalance
+            });
+            
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            showMsgFromOrder('টাকা ফেরত দেওয়া হয়েছে!', 'success');
+        }
+        
+        // যদি ব্যালেন্স পরিবর্তন হয়ে থাকে তাহলে ইউজার ডাটা রিলোড করুন
+        if (balanceChanged) {
+            await loadUserHistory();
+        }
+    }
+    
+    function showMsgFromOrder(msg, type) {
+        // মেসেজ দেখানোর জন্য যেকোনো সেকশনে দেখানো যেতে পারে
+        const rechargeMsg = document.getElementById('rechargeMessage');
+        if (rechargeMsg) {
+            rechargeMsg.innerHTML = `<div class="${type === 'success' ? 'success-message' : 'error-message'}">${msg}</div>`;
+            setTimeout(() => { if(rechargeMsg) rechargeMsg.innerHTML = ''; }, 5000);
+        }
     }
 
     function togglePassword() {
@@ -692,7 +782,7 @@
         } else document.getElementById('rechargeSummary').style.display = 'none';
     }
 
-    function submitRecharge() {
+    async function submitRecharge() {
         let num = document.getElementById('rechargeNumber').value.trim();
         let amt = document.getElementById('rechargeAmount').value;
         if (!num || !amt) { showMsg('rechargeMessage', 'সব তথ্য দিন!', 'error'); return; }
@@ -703,26 +793,47 @@
         if (!op) { showMsg('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
         if (currentUser.balance < a) { showMsg('rechargeMessage', 'ব্যালেন্স কম!', 'error'); return; }
 
-        let requestData = {
-            category: "মোবাইল রিচার্জ",
-            operator: op.code,
-            operatorName: op.name,
-            amount: a,
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            number: num,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending"
-        };
-        database.ref('orders').push(requestData).then(() => {
-            showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! এডমিন এপ্রুভ করলে ব্যালেন্স কেটে নিবে।', 'success');
+        // ব্যালেন্স কাটুন
+        let previousBalance = currentUser.balance;
+        let newBalance = previousBalance - a;
+        
+        try {
+            // 1. প্রথমে ব্যালেন্স আপডেট করুন
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            
+            // 2. তারপর অর্ডার তৈরি করুন
+            let requestData = {
+                category: "মোবাইল রিচার্জ",
+                operator: op.code,
+                operatorName: op.name,
+                amount: a,
+                userId: currentUserId,
+                userName: currentUser.name,
+                userPhone: currentUser.phone,
+                number: num,
+                time: new Date().toLocaleString('bn-BD'),
+                timestamp: Date.now(),
+                status: "Pending",
+                previousBalance: previousBalance,
+                newBalance: newBalance,
+                previousStatus: "Pending",
+                processed: false
+            };
+            await database.ref('orders').push(requestData);
+            
+            // 3. লোকাল ইউজার ডাটা আপডেট করুন
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            
+            showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! টাকা কেটে নেওয়া হয়েছে। এডমিন এপ্রুভ করবে।', 'success');
             document.getElementById('rechargeNumber').value = '';
             document.getElementById('rechargeAmount').value = '';
             document.getElementById('operatorDisplay').style.display = 'none';
             document.getElementById('rechargeSummary').style.display = 'none';
-        }).catch(e => showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error'));
+        } catch(e) {
+            showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
+        }
     }
 
     function updateMbankSummary() {
@@ -747,7 +858,7 @@
         if (a<10 || a>50000) { showMsg('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকা!', 'error'); return; }
         if (currentUser.balance < a) { showMsg('mbankMessage', 'ব্যালেন্স কম!', 'error'); return; }
 
-        // ইউজার টু ইউজার ট্রান্সফার - সরাসরি সফল
+        // ইউজার টু ইউজার ট্রান্সফার - সরাসরি সফল (টাকা কাটা এবং যোগ হবে)
         if (svc === 'user_send') {
             let currentPhone = currentUser.phone || currentUserId.replace('user_','');
             if (num === currentPhone) { showMsg('mbankMessage', 'নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
@@ -781,7 +892,8 @@
                     trxID: trxId, 
                     previousBalance: prevSender, 
                     newBalance: newSender, 
-                    note: `${num} নম্বরে টাকা পাঠানো হয়েছে` 
+                    note: `${num} নম্বরে টাকা পাঠানো হয়েছে`,
+                    processed: true 
                 };
                 let receiverOrder = { 
                     category: "ইউজার ট্রান্সফার (রিসিভ)", 
@@ -797,7 +909,8 @@
                     trxID: trxId, 
                     previousBalance: prevReceiver, 
                     newBalance: newReceiver, 
-                    note: `${currentPhone} থেকে টাকা পেয়েছেন` 
+                    note: `${currentPhone} থেকে টাকা পেয়েছেন`,
+                    processed: true
                 };
                 await database.ref('orders').push(senderOrder);
                 await database.ref('orders').push(receiverOrder);
@@ -811,25 +924,42 @@
             return;
         }
 
-        // অন্যান্য এম-ব্যাংক সার্ভিস - পেন্ডিং
-        let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-        let requestData = {
-            category: "এম-ব্যাংক",
-            operator: svc,
-            operatorName: svcText,
-            amount: a,
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            number: num,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending"
-        };
-        database.ref('orders').push(requestData).then(() => {
-            showMsg('mbankMessage', '✅ অর্ডার রিকোয়েস্ট সফল! এডমিন এপ্রুভ করলে ব্যালেন্স কেটে নিবে।', 'success');
+        // অন্যান্য এম-ব্যাংক সার্ভিস - টাকা কেটে পেন্ডিং করবে
+        let previousBalance = currentUser.balance;
+        let newBalance = previousBalance - a;
+        
+        try {
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            
+            let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
+            let requestData = {
+                category: "এম-ব্যাংক",
+                operator: svc,
+                operatorName: svcText,
+                amount: a,
+                userId: currentUserId,
+                userName: currentUser.name,
+                userPhone: currentUser.phone,
+                number: num,
+                time: new Date().toLocaleString('bn-BD'),
+                timestamp: Date.now(),
+                status: "Pending",
+                previousBalance: previousBalance,
+                newBalance: newBalance,
+                previousStatus: "Pending",
+                processed: false
+            };
+            await database.ref('orders').push(requestData);
+            
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            
+            showMsg('mbankMessage', '✅ অর্ডার রিকোয়েস্ট সফল! টাকা কেটে নেওয়া হয়েছে। এডমিন এপ্রুভ করবে।', 'success');
             resetMbankForm();
-        }).catch(e => showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error'));
+        } catch(e) {
+            showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
+        }
     }
 
     function resetMbankForm() {
@@ -840,11 +970,12 @@
         document.getElementById('userTransferInfo').style.display = 'none';
     }
 
-    function loadUserHistory() {
+    async function loadUserHistory() {
         let list = document.getElementById('historyList');
         list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
         
-        database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value').then(snap => {
+        try {
+            const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
             let orders = [];
             snap.forEach(child => {
                 let order = child.val();
@@ -859,7 +990,7 @@
             }
             
             let html = '';
-            orders.forEach(o => {
+            for (let o of orders) {
                 let statusClass = '';
                 let statusText = '';
                 let statusBadgeClass = '';
@@ -878,8 +1009,9 @@
                     statusBadgeClass = 'status-cancelled';
                 }
                 
-                let previousBal = (o.previousBalance !== undefined && o.previousBalance !== null) ? o.previousBalance : (o.newBalance !== undefined ? (o.newBalance + (o.amount||0)) : 0);
-                let newBal = (o.newBalance !== undefined && o.newBalance !== null) ? o.newBalance : (o.previousBalance !== undefined ? (o.previousBalance - (o.amount||0)) : 0);
+                // পূর্বের ও বর্তমান ব্যালেন্স দেখান
+                let previousBal = (o.previousBalance !== undefined && o.previousBalance !== null) ? o.previousBalance : 0;
+                let newBal = (o.newBalance !== undefined && o.newBalance !== null) ? o.newBalance : 0;
                 
                 html += `<div class="history-item ${statusClass}">
                     <div style="display:flex; justify-content:space-between;">
@@ -887,6 +1019,7 @@
                             <strong>${o.category || 'N/A'}</strong>
                             <div style="font-size:11px; color:#666;">${o.operatorName || ''}</div>
                             ${o.note ? `<div style="font-size:10px; color:#888;">${o.note}</div>` : ''}
+                            ${o.refundAmount ? `<div style="font-size:10px; color:#4CAF50;">🔄 ফেরত: ৳${o.refundAmount}</div>` : ''}
                         </div>
                         <div style="font-weight:bold; font-size:16px;">৳${(o.amount||0).toFixed(2)}</div>
                     </div>
@@ -896,17 +1029,18 @@
                         <div class="status-badge ${statusBadgeClass}">${statusText}</div>
                         ${o.trxID ? `<br><i class="fas fa-hashtag"></i> TrxID: ${o.trxID}` : ''}
                     </div>
+                    ${(previousBal > 0 || newBal > 0) ? `
                     <div class="balance-info">
-                        <i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳${(previousBal).toFixed(2)}</span> &nbsp;|&nbsp;
-                        <i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳${(newBal).toFixed(2)}</span>
-                    </div>
+                        <i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳${previousBal.toFixed(2)}</span> &nbsp;|&nbsp;
+                        <i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳${newBal.toFixed(2)}</span>
+                    </div>` : ''}
                 </div>`;
-            });
+            }
             list.innerHTML = html;
-        }).catch(error => {
+        } catch(error) {
             console.error("History load error:", error);
             list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
-        });
+        }
     }
 
     function loadSupportLinks() {
@@ -986,31 +1120,48 @@
     
     function closePurchaseModal() { document.getElementById('purchaseModal').style.display = 'none'; currentDriveOffer = null; }
     
-    function confirmPurchase() {
+    async function confirmPurchase() {
         let num = document.getElementById('purchaseNumber').value.trim();
         if(!num || !num.match(/^01[3-9]\d{8}$/)) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন!</div>'; return; }
         if(!currentDriveOffer) return;
         if(currentUser.balance < currentDriveOffer.offerPrice) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম!</div>'; return; }
         
         if(confirm(`${currentDriveOffer.title} ক্রয় করবেন?\nমূল্য: ৳${currentDriveOffer.offerPrice}\nনম্বর: ${num}`)) {
-            let requestData = {
-                category: "ড্রাইভ অফার",
-                operatorName: currentDriveOffer.title,
-                amount: currentDriveOffer.offerPrice,
-                userId: currentUserId,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
-                number: num,
-                time: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                status: "Pending",
-                offerId: currentDriveOffer.key,
-                originalPrice: currentDriveOffer.originalPrice
-            };
-            database.ref('orders').push(requestData).then(() => {
-                document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! এডমিন এপ্রুভ করবে।</div>';
+            let previousBalance = currentUser.balance;
+            let newBalance = previousBalance - currentDriveOffer.offerPrice;
+            
+            try {
+                await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+                
+                let requestData = {
+                    category: "ড্রাইভ অফার",
+                    operatorName: currentDriveOffer.title,
+                    amount: currentDriveOffer.offerPrice,
+                    userId: currentUserId,
+                    userName: currentUser.name,
+                    userPhone: currentUser.phone,
+                    number: num,
+                    time: new Date().toLocaleString('bn-BD'),
+                    timestamp: Date.now(),
+                    status: "Pending",
+                    offerId: currentDriveOffer.key,
+                    originalPrice: currentDriveOffer.originalPrice,
+                    previousBalance: previousBalance,
+                    newBalance: newBalance,
+                    previousStatus: "Pending",
+                    processed: false
+                };
+                await database.ref('orders').push(requestData);
+                
+                currentUser.balance = newBalance;
+                localStorage.setItem('userData', JSON.stringify(currentUser));
+                loadUserData();
+                
+                document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! টাকা কেটে নেওয়া হয়েছে। এডমিন এপ্রুভ করবে।</div>';
                 setTimeout(()=>closePurchaseModal(), 2000);
-            }).catch(e => { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ!</div>'; });
+            } catch(e) { 
+                document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ! টাকা কাটা হয়নি।</div>';
+            }
         }
     }
 
