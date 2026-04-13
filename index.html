@@ -34,6 +34,9 @@
             padding: 20px;
             background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
         }
+        body.dark-mode .login-container {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+        }
         .login-box {
             background: white;
             padding: 40px;
@@ -102,7 +105,9 @@
             font-weight: bold;
             color: #1a237e;
         }
+        body.dark-mode .fixed-number-display { background: #2d2d2d; color: #90caf9; border-color: #90caf9; }
         .change-number-link { color: #1a237e; cursor: pointer; font-size: 14px; text-decoration: underline; margin-top: 10px; display: inline-block; }
+        body.dark-mode .change-number-link { color: #90caf9; }
         
         #mainContent { display: none; }
         .logged-in #mainContent { display: block; }
@@ -121,6 +126,7 @@
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
         }
+        body.dark-mode .user-nav { background: #0d1b2a; }
         .user-profile-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; object-fit: cover; }
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .service-card.active { background: #1a237e; color: white; transform: translateY(-3px); }
@@ -136,7 +142,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: transform 0.2s;
         }
-        body.dark-mode .service-card { background: #1e1e1e; color: #e0e0e0; }
+        body.dark-mode .service-card { background: #1e1e1e; color: #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .service-card i { font-size: 22px; margin-bottom: 8px; display: block; }
         .service-card p { font-size: 10px; font-weight: bold; }
         .slider-container { width: 100%; height: 150px; border-radius: 15px; overflow: hidden; margin: 15px 0; position: relative; }
@@ -150,14 +156,35 @@
             overflow: hidden;
             cursor: pointer;
         }
+        body.dark-mode .notice-box { background: #1e1e1e; }
         .notice-marquee { overflow: hidden; white-space: nowrap; position: relative; font-size: 14px; }
         .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .service-section { display: none; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 15px; }
-        body.dark-mode .service-section { background: #1e1e1e; }
+        body.dark-mode .service-section { background: #1e1e1e; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .active-section { display: block; }
         input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 13px; }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #2d2d2d; color: #e0e0e0; border: 1px solid #444; }
+        
+        /* ডার্ক মোডে সামারি বক্স স্পষ্ট দেখানোর জন্য */
+        #rechargeSummary, #mbankSummary {
+            background: #f5f5f5 !important;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        body.dark-mode #rechargeSummary, body.dark-mode #mbankSummary {
+            background: #2d2d2d !important;
+            color: #e0e0e0 !important;
+            border: 1px solid #555;
+        }
+        body.dark-mode #rechargeSummary h4, body.dark-mode #mbankSummary h4 {
+            color: #90caf9 !important;
+        }
+        body.dark-mode #rechargeSummary p, body.dark-mode #mbankSummary p {
+            color: #e0e0e0 !important;
+        }
+        
         .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
         .btn-blue { background: #1a237e; }
         .btn-green { background: #2e7d32; }
@@ -204,7 +231,7 @@
         }
         
         .previous-balance {
-            color: #2196F3;
+            color: #d32f2f;
             font-weight: bold;
             font-size: 13px;
         }
@@ -213,6 +240,8 @@
             font-weight: bold;
             font-size: 13px;
         }
+        body.dark-mode .previous-balance { color: #ff6b6b; }
+        body.dark-mode .current-balance { color: #6bff6b; }
         
         .sidebar {
             position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: white;
@@ -222,15 +251,44 @@
         body.dark-mode .sidebar { background: #1e1e1e; }
         .sidebar.active { left: 0; }
         .side-profile-box { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        body.dark-mode .side-profile-box { border-bottom-color: #333; }
         .side-profile-box img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #1a237e; margin-bottom: 15px; object-fit: cover; cursor: pointer; }
         .side-info { background: #f5f5f5; padding: 15px; border-radius: 12px; margin: 15px 0; }
+        body.dark-mode .side-info { background: #2d2d2d; }
         .side-info p { margin: 8px 0; font-size: 14px; display: flex; align-items: center; gap: 10px; }
         .menu-item { padding: 15px; margin: 8px 0; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; }
         .menu-item:hover { background: #f5f5f5; }
+        body.dark-mode .menu-item:hover { background: #2d2d2d; }
         .support-links { display: flex; gap: 10px; margin-top: 20px; }
         .support-btn { flex: 1; padding: 12px; border-radius: 10px; text-align: center; color: white; font-weight: bold; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .whatsapp-btn { background: #25D366; }
         .telegram-btn { background: #0088cc; }
+        
+        .dark-mode-toggle {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        body.dark-mode .dark-mode-toggle {
+            background: #3949ab;
+        }
+        .dark-mode-toggle:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -275,12 +333,14 @@
         }
         .profile-image-container:hover .profile-image-overlay { opacity: 1; }
         .operator-display { background: #f5f5f5; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: none; }
+        body.dark-mode .operator-display { background: #2d2d2d; }
         .loading-spinner { text-align: center; padding: 40px; color: #666; }
         .loading-spinner i { font-size: 30px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .success-message { background: #4CAF50; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .error-message { background: #d32f2f; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .balance-info { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; font-size: 11px; font-weight: bold; }
+        body.dark-mode .balance-info { border-top-color: #444; }
         
         .ad-wrapper { text-align: center; margin: 15px 0 5px 0; }
         .animated-ad-btn {
@@ -305,6 +365,17 @@
         @keyframes glow-animation { 0% { background-position: 0%; } 100% { background-position: 400%; } }
         @keyframes pulse-animation { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .animated-ad-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 0, 85, 0.6); }
+        
+        /* ড্রপডাউন অপশন স্টাইল */
+        select option {
+            padding: 10px;
+            font-weight: bold;
+        }
+        .operator-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         
         @media (max-width: 480px) {
             .service-grid { grid-template-columns: repeat(3, 1fr); }
@@ -341,7 +412,13 @@
 <div id="mainContent">
 
 <div id="sidebar" class="sidebar">
-    <div style="text-align:right; margin-bottom:20px;"><i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i></div>
+    <div style="text-align:right; margin-bottom:10px;"><i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i></div>
+    
+    <!-- ডার্ক মোড টগল বাটন -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i> ডার্ক মোড
+    </button>
+    
     <div class="side-profile-box">
         <div class="profile-image-container">
             <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="openImageUpload()">
@@ -410,7 +487,7 @@
         <input type="text" id="rechargeNumber" placeholder="মোবাইল নাম্বার" maxlength="11" oninput="updateRechargeSummary()">
         <div class="operator-display" id="operatorDisplay">অপারেটর: <span class="operator-name" id="operatorName">ডিটেক্ট হচ্ছে...</span></div>
         <input type="number" id="rechargeAmount" placeholder="টাকার পরিমাণ (ন্যূনতম ২০ টাকা)" min="20" max="10000" oninput="updateRechargeSummary()">
-        <div id="rechargeSummary" style="background:#f5f5f5; padding:15px; border-radius:10px; margin:15px 0; display:none;"></div>
+        <div id="rechargeSummary" style="display:none;"></div>
         <button class="btn btn-green btn-full" onclick="submitRecharge()"><i class="fas fa-paper-plane"></i> রিচার্জ করুন</button>
         <div id="rechargeMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
@@ -419,22 +496,22 @@
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>এম-ব্যাংক সার্ভিস</h3>
         <select id="mbankService" onchange="updateMbankSummary()">
-            <option value="">সার্ভিস সিলেক্ট করুন</option>
-            <option value="bkash_cashin">বিকাশ ক্যাশ ইন</option>
-            <option value="bkash_cashout">বিকাশ ক্যাশ আউট</option>
-            <option value="bkash_sendmoney">বিকাশ সেন্ড মানি</option>
-            <option value="nagad_cashin">নগদ ক্যাশ ইন</option>
-            <option value="nagad_cashout">নগদ ক্যাশ আউট</option>
-            <option value="rocket_cashin">রকেট ক্যাশ ইন</option>
-            <option value="rocket_cashout">রকেট ক্যাশ আউট</option>
-            <option value="user_send">👥 ইউজার ট্রান্সফার (সরাসরি সফল)</option>
+            <option value="">━━━━━ সিলেক্ট করুন ━━━━━</option>
+            <option value="bkash_cashin" style="background:#E2136E; color:white; font-weight:bold;">📱 বিকাশ - ক্যাশ ইন</option>
+            <option value="bkash_cashout" style="background:#E2136E; color:white; font-weight:bold;">📱 বিকাশ - ক্যাশ আউট</option>
+            <option value="bkash_sendmoney" style="background:#E2136E; color:white; font-weight:bold;">📱 বিকাশ - সেন্ড মানি</option>
+            <option value="nagad_cashin" style="background:#F26522; color:white; font-weight:bold;">💰 নগদ - ক্যাশ ইন</option>
+            <option value="nagad_cashout" style="background:#F26522; color:white; font-weight:bold;">💰 নগদ - ক্যাশ আউট</option>
+            <option value="rocket_cashin" style="background:#800080; color:white; font-weight:bold;">🚀 রকেট - ক্যাশ ইন</option>
+            <option value="rocket_cashout" style="background:#800080; color:white; font-weight:bold;">🚀 রকেট - ক্যাশ আউট</option>
+            <option value="user_send" style="background:#4CAF50; color:white; font-weight:bold;">👥 ইউজার ট্রান্সফার (সরাসরি সফল)</option>
         </select>
         <div id="userTransferInfo" style="background:#e3f2fd; padding:12px; border-radius:10px; margin-bottom:15px; display:none;">
             <i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন। টাকা সরাসরি তার একাউন্টে চলে যাবে।
         </div>
         <input type="text" id="mbankNumber" placeholder="একাউন্ট নাম্বার" oninput="updateMbankSummary()">
         <input type="number" id="mbankAmount" placeholder="টাকার পরিমাণ" min="10" max="50000" oninput="updateMbankSummary()">
-        <div id="mbankSummary" style="background:#f5f5f5; padding:15px; border-radius:10px; margin:15px 0; display:none;"></div>
+        <div id="mbankSummary" style="display:none;"></div>
         <button class="btn btn-green btn-full" onclick="submitMbank()"><i class="fas fa-paper-plane"></i> অর্ডার করুন</button>
         <div id="mbankMessage" style="margin-top:10px; text-align:center;"></div>
     </div>
@@ -493,6 +570,26 @@
     let currentSliderIndex = 0;
     let sliderInterval = null;
 
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        const btn = document.querySelector('.dark-mode-toggle');
+        if (document.body.classList.contains('dark-mode')) {
+            btn.innerHTML = '<i class="fas fa-sun"></i> লাইট মোড';
+        } else {
+            btn.innerHTML = '<i class="fas fa-moon"></i> ডার্ক মোড';
+        }
+    }
+    
+    function checkDarkMode() {
+        const savedDarkMode = localStorage.getItem('darkMode');
+        if (savedDarkMode === 'true') {
+            document.body.classList.add('dark-mode');
+            const btn = document.querySelector('.dark-mode-toggle');
+            if (btn) btn.innerHTML = '<i class="fas fa-sun"></i> লাইট মোড';
+        }
+    }
+
     function initializeFirebase() {
         try {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -503,7 +600,6 @@
         } catch(e) { console.error(e); return false; }
     }
     
-    // অর্ডার স্ট্যাটাস লিসেনার - এডমিন স্ট্যাটাস পরিবর্তন করলে ব্যালেন্স আপডেট করবে
     function setupOrderStatusListener() {
         if (!database) return;
         
@@ -517,53 +613,40 @@
         });
     }
     
-    // এডমিন স্ট্যাটাস পরিবর্তন করলে ব্যালেন্স আপডেট করার ফাংশন
     async function handleAdminStatusChange(order, orderKey) {
         if (!currentUser) return;
-        
-        // যদি অর্ডার ইতিমধ্যে প্রসেস করা হয়ে থাকে তাহলে আর করবেন না
         if (order.balanceProcessed === true) return;
         
         const newStatus = order.status;
         const oldStatus = order.oldStatus || 'Pending';
         
-        // পেন্ডিং থেকে ক্যান্সেল হলে টাকা ফেরত দিন
         if (oldStatus === 'Pending' && newStatus === 'Cancelled') {
-            // যে টাকা কেটেছিলো সেটা ফেরত দিতে হবে
             const refundAmount = order.amount;
-            // বর্তমান ব্যালেন্স থেকে কত টাকা ফেরত দিতে হবে
             const currentBalance = currentUser.balance;
-            // যে পরিমাণ টাকা কেটেছিলো সেটা যোগ করুন (ডাবল না করে)
             const newBalance = currentBalance + refundAmount;
             
-            // ব্যালেন্স আপডেট করুন
             await database.ref('users/' + currentUserId + '/balance').set(newBalance);
             
-            // অর্ডার আপডেট করুন - শুধু স্ট্যাটাস পরিবর্তনের তথ্য রাখুন, ব্যালেন্স ডাবল হবে না
             await database.ref('orders/' + orderKey).update({
                 balanceProcessed: true,
                 refundAmount: refundAmount,
                 refundTime: new Date().toLocaleString('bn-BD'),
                 finalBalance: newBalance,
-                // পূর্বের ব্যালেন্স এবং নতুন ব্যালেন্স সঠিকভাবে সেট করুন
                 previousBalance: order.previousBalance,
                 newBalance: newBalance
             });
             
-            // লোকাল ইউজার ডাটা আপডেট করুন
             currentUser.balance = newBalance;
             localStorage.setItem('userData', JSON.stringify(currentUser));
             loadUserData();
             
             showNotification('💰 ' + refundAmount + ' টাকা ফেরত দেওয়া হয়েছে! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
             
-            // হিস্ট্রি রিলোড করুন
             if (document.getElementById('historySection').classList.contains('active-section')) {
                 loadUserHistory();
             }
         }
         
-        // পেন্ডিং থেকে সফল হলে - ব্যালেন্স ইতিমধ্যে কেটে গেছে, শুধু অর্ডার আপডেট করুন
         else if (oldStatus === 'Pending' && newStatus === 'Success') {
             await database.ref('orders/' + orderKey).update({
                 balanceProcessed: true,
@@ -772,7 +855,7 @@
         if (op) { document.getElementById('operatorName').textContent = op.name; opDiv.style.display = 'block'; currentOperator = op; }
         else { opDiv.style.display = 'none'; currentOperator = null; }
         if (op && amt && parseFloat(amt)>=20) {
-            document.getElementById('rechargeSummary').innerHTML = `<h4>অর্ডার সারাংশ</h4><p>নম্বর: ${num}</p><p>অপারেটর: ${op.name}</p><p>অ্যামাউন্ট: ৳${amt}</p><p>সর্বমোট: ৳${amt}</p>`;
+            document.getElementById('rechargeSummary').innerHTML = `<h4>📋 অর্ডার সারাংশ</h4><p>📱 নম্বর: ${num}</p><p>📡 অপারেটর: ${op.name}</p><p>💰 অ্যামাউন্ট: ৳${amt}</p><p>💵 সর্বমোট: ৳${amt}</p>`;
             document.getElementById('rechargeSummary').style.display = 'block';
         } else document.getElementById('rechargeSummary').style.display = 'none';
     }
@@ -792,10 +875,8 @@
         let newBalance = previousBalance - a;
         
         try {
-            // 1. ব্যালেন্স কাটুন
             await database.ref('users/' + currentUserId + '/balance').set(newBalance);
             
-            // 2. অর্ডার তৈরি করুন
             let requestData = {
                 category: "মোবাইল রিচার্জ",
                 operator: op.code,
@@ -815,7 +896,6 @@
             };
             await database.ref('orders').push(requestData);
             
-            // 3. লোকাল ডাটা আপডেট
             currentUser.balance = newBalance;
             localStorage.setItem('userData', JSON.stringify(currentUser));
             loadUserData();
@@ -838,7 +918,7 @@
         info.style.display = svc === 'user_send' ? 'block' : 'none';
         if (svc && num && amt && parseFloat(amt)>=10) {
             let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-            document.getElementById('mbankSummary').innerHTML = `<h4>অর্ডার সারাংশ</h4><p>সার্ভিস: ${svcText}</p><p>নম্বর: ${num}</p><p>অ্যামাউন্ট: ৳${amt}</p><p>সর্বমোট: ৳${amt}</p>`;
+            document.getElementById('mbankSummary').innerHTML = `<h4>📋 অর্ডার সারাংশ</h4><p>🏦 সার্ভিস: ${svcText}</p><p>📞 নম্বর: ${num}</p><p>💰 অ্যামাউন্ট: ৳${amt}</p><p>💵 সর্বমোট: ৳${amt}</p>`;
             document.getElementById('mbankSummary').style.display = 'block';
         } else document.getElementById('mbankSummary').style.display = 'none';
     }
@@ -1003,12 +1083,9 @@
                     statusBadgeClass = 'status-cancelled';
                 }
                 
-                // পূর্বের ব্যালেন্স (রিকোয়েস্টের সময় যেটা ছিল)
                 let previousBal = o.previousBalance || 0;
-                // বর্তমান ব্যালেন্স (যেটা অর্ডার শেষে হয়েছে)
                 let newBal = o.newBalance || 0;
                 
-                // যদি ক্যান্সেল হয়ে থাকে এবং রিফান্ড হয়ে থাকে তাহলে নতুন ব্যালেন্স দেখান (যেটা ফেরত দেওয়ার পর হয়েছে)
                 if (o.status === 'Cancelled' && o.refundAmount) {
                     newBal = o.newBalance;
                 }
@@ -1222,6 +1299,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         initializeFirebase();
+        checkDarkMode();
         let savedMobile = localStorage.getItem('userFixedMobile');
         if(savedMobile) {
             document.getElementById('fixedNumberDisplay').style.display = 'block';
