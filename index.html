@@ -166,7 +166,6 @@
         input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 13px; }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #2d2d2d; color: #e0e0e0; border: 1px solid #444; }
         
-        /* ডার্ক মোডে সামারি বক্স স্পষ্ট দেখানোর জন্য */
         #rechargeSummary, #mbankSummary {
             background: #f5f5f5 !important;
             padding: 15px;
@@ -366,15 +365,9 @@
         @keyframes pulse-animation { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .animated-ad-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 0, 85, 0.6); }
         
-        /* ড্রপডাউন অপশন স্টাইল */
         select option {
             padding: 10px;
             font-weight: bold;
-        }
-        .operator-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         @media (max-width: 480px) {
@@ -414,7 +407,6 @@
 <div id="sidebar" class="sidebar">
     <div style="text-align:right; margin-bottom:10px;"><i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i></div>
     
-    <!-- ডার্ক মোড টগল বাটন -->
     <button class="dark-mode-toggle" onclick="toggleDarkMode()">
         <i class="fas fa-moon"></i> ডার্ক মোড
     </button>
@@ -924,129 +916,128 @@
     }
 
     async function submitMbank() {
-    let svc = document.getElementById('mbankService').value;
-    let num = document.getElementById('mbankNumber').value.trim();
-    let amt = document.getElementById('mbankAmount').value;
-    if (!svc || !num || !amt) { showMsg('mbankMessage', 'সব তথ্য দিন!', 'error'); return; }
-    let a = parseFloat(amt);
-    if (a<10 || a>50000) { showMsg('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকা!', 'error'); return; }
-    if (currentUser.balance < a) { showMsg('mbankMessage', 'ব্যালেন্স কম!', 'error'); return; }
+        let svc = document.getElementById('mbankService').value;
+        let num = document.getElementById('mbankNumber').value.trim();
+        let amt = document.getElementById('mbankAmount').value;
+        if (!svc || !num || !amt) { showMsg('mbankMessage', 'সব তথ্য দিন!', 'error'); return; }
+        let a = parseFloat(amt);
+        if (a<10 || a>50000) { showMsg('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকা!', 'error'); return; }
+        if (currentUser.balance < a) { showMsg('mbankMessage', 'ব্যালেন্স কম!', 'error'); return; }
 
-    // 🟢 অপারেটরের নাম বের করা
-    let operatorDisplayName = "";
-    let serviceText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-    
-    if (svc.includes('bkash')) operatorDisplayName = "বিকাশ";
-    else if (svc.includes('nagad')) operatorDisplayName = "নগদ";
-    else if (svc.includes('rocket')) operatorDisplayName = "রকেট";
-    else if (svc === 'user_send') operatorDisplayName = "ইউজার ট্রান্সফার";
-    else operatorDisplayName = serviceText;
+        let operatorDisplayName = "";
+        let serviceText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
+        
+        if (svc.includes('bkash')) operatorDisplayName = "বিকাশ";
+        else if (svc.includes('nagad')) operatorDisplayName = "নগদ";
+        else if (svc.includes('rocket')) operatorDisplayName = "রকেট";
+        else if (svc === 'user_send') operatorDisplayName = "ইউজার ট্রান্সফার";
+        else operatorDisplayName = serviceText;
 
-    // ইউজার টু ইউজার ট্রান্সফার
-    if (svc === 'user_send') {
-        let currentPhone = currentUser.phone || currentUserId.replace('user_','');
-        if (num === currentPhone) { showMsg('mbankMessage', 'নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
-        let targetId = 'user_' + num;
+        // ইউজার টু ইউজার ট্রান্সফার
+        if (svc === 'user_send') {
+            let currentPhone = currentUser.phone || currentUserId.replace('user_','');
+            if (num === currentPhone) { showMsg('mbankMessage', 'নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
+            let targetId = 'user_' + num;
+            try {
+                let targetSnap = await database.ref('users/'+targetId).once('value');
+                if (!targetSnap.exists()) { showMsg('mbankMessage', `"${num}" নম্বরের কোনো ইউজার নেই!`, 'error'); return; }
+                let targetUser = targetSnap.val();
+                if (targetUser.status === 'blocked') { showMsg('mbankMessage', 'টার্গেট ইউজার ব্লক!', 'error'); return; }
+                
+                let prevSender = currentUser.balance;
+                let newSender = prevSender - a;
+                let prevReceiver = targetUser.balance || 0;
+                let newReceiver = prevReceiver + a;
+                let trxId = "UTX" + Date.now().toString().slice(-8);
+                
+                await database.ref('users/'+currentUserId+'/balance').set(newSender);
+                await database.ref('users/'+targetId+'/balance').set(newReceiver);
+                
+                let senderOrder = { 
+                    category: "ইউজার ট্রান্সফার (সেন্ড)", 
+                    operatorName: "ইউজার ট্রান্সফার",
+                    operator: "user_transfer",
+                    amount: a, 
+                    userId: currentUserId, 
+                    userName: currentUser.name,
+                    userPhone: currentUser.phone,
+                    number: num, 
+                    time: new Date().toLocaleString('bn-BD'), 
+                    timestamp: Date.now(), 
+                    status: "Success", 
+                    trxID: trxId, 
+                    previousBalance: prevSender, 
+                    newBalance: newSender, 
+                    note: `${num} নম্বরে টাকা পাঠানো হয়েছে`,
+                    balanceProcessed: true
+                };
+                let receiverOrder = { 
+                    category: "ইউজার ট্রান্সফার (রিসিভ)", 
+                    operatorName: "ইউজার ট্রান্সফার",
+                    operator: "user_transfer", 
+                    amount: a, 
+                    userId: targetId, 
+                    userName: targetUser.name,
+                    userPhone: targetUser.phone,
+                    number: currentPhone, 
+                    time: new Date().toLocaleString('bn-BD'), 
+                    timestamp: Date.now(), 
+                    status: "Success", 
+                    trxID: trxId, 
+                    previousBalance: prevReceiver, 
+                    newBalance: newReceiver, 
+                    note: `${currentPhone} থেকে টাকা পেয়েছেন`,
+                    balanceProcessed: true
+                };
+                await database.ref('orders').push(senderOrder);
+                await database.ref('orders').push(receiverOrder);
+                
+                currentUser.balance = newSender;
+                localStorage.setItem('userData', JSON.stringify(currentUser));
+                loadUserData();
+                showMsg('mbankMessage', `✅ সফল! ${a} টাকা পাঠানো হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳${newSender.toFixed(2)}`, 'success');
+                resetMbankForm();
+            } catch(e) { showMsg('mbankMessage', 'ট্রান্সফার ব্যর্থ!', 'error'); }
+            return;
+        }
+
+        // অন্যান্য এম-ব্যাংক সার্ভিস
+        let previousBalance = currentUser.balance;
+        let newBalance = previousBalance - a;
+        
         try {
-            let targetSnap = await database.ref('users/'+targetId).once('value');
-            if (!targetSnap.exists()) { showMsg('mbankMessage', `"${num}" নম্বরের কোনো ইউজার নেই!`, 'error'); return; }
-            let targetUser = targetSnap.val();
-            if (targetUser.status === 'blocked') { showMsg('mbankMessage', 'টার্গেট ইউজার ব্লক!', 'error'); return; }
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
             
-            let prevSender = currentUser.balance;
-            let newSender = prevSender - a;
-            let prevReceiver = targetUser.balance || 0;
-            let newReceiver = prevReceiver + a;
-            let trxId = "UTX" + Date.now().toString().slice(-8);
-            
-            await database.ref('users/'+currentUserId+'/balance').set(newSender);
-            await database.ref('users/'+targetId+'/balance').set(newReceiver);
-            
-            let senderOrder = { 
-                category: "ইউজার ট্রান্সফার (সেন্ড)", 
-                operatorName: "ইউজার ট্রান্সফার",
-                operator: "user_transfer",
-                amount: a, 
-                userId: currentUserId, 
+            let requestData = {
+                category: "এম-ব্যাংক",
+                operator: svc,
+                operatorName: operatorDisplayName,
+                serviceDetails: serviceText,
+                amount: a,
+                userId: currentUserId,
                 userName: currentUser.name,
                 userPhone: currentUser.phone,
-                number: num, 
-                time: new Date().toLocaleString('bn-BD'), 
-                timestamp: Date.now(), 
-                status: "Success", 
-                trxID: trxId, 
-                previousBalance: prevSender, 
-                newBalance: newSender, 
-                note: `${num} নম্বরে টাকা পাঠানো হয়েছে`,
-                balanceProcessed: true
+                number: num,
+                time: new Date().toLocaleString('bn-BD'),
+                timestamp: Date.now(),
+                status: "Pending",
+                oldStatus: "Pending",
+                previousBalance: previousBalance,
+                newBalance: newBalance,
+                balanceProcessed: false
             };
-            let receiverOrder = { 
-                category: "ইউজার ট্রান্সফার (রিসিভ)", 
-                operatorName: "ইউজার ট্রান্সফার",
-                operator: "user_transfer", 
-                amount: a, 
-                userId: targetId, 
-                userName: targetUser.name,
-                userPhone: targetUser.phone,
-                number: currentPhone, 
-                time: new Date().toLocaleString('bn-BD'), 
-                timestamp: Date.now(), 
-                status: "Success", 
-                trxID: trxId, 
-                previousBalance: prevReceiver, 
-                newBalance: newReceiver, 
-                note: `${currentPhone} থেকে টাকা পেয়েছেন`,
-                balanceProcessed: true
-            };
-            await database.ref('orders').push(senderOrder);
-            await database.ref('orders').push(receiverOrder);
+            await database.ref('orders').push(requestData);
             
-            currentUser.balance = newSender;
+            currentUser.balance = newBalance;
             localStorage.setItem('userData', JSON.stringify(currentUser));
             loadUserData();
-            showMsg('mbankMessage', `✅ সফল! ${a} টাকা পাঠানো হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳${newSender.toFixed(2)}`, 'success');
+            
+            showMsg('mbankMessage', `✅ অর্ডার রিকোয়েস্ট সফল!\n${operatorDisplayName} - ৳${a}\nবর্তমান ব্যালেন্স: ৳${newBalance.toFixed(2)}`, 'success');
             resetMbankForm();
-        } catch(e) { showMsg('mbankMessage', 'ট্রান্সফার ব্যর্থ!', 'error'); }
-        return;
+        } catch(e) {
+            showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
+        }
     }
-
-    // অন্যান্য এম-ব্যাংক সার্ভিস
-    let previousBalance = currentUser.balance;
-    let newBalance = previousBalance - a;
-    
-    try {
-        await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-        
-        let requestData = {
-            category: "এম-ব্যাংক",
-            operator: svc,                           // bkash_cashin ইত্যাদি
-            operatorName: operatorDisplayName,       // 👈 "বিকাশ", "নগদ", "রকেট"
-            serviceDetails: serviceText,             // সম্পূর্ণ বিবরণ
-            amount: a,
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            number: num,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending",
-            oldStatus: "Pending",
-            previousBalance: previousBalance,
-            newBalance: newBalance,
-            balanceProcessed: false
-        };
-        await database.ref('orders').push(requestData);
-        
-        currentUser.balance = newBalance;
-        localStorage.setItem('userData', JSON.stringify(currentUser));
-        loadUserData();
-        
-        showMsg('mbankMessage', `✅ অর্ডার রিকোয়েস্ট সফল!\n${operatorDisplayName} - ৳${a}\nবর্তমান ব্যালেন্স: ৳${newBalance.toFixed(2)}`, 'success');
-        resetMbankForm();
-    } catch(e) {
-        showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
-    }
-}
 
     function resetMbankForm() {
         document.getElementById('mbankService').value = '';
@@ -1102,10 +1093,15 @@
                     newBal = o.newBalance;
                 }
                 
+                let displayCategory = o.category || 'N/A';
+                if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
+                    displayCategory = `এম-ব্যাংক (${o.operatorName})`;
+                }
+                
                 html += `<div class="history-item ${statusClass}">
                     <div style="display:flex; justify-content:space-between;">
                         <div>
-                            <strong>${o.category || 'N/A'}</strong>
+                            <strong>${displayCategory}</strong>
                             <div style="font-size:11px; color:#666;">${o.operatorName || ''}</div>
                             ${o.note ? `<div style="font-size:10px; color:#888;">${o.note}</div>` : ''}
                             ${o.refundAmount ? `<div style="font-size:10px; color:#4CAF50;">🔄 ফেরত: ৳${o.refundAmount}</div>` : ''}
@@ -1144,21 +1140,30 @@
         if(!amt) return;
         let a = parseFloat(amt);
         if(isNaN(a)||a<=0) { alert("সঠিক অ্যামাউন্ট দিন!"); return; }
-        let method = prompt("পেমেন্ট মাধ্যম (Bkash/Nagad/Rocket):", "Bkash");
-        if(!method) return;
+        
+        let method = prompt("পেমেন্ট মাধ্যম নির্বাচন করুন:\n1 = বিকাশ\n2 = নগদ\n3 = রকেট", "1");
+        let operatorName = "";
+        if(method === "1") operatorName = "বিকাশ";
+        else if(method === "2") operatorName = "নগদ";
+        else if(method === "3") operatorName = "রকেট";
+        else { alert("সঠিক অপশন নির্বাচন করুন (1/2/3)!"); return; }
+        
         let trxId = prompt("ট্রানজেকশন আইডি:", "TRX"+Date.now().toString().slice(-6));
         if(!trxId) return;
+        
         database.ref('balanceRequests').push({
             userId: currentUserId, 
             userName: currentUser.name,
             userPhone: currentUser.phone,
             amount: a,
-            paymentMethod: method, 
+            method: "এম-ব্যাংক",
+            operator: operatorName,
+            paymentMethod: operatorName,
             transactionId: trxId, 
             status: "pending",
             time: new Date().toLocaleString('bn-BD'), 
             timestamp: Date.now()
-        }).then(() => alert("ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে! এডমিন অনুমোদন করবেন।"))
+        }).then(() => alert(`ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে!\nপদ্ধতি: ${operatorName}\nপরিমাণ: ৳${a}\nএডমিন অনুমোদন করবেন।`))
         .catch(e => alert("রিকোয়েস্ট ব্যর্থ!"));
     }
 
