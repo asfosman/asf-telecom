@@ -923,7 +923,7 @@
         } else document.getElementById('mbankSummary').style.display = 'none';
     }
 
-   async function submitMbank() {
+    async function submitMbank() {
     let svc = document.getElementById('mbankService').value;
     let num = document.getElementById('mbankNumber').value.trim();
     let amt = document.getElementById('mbankAmount').value;
@@ -1048,82 +1048,6 @@
     }
 }
 
-    // অন্যান্য এম-ব্যাংক সার্ভিস
-    let previousBalance = currentUser.balance;
-    let newBalance = previousBalance - a;
-    
-    try {
-        await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-        
-        let requestData = {
-            category: "এম-ব্যাংক",
-            operator: svc,                           // bkash_cashin ইত্যাদি
-            operatorName: operatorDisplayName,       // 👈 "বিকাশ", "নগদ", "রকেট"
-            serviceDetails: serviceText,             // সম্পূর্ণ বিবরণ
-            amount: a,
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            number: num,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending",
-            oldStatus: "Pending",
-            previousBalance: previousBalance,
-            newBalance: newBalance,
-            balanceProcessed: false
-        };
-        await database.ref('orders').push(requestData);
-        
-        currentUser.balance = newBalance;
-        localStorage.setItem('userData', JSON.stringify(currentUser));
-        loadUserData();
-        
-        showMsg('mbankMessage', `✅ অর্ডার রিকোয়েস্ট সফল!\n${operatorDisplayName} - ৳${a}\nবর্তমান ব্যালেন্স: ৳${newBalance.toFixed(2)}`, 'success');
-        resetMbankForm();
-    } catch(e) {
-        showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
-    }
-}
-
-        // অন্যান্য এম-ব্যাংক সার্ভিস - টাকা কেটে পেন্ডিং করবে
-        let previousBalance = currentUser.balance;
-        let newBalance = previousBalance - a;
-        
-        try {
-            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-            
-            let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-            let requestData = {
-                category: "এম-ব্যাংক",
-                operator: svc,
-                operatorName: svcText,
-                amount: a,
-                userId: currentUserId,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
-                number: num,
-                time: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                status: "Pending",
-                oldStatus: "Pending",
-                previousBalance: previousBalance,
-                newBalance: newBalance,
-                balanceProcessed: false
-            };
-            await database.ref('orders').push(requestData);
-            
-            currentUser.balance = newBalance;
-            localStorage.setItem('userData', JSON.stringify(currentUser));
-            loadUserData();
-            
-            showMsg('mbankMessage', '✅ অর্ডার রিকোয়েস্ট সফল! ' + a + ' টাকা কেটে নেওয়া হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
-            resetMbankForm();
-        } catch(e) {
-            showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
-        }
-    }
-
     function resetMbankForm() {
         document.getElementById('mbankService').value = '';
         document.getElementById('mbankNumber').value = '';
@@ -1215,51 +1139,28 @@
         });
     }
 
-   function requestBalance() {
-    let amt = prompt("কত টাকা ব্যালেন্স যোগ করতে চান?", "100");
-    if(!amt) return;
-    let a = parseFloat(amt);
-    if(isNaN(a)||a<=0) { alert("সঠিক অ্যামাউন্ট দিন!"); return; }
-    
-    // পেমেন্ট পদ্ধতি নির্বাচনের জন্য কনফার্ম বক্স
-    let method = confirm("বিকাশের জন্য OK\nনগদের জন্য Cancel\n(রকেটের জন্য আবার Cancel)");
-    
-    let operatorName = "";
-    if(method === true) {
-        operatorName = "বিকাশ";
-    } else {
-        let secondChoice = confirm("নগদের জন্য OK\nরকেটের জন্য Cancel");
-        if(secondChoice === true) {
-            operatorName = "নগদ";
-        } else {
-            operatorName = "রকেট";
-        }
+    function requestBalance() {
+        let amt = prompt("কত টাকা ব্যালেন্স যোগ করতে চান?", "100");
+        if(!amt) return;
+        let a = parseFloat(amt);
+        if(isNaN(a)||a<=0) { alert("সঠিক অ্যামাউন্ট দিন!"); return; }
+        let method = prompt("পেমেন্ট মাধ্যম (Bkash/Nagad/Rocket):", "Bkash");
+        if(!method) return;
+        let trxId = prompt("ট্রানজেকশন আইডি:", "TRX"+Date.now().toString().slice(-6));
+        if(!trxId) return;
+        database.ref('balanceRequests').push({
+            userId: currentUserId, 
+            userName: currentUser.name,
+            userPhone: currentUser.phone,
+            amount: a,
+            paymentMethod: method, 
+            transactionId: trxId, 
+            status: "pending",
+            time: new Date().toLocaleString('bn-BD'), 
+            timestamp: Date.now()
+        }).then(() => alert("ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে! এডমিন অনুমোদন করবেন।"))
+        .catch(e => alert("রিকোয়েস্ট ব্যর্থ!"));
     }
-    
-    let trxId = prompt("ট্রানজেকশন আইডি:", "TRX"+Date.now().toString().slice(-6));
-    if(!trxId) return;
-    
-    // ডাটাবেসে সঠিকভাবে ডাটা পাঠানো হচ্ছে
-    database.ref('balanceRequests').push({
-        userId: currentUserId, 
-        userName: currentUser.name,
-        userPhone: currentUser.phone,
-        amount: a,
-        method: "এম-ব্যাংক",
-        operator: operatorName,        // 👈 এটাই মূল ফিল্ড
-        paymentMethod: operatorName,   // 👈 ব্যাকআপ
-        transactionId: trxId, 
-        status: "pending",
-        time: new Date().toLocaleString('bn-BD'), 
-        timestamp: Date.now()
-    }).then(() => {
-        alert(`ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে!\nপদ্ধতি: ${operatorName}\nপরিমাণ: ৳${a}\nএডমিন অনুমোদন করবেন।`);
-        // ফর্ম রিসেট করার দরকার নেই, শুধু মেসেজ দেখালাম
-    }).catch(e => {
-        console.error(e);
-        alert("রিকোয়েস্ট ব্যর্থ! ইন্টারনেট চেক করুন।");
-    });
-}
 
     function showDriveOffers() { showSection('driveOffers'); loadDriveOffers(); }
     
