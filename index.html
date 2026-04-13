@@ -853,55 +853,57 @@
     }
 
     async function submitRecharge() {
-        let num = document.getElementById('rechargeNumber').value.trim();
-        let amt = document.getElementById('rechargeAmount').value;
-        if (!num || !amt) { showMsg('rechargeMessage', 'সব তথ্য দিন!', 'error'); return; }
-        if (!num.match(/^01[3-9]\d{8}$/)) { showMsg('rechargeMessage', 'সঠিক নাম্বার দিন!', 'error'); return; }
-        let a = parseFloat(amt);
-        if (a<20 || a>10000) { showMsg('rechargeMessage', 'ন্যূনতম ২০ টাকা!', 'error'); return; }
-        let op = detectOperator(num);
-        if (!op) { showMsg('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
-        if (currentUser.balance < a) { showMsg('rechargeMessage', 'ব্যালেন্স কম!', 'error'); return; }
+    let num = document.getElementById('rechargeNumber').value.trim();
+    let amt = document.getElementById('rechargeAmount').value;
+    if (!num || !amt) { showMsg('rechargeMessage', 'সব তথ্য দিন!', 'error'); return; }
+    if (!num.match(/^01[3-9]\d{8}$/)) { showMsg('rechargeMessage', 'সঠিক নাম্বার দিন!', 'error'); return; }
+    let a = parseFloat(amt);
+    if (a<20 || a>10000) { showMsg('rechargeMessage', 'ন্যূনতম ২০ টাকা!', 'error'); return; }
+    let op = detectOperator(num);
+    if (!op) { showMsg('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
+    if (currentUser.balance < a) { showMsg('rechargeMessage', 'ব্যালেন্স কম!', 'error'); return; }
 
-        let previousBalance = currentUser.balance;
-        let newBalance = previousBalance - a;
+    let previousBalance = currentUser.balance;
+    let newBalance = previousBalance - a;
+    
+    try {
+        // 1. প্রথমে ব্যালেন্স আপডেট করুন
+        await database.ref('users/' + currentUserId + '/balance').set(newBalance);
         
-        try {
-            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-            
-            let requestData = {
-                category: "মোবাইল রিচার্জ",
-                operator: op.code,
-                operatorName: op.name,
-                amount: a,
-                userId: currentUserId,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
-                number: num,
-                time: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                status: "Pending",
-                oldStatus: "Pending",
-                previousBalance: previousBalance,
-                newBalance: newBalance,
-                balanceProcessed: false
-            };
-            await database.ref('orders').push(requestData);
-            
-            currentUser.balance = newBalance;
-            localStorage.setItem('userData', JSON.stringify(currentUser));
-            loadUserData();
-            
-            showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! ' + a + ' টাকা কেটে নেওয়া হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
-            document.getElementById('rechargeNumber').value = '';
-            document.getElementById('rechargeAmount').value = '';
-            document.getElementById('operatorDisplay').style.display = 'none';
-            document.getElementById('rechargeSummary').style.display = 'none';
-        } catch(e) {
-            showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
-        }
+        // 2. লোকাল ভেরিয়েবল আপডেট করুন
+        currentUser.balance = newBalance;
+        localStorage.setItem('userData', JSON.stringify(currentUser));
+        loadUserData();
+        
+        // 3. অর্ডার তৈরি করুন (সঠিক previousBalance এবং newBalance সহ)
+        let requestData = {
+            category: "মোবাইল রিচার্জ",
+            operator: op.code,
+            operatorName: op.name,
+            amount: a,
+            userId: currentUserId,
+            userName: currentUser.name,
+            userPhone: currentUser.phone,
+            number: num,
+            time: new Date().toLocaleString('bn-BD'),
+            timestamp: Date.now(),
+            status: "Pending",
+            oldStatus: "Pending",
+            previousBalance: previousBalance,  // টাকা কাটার আগের ব্যালেন্স
+            newBalance: newBalance,           // টাকা কাটার পরের ব্যালেন্স
+            balanceProcessed: false
+        };
+        await database.ref('orders').push(requestData);
+        
+        showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! ' + a + ' টাকা কেটে নেওয়া হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
+        document.getElementById('rechargeNumber').value = '';
+        document.getElementById('rechargeAmount').value = '';
+        document.getElementById('operatorDisplay').style.display = 'none';
+        document.getElementById('rechargeSummary').style.display = 'none';
+    } catch(e) {
+        showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
     }
-
+}
     function updateMbankSummary() {
         let svc = document.getElementById('mbankService').value;
         let num = document.getElementById('mbankNumber').value.trim();
@@ -915,91 +917,45 @@
         } else document.getElementById('mbankSummary').style.display = 'none';
     }
 
-    async function submitMbank() {
-        let svc = document.getElementById('mbankService').value;
-        let num = document.getElementById('mbankNumber').value.trim();
-        let amt = document.getElementById('mbankAmount').value;
-        if (!svc || !num || !amt) { showMsg('mbankMessage', 'সব তথ্য দিন!', 'error'); return; }
-        let a = parseFloat(amt);
-        if (a<10 || a>50000) { showMsg('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকা!', 'error'); return; }
-        if (currentUser.balance < a) { showMsg('mbankMessage', 'ব্যালেন্স কম!', 'error'); return; }
+   // অন্যান্য এম-ব্যাংক সার্ভিস (বিকাশ/নগদ/রকেট)
+let previousBalance = currentUser.balance;
+let newBalance = previousBalance - a;
 
-        let operatorDisplayName = "";
-        let serviceText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-        
-        if (svc.includes('bkash')) operatorDisplayName = "বিকাশ";
-        else if (svc.includes('nagad')) operatorDisplayName = "নগদ";
-        else if (svc.includes('rocket')) operatorDisplayName = "রকেট";
-        else if (svc === 'user_send') operatorDisplayName = "ইউজার ট্রান্সফার";
-        else operatorDisplayName = serviceText;
-
-        // ইউজার টু ইউজার ট্রান্সফার
-        if (svc === 'user_send') {
-            let currentPhone = currentUser.phone || currentUserId.replace('user_','');
-            if (num === currentPhone) { showMsg('mbankMessage', 'নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
-            let targetId = 'user_' + num;
-            try {
-                let targetSnap = await database.ref('users/'+targetId).once('value');
-                if (!targetSnap.exists()) { showMsg('mbankMessage', `"${num}" নম্বরের কোনো ইউজার নেই!`, 'error'); return; }
-                let targetUser = targetSnap.val();
-                if (targetUser.status === 'blocked') { showMsg('mbankMessage', 'টার্গেট ইউজার ব্লক!', 'error'); return; }
-                
-                let prevSender = currentUser.balance;
-                let newSender = prevSender - a;
-                let prevReceiver = targetUser.balance || 0;
-                let newReceiver = prevReceiver + a;
-                let trxId = "UTX" + Date.now().toString().slice(-8);
-                
-                await database.ref('users/'+currentUserId+'/balance').set(newSender);
-                await database.ref('users/'+targetId+'/balance').set(newReceiver);
-                
-                let senderOrder = { 
-                    category: "ইউজার ট্রান্সফার (সেন্ড)", 
-                    operatorName: "ইউজার ট্রান্সফার",
-                    operator: "user_transfer",
-                    amount: a, 
-                    userId: currentUserId, 
-                    userName: currentUser.name,
-                    userPhone: currentUser.phone,
-                    number: num, 
-                    time: new Date().toLocaleString('bn-BD'), 
-                    timestamp: Date.now(), 
-                    status: "Success", 
-                    trxID: trxId, 
-                    previousBalance: prevSender, 
-                    newBalance: newSender, 
-                    note: `${num} নম্বরে টাকা পাঠানো হয়েছে`,
-                    balanceProcessed: true
-                };
-                let receiverOrder = { 
-                    category: "ইউজার ট্রান্সফার (রিসিভ)", 
-                    operatorName: "ইউজার ট্রান্সফার",
-                    operator: "user_transfer", 
-                    amount: a, 
-                    userId: targetId, 
-                    userName: targetUser.name,
-                    userPhone: targetUser.phone,
-                    number: currentPhone, 
-                    time: new Date().toLocaleString('bn-BD'), 
-                    timestamp: Date.now(), 
-                    status: "Success", 
-                    trxID: trxId, 
-                    previousBalance: prevReceiver, 
-                    newBalance: newReceiver, 
-                    note: `${currentPhone} থেকে টাকা পেয়েছেন`,
-                    balanceProcessed: true
-                };
-                await database.ref('orders').push(senderOrder);
-                await database.ref('orders').push(receiverOrder);
-                
-                currentUser.balance = newSender;
-                localStorage.setItem('userData', JSON.stringify(currentUser));
-                loadUserData();
-                showMsg('mbankMessage', `✅ সফল! ${a} টাকা পাঠানো হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳${newSender.toFixed(2)}`, 'success');
-                resetMbankForm();
-            } catch(e) { showMsg('mbankMessage', 'ট্রান্সফার ব্যর্থ!', 'error'); }
-            return;
-        }
+try {
+    // 1. প্রথমে ব্যালেন্স আপডেট করুন
+    await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+    
+    // 2. লোকাল ভেরিয়েবল আপডেট করুন
+    currentUser.balance = newBalance;
+    localStorage.setItem('userData', JSON.stringify(currentUser));
+    loadUserData();
+    
+    // 3. অর্ডার তৈরি করুন (সঠিক ব্যালেন্স সহ)
+    let requestData = {
+        category: "এম-ব্যাংক",
+        operator: svc,
+        operatorName: operatorDisplayName,
+        serviceDetails: serviceText,
+        amount: a,
+        userId: currentUserId,
+        userName: currentUser.name,
+        userPhone: currentUser.phone,
+        number: num,
+        time: new Date().toLocaleString('bn-BD'),
+        timestamp: Date.now(),
+        status: "Pending",
+        oldStatus: "Pending",
+        previousBalance: previousBalance,  // টাকা কাটার আগের ব্যালেন্স
+        newBalance: newBalance,           // টাকা কাটার পরের ব্যালেন্স
+        balanceProcessed: false
+    };
+    await database.ref('orders').push(requestData);
+    
+    showMsg('mbankMessage', `✅ অর্ডার রিকোয়েস্ট সফল!\n${operatorDisplayName} - ৳${a}\nবর্তমান ব্যালেন্স: ৳${newBalance.toFixed(2)}`, 'success');
+    resetMbankForm();
+} catch(e) {
+    showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ! টাকা কাটা হয়নি।', 'error');
+}
 
         // অন্যান্য এম-ব্যাংক সার্ভিস
         let previousBalance = currentUser.balance;
@@ -1047,85 +1003,87 @@
         document.getElementById('userTransferInfo').style.display = 'none';
     }
 
-    async function loadUserHistory() {
-        let list = document.getElementById('historyList');
-        list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
+   async function loadUserHistory() {
+    let list = document.getElementById('historyList');
+    list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
+    
+    try {
+        const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
+        let orders = [];
+        snap.forEach(child => {
+            let order = child.val();
+            order.key = child.key;
+            orders.push(order);
+        });
+        orders.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0));
         
-        try {
-            const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
-            let orders = [];
-            snap.forEach(child => {
-                let order = child.val();
-                order.key = child.key;
-                orders.push(order);
-            });
-            orders.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0));
-            
-            if(orders.length === 0) { 
-                list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; 
-                return; 
-            }
-            
-            let html = '';
-            for (let o of orders) {
-                let statusClass = '';
-                let statusText = '';
-                let statusBadgeClass = '';
-                
-                if (o.status === 'Success') {
-                    statusClass = 'history-status-success';
-                    statusText = 'সফল';
-                    statusBadgeClass = 'status-success';
-                } else if (o.status === 'Pending') {
-                    statusClass = 'history-status-pending';
-                    statusText = 'পেন্ডিং';
-                    statusBadgeClass = 'status-pending';
-                } else {
-                    statusClass = 'history-status-cancelled';
-                    statusText = 'বাতিল';
-                    statusBadgeClass = 'status-cancelled';
-                }
-                
-                let previousBal = o.previousBalance || 0;
-                let newBal = o.newBalance || 0;
-                
-                if (o.status === 'Cancelled' && o.refundAmount) {
-                    newBal = o.newBalance;
-                }
-                
-                let displayCategory = o.category || 'N/A';
-                if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
-                    displayCategory = `এম-ব্যাংক (${o.operatorName})`;
-                }
-                
-                html += `<div class="history-item ${statusClass}">
-                    <div style="display:flex; justify-content:space-between;">
-                        <div>
-                            <strong>${displayCategory}</strong>
-                            <div style="font-size:11px; color:#666;">${o.operatorName || ''}</div>
-                            ${o.note ? `<div style="font-size:10px; color:#888;">${o.note}</div>` : ''}
-                            ${o.refundAmount ? `<div style="font-size:10px; color:#4CAF50;">🔄 ফেরত: ৳${o.refundAmount}</div>` : ''}
-                        </div>
-                        <div style="font-weight:bold; font-size:16px;">৳${(o.amount||0).toFixed(2)}</div>
-                    </div>
-                    <div style="font-size:12px; margin-top:8px;">
-                        <i class="fas fa-mobile-alt"></i> ${o.number || 'N/A'}<br>
-                        <i class="fas fa-clock"></i> ${o.time || 'N/A'}<br>
-                        <div class="status-badge ${statusBadgeClass}">${statusText}</div>
-                        ${o.trxID ? `<br><i class="fas fa-hashtag"></i> TrxID: ${o.trxID}` : ''}
-                    </div>
-                    <div class="balance-info">
-                        <i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳${previousBal.toFixed(2)}</span> &nbsp;|&nbsp;
-                        <i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳${newBal.toFixed(2)}</span>
-                    </div>
-                </div>`;
-            }
-            list.innerHTML = html;
-        } catch(error) {
-            console.error("History load error:", error);
-            list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
+        if(orders.length === 0) { 
+            list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; 
+            return; 
         }
+        
+        let html = '';
+        for (let o of orders) {
+            let statusClass = '';
+            let statusText = '';
+            let statusBadgeClass = '';
+            
+            if (o.status === 'Success') {
+                statusClass = 'history-status-success';
+                statusText = 'সফল';
+                statusBadgeClass = 'status-success';
+            } else if (o.status === 'Pending') {
+                statusClass = 'history-status-pending';
+                statusText = 'পেন্ডিং';
+                statusBadgeClass = 'status-pending';
+            } else {
+                statusClass = 'history-status-cancelled';
+                statusText = 'বাতিল';
+                statusBadgeClass = 'status-cancelled';
+            }
+            
+            // সঠিক ব্যালেন্স দেখানোর জন্য চেক
+            let previousBal = o.previousBalance !== undefined ? o.previousBalance : 0;
+            let newBal = o.newBalance !== undefined ? o.newBalance : previousBal;
+            
+            // যদি ক্যান্সেল হয় এবং রিফান্ড থাকে
+            if (o.status === 'Cancelled' && o.refundAmount) {
+                newBal = o.newBalance || previousBal;
+            }
+            
+            let displayCategory = o.category || 'N/A';
+            if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
+                displayCategory = `এম-ব্যাংক (${o.operatorName})`;
+            }
+            
+            html += `<div class="history-item ${statusClass}">
+                <div style="display:flex; justify-content:space-between;">
+                    <div>
+                        <strong>${displayCategory}</strong>
+                        <div style="font-size:11px; color:#666;">${o.operatorName || ''}</div>
+                        ${o.note ? `<div style="font-size:10px; color:#888;">${o.note}</div>` : ''}
+                        ${o.refundAmount ? `<div style="font-size:10px; color:#4CAF50;">🔄 ফেরত: ৳${o.refundAmount}</div>` : ''}
+                    </div>
+                    <div style="font-weight:bold; font-size:16px;">৳${(o.amount||0).toFixed(2)}</div>
+                </div>
+                <div style="font-size:12px; margin-top:8px;">
+                    <i class="fas fa-mobile-alt"></i> ${o.number || 'N/A'}<br>
+                    <i class="fas fa-clock"></i> ${o.time || 'N/A'}<br>
+                    <div class="status-badge ${statusBadgeClass}">${statusText}</div>
+                    ${o.trxID ? `<br><i class="fas fa-hashtag"></i> TrxID: ${o.trxID}` : ''}
+                </div>
+                <div class="balance-info">
+                    <i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳${previousBal.toFixed(2)}</span> &nbsp;|&nbsp;
+                    <i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳${newBal.toFixed(2)}</span>
+                </div>
+            </div>`;
+        }
+        list.innerHTML = html;
+    } catch(error) {
+        console.error("History load error:", error);
+        list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
     }
+}
 
     function loadSupportLinks() {
         database.ref('support').once('value').then(snap => {
@@ -1214,49 +1172,52 @@
     function closePurchaseModal() { document.getElementById('purchaseModal').style.display = 'none'; currentDriveOffer = null; }
     
     async function confirmPurchase() {
-        let num = document.getElementById('purchaseNumber').value.trim();
-        if(!num || !num.match(/^01[3-9]\d{8}$/)) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন!</div>'; return; }
-        if(!currentDriveOffer) return;
-        if(currentUser.balance < currentDriveOffer.offerPrice) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম!</div>'; return; }
+    let num = document.getElementById('purchaseNumber').value.trim();
+    if(!num || !num.match(/^01[3-9]\d{8}$/)) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন!</div>'; return; }
+    if(!currentDriveOffer) return;
+    if(currentUser.balance < currentDriveOffer.offerPrice) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম!</div>'; return; }
+    
+    if(confirm(`${currentDriveOffer.title} ক্রয় করবেন?\nমূল্য: ৳${currentDriveOffer.offerPrice}\nনম্বর: ${num}`)) {
+        let previousBalance = currentUser.balance;
+        let newBalance = previousBalance - currentDriveOffer.offerPrice;
         
-        if(confirm(`${currentDriveOffer.title} ক্রয় করবেন?\nমূল্য: ৳${currentDriveOffer.offerPrice}\nনম্বর: ${num}`)) {
-            let previousBalance = currentUser.balance;
-            let newBalance = previousBalance - currentDriveOffer.offerPrice;
+        try {
+            // 1. ব্যালেন্স আপডেট
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
             
-            try {
-                await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-                
-                let requestData = {
-                    category: "ড্রাইভ অফার",
-                    operatorName: currentDriveOffer.title,
-                    amount: currentDriveOffer.offerPrice,
-                    userId: currentUserId,
-                    userName: currentUser.name,
-                    userPhone: currentUser.phone,
-                    number: num,
-                    time: new Date().toLocaleString('bn-BD'),
-                    timestamp: Date.now(),
-                    status: "Pending",
-                    offerId: currentDriveOffer.key,
-                    originalPrice: currentDriveOffer.originalPrice,
-                    previousBalance: previousBalance,
-                    newBalance: newBalance,
-                    oldStatus: "Pending",
-                    balanceProcessed: false
-                };
-                await database.ref('orders').push(requestData);
-                
-                currentUser.balance = newBalance;
-                localStorage.setItem('userData', JSON.stringify(currentUser));
-                loadUserData();
-                
-                document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! ' + currentDriveOffer.offerPrice + ' টাকা কেটে নেওয়া হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
-                setTimeout(()=>closePurchaseModal(), 3000);
-            } catch(e) { 
-                document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ! টাকা কাটা হয়নি।</div>';
-            }
+            // 2. লোকাল আপডেট
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            
+            // 3. অর্ডার তৈরি
+            let requestData = {
+                category: "ড্রাইভ অফার",
+                operatorName: currentDriveOffer.title,
+                amount: currentDriveOffer.offerPrice,
+                userId: currentUserId,
+                userName: currentUser.name,
+                userPhone: currentUser.phone,
+                number: num,
+                time: new Date().toLocaleString('bn-BD'),
+                timestamp: Date.now(),
+                status: "Pending",
+                offerId: currentDriveOffer.key,
+                originalPrice: currentDriveOffer.originalPrice,
+                previousBalance: previousBalance,
+                newBalance: newBalance,
+                oldStatus: "Pending",
+                balanceProcessed: false
+            };
+            await database.ref('orders').push(requestData);
+            
+            document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! ' + currentDriveOffer.offerPrice + ' টাকা কেটে নেওয়া হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
+            setTimeout(()=>closePurchaseModal(), 3000);
+        } catch(e) { 
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ! টাকা কাটা হয়নি।</div>';
         }
     }
+}
 
     function handleImageUpload(e) {
         let file = e.target.files[0];
