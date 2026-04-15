@@ -22,133 +22,41 @@
     </script>
     
     <style>
+        /* আপনার আগের স্টাইল এখানে রাখুন (সংক্ষেপে দিচ্ছি, কিন্তু পুরো স্টাইল আগের মতোই থাকবে) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Kalpurush', sans-serif; }
         body { background-color: #f0f2f5; color: #333; padding-bottom: 80px; transition: all 0.3s ease; }
         body.dark-mode { background-color: #121212; color: #e0e0e0; }
-
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-        }
-        .login-box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+        .login-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%); }
+        .login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center; }
         body.dark-mode .login-box { background: #1e1e1e; color: #e0e0e0; }
         .login-box h2 { color: #1a237e; margin-bottom: 30px; font-size: 24px; }
         .input-group { position: relative; margin-bottom: 20px; }
-        .login-input {
-            width: 100%;
-            padding: 15px 40px 15px 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-        }
+        .login-input { width: 100%; padding: 15px 40px 15px 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
         body.dark-mode .login-input { background: #2d2d2d; color: #e0e0e0; border: 2px solid #444; }
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background: #1a237e;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+        .password-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; font-size: 18px; }
+        .login-btn { width: 100%; padding: 15px; background: #1a237e; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
         .login-btn:hover { background: #3949ab; transform: translateY(-2px); }
         .login-error { color: #d32f2f; margin-top: 10px; font-size: 14px; display: none; }
-        .login-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: #1a237e;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 30px;
-        }
-        .fixed-number-display {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #1a237e;
-            font-size: 16px;
-            font-weight: bold;
-            color: #1a237e;
-        }
+        .login-logo { width: 80px; height: 80px; margin: 0 auto 20px; background: #1a237e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; }
+        .fixed-number-display { background: #f5f5f5; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #1a237e; font-size: 16px; font-weight: bold; color: #1a237e; }
         .change-number-link { color: #1a237e; cursor: pointer; font-size: 14px; text-decoration: underline; margin-top: 10px; display: inline-block; }
-        
         #mainContent { display: none; }
         .logged-in #mainContent { display: block; }
         .logged-in .login-container { display: none; }
-
-        .user-nav {
-            background: #1a237e;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
+        .user-nav { background: #1a237e; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
         .user-profile-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; object-fit: cover; }
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .service-card.active { background: #1a237e; color: white; transform: translateY(-3px); }
         .service-card.active i { color: white !important; }
         .service-card.active p { color: white; }
         .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 10px; }
-        .service-card {
-            background: white;
-            padding: 15px 5px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
+        .service-card { background: white; padding: 15px 5px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s; }
         body.dark-mode .service-card { background: #1e1e1e; color: #e0e0e0; }
         .service-card i { font-size: 22px; margin-bottom: 8px; display: block; }
         .service-card p { font-size: 10px; font-weight: bold; }
         .slider-container { width: 100%; height: 150px; border-radius: 15px; overflow: hidden; margin: 15px 0; position: relative; }
         .slider-image { width: 100%; height: 100%; object-fit: cover; }
-        .notice-box {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #4CAF50;
-            overflow: hidden;
-            cursor: pointer;
-        }
+        .notice-box { background: white; padding: 15px; border-radius: 15px; margin: 15px 0; border-left: 5px solid #4CAF50; overflow: hidden; cursor: pointer; }
         .notice-marquee { overflow: hidden; white-space: nowrap; position: relative; font-size: 14px; }
         .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
@@ -157,7 +65,6 @@
         .active-section { display: block; }
         input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 13px; }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #2d2d2d; color: #e0e0e0; border: 1px solid #444; }
-        
         .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
         .btn-blue { background: #1a237e; }
         .btn-green { background: #2e7d32; }
@@ -165,36 +72,16 @@
         .btn-orange { background: #f57c00; }
         .btn-full { width: 100%; margin-top: 10px; }
         .back-btn { background: #d32f2f; color: white; padding: 8px 20px; border-radius: 20px; font-size: 12px; cursor: pointer; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 5px; border: none; font-weight: bold; }
-        .history-item {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border-left: 5px solid #ccc;
-        }
+        .history-item { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid #ccc; }
         body.dark-mode .history-item { background: #1e1e1e; }
         .history-status-success { border-left-color: #4CAF50; }
         .history-status-pending { border-left-color: #2196F3; }
         .history-status-cancelled { border-left-color: #d32f2f; }
-        
-        .status-badge {
-            display: inline-block;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 6px 14px;
-            border-radius: 25px;
-            margin: 8px 0;
-            text-align: center;
-        }
+        .status-badge { display: inline-block; font-size: 18px; font-weight: bold; padding: 6px 14px; border-radius: 25px; margin: 8px 0; text-align: center; }
         .status-success { background-color: #4CAF50; color: white; }
         .status-pending { background-color: #2196F3; color: white; }
         .status-cancelled { background-color: #d32f2f; color: white; }
-        
-        .sidebar {
-            position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: white;
-            z-index: 6000; transition: 0.4s; padding: 25px 20px; box-shadow: 5px 0 25px rgba(0,0,0,0.2);
-            overflow-y: auto;
-        }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: white; z-index: 6000; transition: 0.4s; padding: 25px 20px; box-shadow: 5px 0 25px rgba(0,0,0,0.2); overflow-y: auto; }
         body.dark-mode .sidebar { background: #1e1e1e; }
         .sidebar.active { left: 0; }
         .side-profile-box { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
@@ -208,66 +95,14 @@
         .support-btn { flex: 1; padding: 12px; border-radius: 10px; text-align: center; color: white; font-weight: bold; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .whatsapp-btn { background: #25D366; }
         .telegram-btn { background: #0088cc; }
-        
-        .dark-mode-toggle {
-            background: #1a237e;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
-        }
+        .dark-mode-toggle { background: #1a237e; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; margin-bottom: 15px; font-weight: bold; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; position: relative; }
         body.dark-mode .modal-content { background: #1e1e1e; }
         .close-modal { position: absolute; top: 15px; right: 15px; color: #d32f2f; cursor: pointer; font-size: 24px; }
         .profile-image-upload { display: none; }
         .profile-image-container { position: relative; display: inline-block; }
-        .profile-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
+        .profile-image-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; opacity: 0; transition: opacity 0.3s; cursor: pointer; }
         .profile-image-container:hover .profile-image-overlay { opacity: 1; }
         .operator-display { background: #f5f5f5; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: none; }
         .loading-spinner { text-align: center; padding: 40px; color: #666; }
@@ -276,11 +111,7 @@
         .success-message { background: #4CAF50; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .error-message { background: #d32f2f; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .balance-info { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; font-size: 11px; font-weight: bold; }
-        
-        @media (max-width: 480px) {
-            .service-grid { grid-template-columns: repeat(3, 1fr); }
-            .slider-container { height: 120px; }
-        }
+        @media (max-width: 480px) { .service-grid { grid-template-columns: repeat(3, 1fr); } .slider-container { height: 120px; } }
     </style>
 </head>
 <body>
@@ -308,133 +139,126 @@
 
 <!-- Main Content -->
 <div id="mainContent">
-
-<div id="sidebar" class="sidebar">
-    <div style="text-align:right; margin-bottom:10px;"><i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i></div>
-    
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <i class="fas fa-moon"></i> ডার্ক মোড
-    </button>
-    
-    <div class="side-profile-box">
-        <div class="profile-image-container">
-            <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="openImageUpload()">
-            <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
-        </div>
-        <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-        <h3 id="sideUserName">ইউজার</h3>
-    </div>
-    <div class="side-info">
-        <p><i class="fas fa-mobile-alt"></i> মোবাইল: <span id="sideUserPhone"></span></p>
-        <p><i class="fas fa-wallet"></i> ব্যালেন্স: <span id="sideUserBalance">৳0.00</span></p>
-        <p><i class="fas fa-calendar-alt"></i> মেয়াদ শেষ: <span id="sideUserExpiry"></span></p>
-        <p><i class="fas fa-user-circle"></i> রোল: <span id="sideUserRole"></span></p>
-    </div>
-    <div class="menu-item" onclick="showSection('dashboard'); toggleSidebar();"><i class="fas fa-home"></i><span>ড্যাশবোর্ড</span></div>
-    <div class="menu-item" onclick="showSection('recharge'); toggleSidebar();"><i class="fas fa-mobile-alt"></i><span>মোবাইল রিচার্জ</span></div>
-    <div class="menu-item" onclick="showSection('mbank'); toggleSidebar();"><i class="fas fa-university"></i><span>এম-ব্যাংক</span></div>
-    <div class="menu-item" onclick="showSection('history'); toggleSidebar();"><i class="fas fa-history"></i><span>লেনদেনের হিস্ট্রি</span></div>
-    <div class="menu-item" onclick="showSection('profile'); toggleSidebar();"><i class="fas fa-user-edit"></i><span>প্রোফাইল</span></div>
-    <div style="margin-top: 20px;">
-        <h4 style="margin-bottom: 10px; color:#1a237e;">সাপোর্ট</h4>
-        <div class="support-links">
-            <a href="#" class="support-btn whatsapp-btn" id="whatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="#" class="support-btn telegram-btn" id="telegramLink"><i class="fab fa-telegram"></i> Telegram</a>
-        </div>
-    </div>
-    <button class="btn btn-red btn-full" onclick="userLogout()" style="margin-top: 30px;"><i class="fas fa-sign-out-alt"></i> লগ আউট</button>
-</div>
-
-<div class="user-nav">
-    <div><h4>ASF Telecom</h4><p style="font-size:10px;">ইউজার প্যানেল</p></div>
-    <div style="display:flex; align-items:center; gap:15px;">
-        <div><p style="font-size:12px; font-weight:bold; cursor:pointer;" id="headerBalance" onclick="toggleBalanceDisplay()">ব্যালেন্স</p></div>
-        <img id="userDisplayImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="user-profile-img" onclick="toggleSidebar()">
-    </div>
-</div>
-
-<div class="container">
-    <div id="dashboardSection" class="active-section">
-        <div class="slider-container" id="sliderContainer"></div>
-        <div class="notice-box" id="noticeBox" style="display:none;" onclick="handleNoticeClick()">
-            <div class="notice-header"><i class="fas fa-bullhorn"></i><h4>নোটিশ</h4></div>
-            <div class="notice-marquee"><div class="marquee-content" id="marqueeContent"></div></div>
-        </div>
-        
-        <div class="service-grid">
-            <div class="service-card" onclick="setActiveServiceCard(this); showSection('recharge')"><i class="fas fa-mobile-alt" style="color:#f44336;"></i><p>মোবাইল রিচার্জ</p></div>
-            <div class="service-card" onclick="setActiveServiceCard(this); showSection('mbank')"><i class="fas fa-university" style="color:#2196F3;"></i><p>এম-ব্যাংক</p></div>
-            <div class="service-card" onclick="setActiveServiceCard(this); showSection('history')"><i class="fas fa-history" style="color:#FF9800;"></i><p>লেনদেনের হিস্ট্রি</p></div>
-            <div class="service-card" onclick="setActiveServiceCard(this); showSection('profile')"><i class="fas fa-user-edit" style="color:#4CAF50;"></i><p>প্রোফাইল</p></div>
-            <div class="service-card" onclick="setActiveServiceCard(this); requestBalance()"><i class="fas fa-money-bill-wave" style="color:#009688;"></i><p>ব্যালেন্স রিকোয়েস্ট</p></div>
-            <div class="service-card" onclick="setActiveServiceCard(this); showDriveOffers()"><i class="fas fa-bolt" style="color:#9C27B0;"></i><p>ড্রাইভ অফার</p></div>
-        </div>
-    </div>
-
-    <div id="rechargeSection" class="service-section">
-        <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
-        <h3>মোবাইল রিচার্জ</h3>
-        <input type="text" id="rechargeNumber" placeholder="মোবাইল নাম্বার" maxlength="11" oninput="updateRechargeSummary()">
-        <div class="operator-display" id="operatorDisplay">অপারেটর: <span class="operator-name" id="operatorName">ডিটেক্ট হচ্ছে...</span></div>
-        <input type="number" id="rechargeAmount" placeholder="টাকার পরিমাণ (ন্যূনতম ২০ টাকা)" min="20" max="10000" oninput="updateRechargeSummary()">
-        <div id="rechargeSummary" style="display:none;"></div>
-        <button class="btn btn-green btn-full" onclick="submitRecharge()"><i class="fas fa-paper-plane"></i> রিচার্জ করুন</button>
-        <div id="rechargeMessage" style="margin-top:10px; text-align:center;"></div>
-    </div>
-
-    <div id="mbankSection" class="service-section">
-        <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
-        <h3>এম-ব্যাংক সার্ভিস</h3>
-        <select id="mbankService" onchange="updateMbankSummary()">
-            <option value="">━━━━━ সিলেক্ট করুন ━━━━━</option>
-            <option value="bkash_cashin">📱 বিকাশ - ক্যাশ ইন</option>
-            <option value="bkash_cashout">📱 বিকাশ - ক্যাশ আউট</option>
-            <option value="bkash_sendmoney">📱 বিকাশ - সেন্ড মানি</option>
-            <option value="nagad_cashin">💰 নগদ - ক্যাশ ইন</option>
-            <option value="nagad_cashout">💰 নগদ - ক্যাশ আউট</option>
-            <option value="rocket_cashin">🚀 রকেট - ক্যাশ ইন</option>
-            <option value="rocket_cashout">🚀 রকেট - ক্যাশ আউট</option>
-            <option value="user_send">👥 ইউজার ট্রান্সফার (সরাসরি সফল)</option>
-        </select>
-        <div id="userTransferInfo" style="background:#e3f2fd; padding:12px; border-radius:10px; margin-bottom:15px; display:none;">
-            <i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন।
-        </div>
-        <input type="text" id="mbankNumber" placeholder="একাউন্ট নাম্বার" oninput="updateMbankSummary()">
-        <input type="number" id="mbankAmount" placeholder="টাকার পরিমাণ" min="10" max="50000" oninput="updateMbankSummary()">
-        <div id="mbankSummary" style="display:none;"></div>
-        <button class="btn btn-green btn-full" onclick="submitMbank()"><i class="fas fa-paper-plane"></i> অর্ডার করুন</button>
-        <div id="mbankMessage" style="margin-top:10px; text-align:center;"></div>
-    </div>
-
-    <div id="historySection" class="service-section">
-        <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
-        <h3>লেনদেনের হিস্ট্রি</h3>
-        <div id="historyList"><div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div></div>
-    </div>
-
-    <div id="profileSection" class="service-section">
-        <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
-        <h3>প্রোফাইল ম্যানেজমেন্ট</h3>
-        <div style="text-align:center; margin-bottom:20px;">
-            <div class="profile-image-container" style="display:inline-block;">
-                <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e; cursor:pointer;" onclick="openImageUpload()">
+    <!-- Sidebar same as before (I'll skip full duplication here but keep it functional) -->
+    <div id="sidebar" class="sidebar">
+        <div style="text-align:right; margin-bottom:10px;"><i class="fas fa-times" onclick="toggleSidebar()" style="font-size:20px; cursor:pointer; color:#d32f2f;"></i></div>
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> ডার্ক মোড</button>
+        <div class="side-profile-box">
+            <div class="profile-image-container">
+                <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="openImageUpload()">
                 <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
             </div>
+            <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+            <h3 id="sideUserName">ইউজার</h3>
         </div>
-        <input type="text" id="profileName" placeholder="আপনার নাম">
-        <input type="email" id="profileEmail" placeholder="ইমেইল (ঐচ্ছিক)">
-        <button class="btn btn-blue btn-full" onclick="updateProfile()"><i class="fas fa-save"></i> আপডেট করুন</button>
-        <div id="profileMessage" style="margin-top:10px; text-align:center;"></div>
+        <div class="side-info">
+            <p><i class="fas fa-mobile-alt"></i> মোবাইল: <span id="sideUserPhone"></span></p>
+            <p><i class="fas fa-wallet"></i> ব্যালেন্স: <span id="sideUserBalance">৳0.00</span></p>
+            <p><i class="fas fa-calendar-alt"></i> মেয়াদ শেষ: <span id="sideUserExpiry"></span></p>
+            <p><i class="fas fa-user-circle"></i> রোল: <span id="sideUserRole"></span></p>
+        </div>
+        <div class="menu-item" onclick="showSection('dashboard'); toggleSidebar();"><i class="fas fa-home"></i><span>ড্যাশবোর্ড</span></div>
+        <div class="menu-item" onclick="showSection('recharge'); toggleSidebar();"><i class="fas fa-mobile-alt"></i><span>মোবাইল রিচার্জ</span></div>
+        <div class="menu-item" onclick="showSection('mbank'); toggleSidebar();"><i class="fas fa-university"></i><span>এম-ব্যাংক</span></div>
+        <div class="menu-item" onclick="showSection('history'); toggleSidebar();"><i class="fas fa-history"></i><span>লেনদেনের হিস্ট্রি</span></div>
+        <div class="menu-item" onclick="showSection('profile'); toggleSidebar();"><i class="fas fa-user-edit"></i><span>প্রোফাইল</span></div>
+        <div style="margin-top: 20px;"><h4 style="margin-bottom: 10px; color:#1a237e;">সাপোর্ট</h4><div class="support-links"><a href="#" class="support-btn whatsapp-btn" id="whatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a><a href="#" class="support-btn telegram-btn" id="telegramLink"><i class="fab fa-telegram"></i> Telegram</a></div></div>
+        <button class="btn btn-red btn-full" onclick="userLogout()" style="margin-top: 30px;"><i class="fas fa-sign-out-alt"></i> লগ আউট</button>
     </div>
 
-    <div id="driveOffersSection" class="service-section">
-        <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
-        <h3>ড্রাইভ অফার</h3>
-        <div id="driveOffersList"><div class="loading-spinner"><i class="fas fa-spinner"></i><p>অফার লোড হচ্ছে...</p></div></div>
+    <div class="user-nav">
+        <div><h4>ASF Telecom</h4><p style="font-size:10px;">ইউজার প্যানেল</p></div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div><p style="font-size:12px; font-weight:bold; cursor:pointer;" id="headerBalance" onclick="toggleBalanceDisplay()">ব্যালেন্স</p></div>
+            <img id="userDisplayImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="user-profile-img" onclick="toggleSidebar()">
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="dashboardSection" class="active-section">
+            <div class="slider-container" id="sliderContainer"></div>
+            <div class="notice-box" id="noticeBox" style="display:none;" onclick="openNoticeModal()">
+                <div class="notice-header"><i class="fas fa-bullhorn"></i><h4>নোটিশ</h4></div>
+                <div class="notice-marquee"><div class="marquee-content" id="marqueeContent"></div></div>
+            </div>
+            <div class="service-grid">
+                <div class="service-card" onclick="setActiveServiceCard(this); showSection('recharge')"><i class="fas fa-mobile-alt" style="color:#f44336;"></i><p>মোবাইল রিচার্জ</p></div>
+                <div class="service-card" onclick="setActiveServiceCard(this); showSection('mbank')"><i class="fas fa-university" style="color:#2196F3;"></i><p>এম-ব্যাংক</p></div>
+                <div class="service-card" onclick="setActiveServiceCard(this); showSection('history')"><i class="fas fa-history" style="color:#FF9800;"></i><p>লেনদেনের হিস্ট্রি</p></div>
+                <div class="service-card" onclick="setActiveServiceCard(this); showSection('profile')"><i class="fas fa-user-edit" style="color:#4CAF50;"></i><p>প্রোফাইল</p></div>
+                <div class="service-card" onclick="setActiveServiceCard(this); requestBalance()"><i class="fas fa-money-bill-wave" style="color:#009688;"></i><p>ব্যালেন্স রিকোয়েস্ট</p></div>
+                <div class="service-card" onclick="setActiveServiceCard(this); showDriveOffers()"><i class="fas fa-bolt" style="color:#9C27B0;"></i><p>ড্রাইভ অফার</p></div>
+            </div>
+        </div>
+
+        <!-- Recharge Section -->
+        <div id="rechargeSection" class="service-section">
+            <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
+            <h3>মোবাইল রিচার্জ</h3>
+            <input type="text" id="rechargeNumber" placeholder="মোবাইল নাম্বার" maxlength="11" oninput="updateRechargeSummary()">
+            <div class="operator-display" id="operatorDisplay">অপারেটর: <span class="operator-name" id="operatorName">ডিটেক্ট হচ্ছে...</span></div>
+            <input type="number" id="rechargeAmount" placeholder="টাকার পরিমাণ (ন্যূনতম ২০ টাকা)" min="20" max="10000" oninput="updateRechargeSummary()">
+            <div id="rechargeSummary" style="display:none;"></div>
+            <button class="btn btn-green btn-full" onclick="submitRecharge()"><i class="fas fa-paper-plane"></i> রিচার্জ করুন</button>
+            <div id="rechargeMessage" style="margin-top:10px; text-align:center;"></div>
+        </div>
+
+        <!-- M-Bank Section -->
+        <div id="mbankSection" class="service-section">
+            <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
+            <h3>এম-ব্যাংক সার্ভিস</h3>
+            <select id="mbankService" onchange="updateMbankSummary()">
+                <option value="">━━━━━ সিলেক্ট করুন ━━━━━</option>
+                <option value="bkash_cashin">📱 বিকাশ - ক্যাশ ইন</option>
+                <option value="bkash_cashout">📱 বিকাশ - ক্যাশ আউট</option>
+                <option value="bkash_sendmoney">📱 বিকাশ - সেন্ড মানি</option>
+                <option value="nagad_cashin">💰 নগদ - ক্যাশ ইন</option>
+                <option value="nagad_cashout">💰 নগদ - ক্যাশ আউট</option>
+                <option value="rocket_cashin">🚀 রকেট - ক্যাশ ইন</option>
+                <option value="rocket_cashout">🚀 রকেট - ক্যাশ আউট</option>
+                <option value="user_send">👥 ইউজার ট্রান্সফার (সরাসরি সফল)</option>
+            </select>
+            <div id="userTransferInfo" style="background:#e3f2fd; padding:12px; border-radius:10px; margin-bottom:15px; display:none;"><i class="fas fa-info-circle"></i> অন্য ইউজারকে টাকা পাঠাতে নিচের নাম্বার দিন।</div>
+            <input type="text" id="mbankNumber" placeholder="একাউন্ট নাম্বার" oninput="updateMbankSummary()">
+            <input type="number" id="mbankAmount" placeholder="টাকার পরিমাণ" min="10" max="50000" oninput="updateMbankSummary()">
+            <div id="mbankSummary" style="display:none;"></div>
+            <button class="btn btn-green btn-full" onclick="submitMbank()"><i class="fas fa-paper-plane"></i> অর্ডার করুন</button>
+            <div id="mbankMessage" style="margin-top:10px; text-align:center;"></div>
+        </div>
+
+        <!-- History Section -->
+        <div id="historySection" class="service-section">
+            <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
+            <h3>লেনদেনের হিস্ট্রি</h3>
+            <div id="historyList"><div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div></div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profileSection" class="service-section">
+            <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
+            <h3>প্রোফাইল ম্যানেজমেন্ট</h3>
+            <div style="text-align:center; margin-bottom:20px;">
+                <div class="profile-image-container" style="display:inline-block;">
+                    <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e; cursor:pointer;" onclick="openImageUpload()">
+                    <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
+                </div>
+            </div>
+            <input type="text" id="profileName" placeholder="আপনার নাম">
+            <input type="email" id="profileEmail" placeholder="ইমেইল (ঐচ্ছিক)">
+            <button class="btn btn-blue btn-full" onclick="updateProfile()"><i class="fas fa-save"></i> আপডেট করুন</button>
+            <div id="profileMessage" style="margin-top:10px; text-align:center;"></div>
+        </div>
+
+        <!-- Drive Offers Section -->
+        <div id="driveOffersSection" class="service-section">
+            <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
+            <h3>ড্রাইভ অফার</h3>
+            <div id="driveOffersList"><div class="loading-spinner"><i class="fas fa-spinner"></i><p>অফার লোড হচ্ছে...</p></div></div>
+        </div>
     </div>
 </div>
-</div>
 
+<!-- Purchase Modal (Drive Offer) -->
 <div id="purchaseModal" class="modal">
     <div class="modal-content">
         <div class="close-modal" onclick="closePurchaseModal()"><i class="fas fa-times"></i></div>
@@ -443,6 +267,17 @@
         <input type="text" id="purchaseNumber" placeholder="মোবাইল নাম্বার দিন" maxlength="11">
         <button class="btn btn-green btn-full" onclick="confirmPurchase()"><i class="fas fa-check-circle"></i> ক্রয় কনফার্ম করুন</button>
         <div id="modalMessage" style="margin-top:10px;"></div>
+    </div>
+</div>
+
+<!-- Notice Modal -->
+<div id="noticeModal" class="modal">
+    <div class="modal-content">
+        <div class="close-modal" onclick="closeNoticeModal()"><i class="fas fa-times"></i></div>
+        <h3><i class="fas fa-bullhorn"></i> নোটিশ</h3>
+        <div id="noticeModalMessage" class="notice-modal-message" style="margin:20px 0; text-align:left;"></div>
+        <div id="noticeModalLinkContainer" style="display:none;"><a href="#" id="noticeModalLink" class="btn btn-primary" target="_blank" style="display:inline-block; background:#1a237e; color:white; padding:10px 20px; border-radius:10px; text-decoration:none;"><i class="fas fa-external-link-alt"></i> বিস্তারিত দেখুন</a></div>
+        <button class="btn btn-blue btn-full" onclick="closeNoticeModal()">বন্ধ করুন</button>
     </div>
 </div>
 
@@ -456,130 +291,71 @@
     let sliderImages = [];
     let currentSliderIndex = 0;
     let sliderInterval = null;
+    let currentNoticeMessage = "";
+    let currentNoticeLink = "";
 
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
         localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     }
-    
     function checkDarkMode() {
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
+        if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
     }
-
     function initializeFirebase() {
         try {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             database = firebase.database();
             console.log("Firebase initialized");
             return true;
-        } catch(e) { 
-            console.error(e); 
-            return false; 
-        }
+        } catch(e) { console.error(e); return false; }
     }
-
     function togglePassword() {
         let pwd = document.getElementById('loginPassword');
         let icon = document.querySelector('.password-toggle i');
-        if (pwd.type === 'password') { 
-            pwd.type = 'text'; 
-            icon.className = 'fas fa-eye-slash'; 
-        } else { 
-            pwd.type = 'password'; 
-            icon.className = 'fas fa-eye'; 
-        }
+        if (pwd.type === 'password') { pwd.type = 'text'; icon.className = 'fas fa-eye-slash'; } 
+        else { pwd.type = 'password'; icon.className = 'fas fa-eye'; }
     }
-
     function changeMobileNumber() {
         localStorage.removeItem('userFixedMobile');
         document.getElementById('fixedNumberDisplay').style.display = 'none';
         document.getElementById('mobileInputGroup').style.display = 'block';
         document.getElementById('loginMobile').value = '';
     }
-
     function setActiveServiceCard(card) {
         document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
         if (card) card.classList.add('active');
     }
-
     function userLogin() {
         let mobile = document.getElementById('loginMobile').value.trim();
         let password = document.getElementById('loginPassword').value.trim();
         if (!mobile) mobile = localStorage.getItem('userFixedMobile') || '';
-        if (!mobile || !password) { 
-            showLoginError("মোবাইল ও পাসওয়ার্ড দিন!"); 
-            return; 
-        }
-        if (!mobile.match(/^01[3-9]\d{8}$/)) { 
-            showLoginError("সঠিক মোবাইল নাম্বার দিন!"); 
-            return; 
-        }
-        
+        if (!mobile || !password) { showLoginError("মোবাইল ও পাসওয়ার্ড দিন!"); return; }
+        if (!mobile.match(/^01[3-9]\d{8}$/)) { showLoginError("সঠিক মোবাইল নাম্বার দিন!"); return; }
         let btn = document.getElementById('loginBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লগইন হচ্ছে...';
-        
-        if (!initializeFirebase()) { 
-            showLoginError("Firebase সংযোগ ব্যর্থ!"); 
-            resetLoginBtn(); 
-            return; 
-        }
-        
+        btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লগইন হচ্ছে...';
+        if (!initializeFirebase()) { showLoginError("Firebase সংযোগ ব্যর্থ!"); resetLoginBtn(); return; }
         let userId = 'user_' + mobile;
         database.ref('users/' + userId).once('value').then(snap => {
             if (snap.exists()) {
                 let userData = snap.val();
                 if (userData.password === password) {
-                    if (userData.status === 'blocked') {
-                        showLoginError("আপনার একাউন্ট ব্লক করা হয়েছে!");
-                    } else {
-                        localStorage.setItem('userFixedMobile', mobile);
-                        successfulLogin(userId, userData);
-                    }
-                } else {
-                    showLoginError("ভুল পাসওয়ার্ড!");
-                }
-            } else {
-                showLoginError("ইউজার খুঁজে পাওয়া যায়নি!");
-            }
+                    if (userData.status === 'blocked') showLoginError("আপনার একাউন্ট ব্লক করা হয়েছে!");
+                    else { localStorage.setItem('userFixedMobile', mobile); successfulLogin(userId, userData); }
+                } else showLoginError("ভুল পাসওয়ার্ড!");
+            } else showLoginError("ইউজার খুঁজে পাওয়া যায়নি!");
             resetLoginBtn();
-        }).catch(e => { 
-            showLoginError("লগইন ব্যর্থ!"); 
-            resetLoginBtn(); 
-        });
+        }).catch(e => { showLoginError("লগইন ব্যর্থ!"); resetLoginBtn(); });
     }
-
-    function showLoginError(msg) { 
-        let e = document.getElementById('loginError'); 
-        e.textContent = msg; 
-        e.style.display = 'block'; 
-        setTimeout(() => e.style.display = 'none', 3000);
-    }
-    
-    function resetLoginBtn() { 
-        let btn = document.getElementById('loginBtn'); 
-        btn.disabled = false; 
-        btn.innerHTML = 'লগইন করুন'; 
-    }
-
+    function showLoginError(msg) { let e = document.getElementById('loginError'); e.textContent = msg; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 3000); }
+    function resetLoginBtn() { let btn = document.getElementById('loginBtn'); btn.disabled = false; btn.innerHTML = 'লগইন করুন'; }
     function successfulLogin(userId, userData) {
-        currentUserId = userId;
-        currentUser = userData;
+        currentUserId = userId; currentUser = userData;
         let savedImg = localStorage.getItem('profileImage_' + userId);
         if (savedImg) currentUser.profileImage = savedImg;
-        localStorage.setItem('userLoggedIn', 'true');
-        localStorage.setItem('userId', userId);
-        localStorage.setItem('userData', JSON.stringify(currentUser));
+        localStorage.setItem('userLoggedIn', 'true'); localStorage.setItem('userId', userId); localStorage.setItem('userData', JSON.stringify(currentUser));
         document.body.classList.add('logged-in');
-        loadUserData();
-        loadSlider();
-        loadNotice();
-        loadSupportLinks();
-        loadPopupNotice();
+        loadUserData(); loadSlider(); loadNotice(); loadSupportLinks();
     }
-
     function loadUserData() {
         if (!currentUser) return;
         document.getElementById('headerBalance').textContent = 'ব্যালেন্স';
@@ -591,24 +367,15 @@
         document.getElementById('profileName').value = currentUser.name || '';
         document.getElementById('profileEmail').value = currentUser.email || '';
         let img = currentUser.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-        document.getElementById('sideUserImg').src = img;
-        document.getElementById('userDisplayImg').src = img;
-        document.getElementById('profileUserImg').src = img;
+        document.getElementById('sideUserImg').src = img; document.getElementById('userDisplayImg').src = img; document.getElementById('profileUserImg').src = img;
     }
-
     function userLogout() {
         if (confirm("লগ আউট করবেন?")) {
-            localStorage.removeItem('userLoggedIn');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('userData');
+            localStorage.removeItem('userLoggedIn'); localStorage.removeItem('userId'); localStorage.removeItem('userData');
             if (sliderInterval) clearInterval(sliderInterval);
-            document.body.classList.remove('logged-in');
-            showSection('dashboard');
-            document.getElementById('loginPassword').value = '';
-            changeMobileNumber();
+            document.body.classList.remove('logged-in'); showSection('dashboard'); document.getElementById('loginPassword').value = ''; changeMobileNumber();
         }
     }
-
     function showSection(id) {
         document.querySelectorAll('.service-section').forEach(s => s.classList.remove('active-section'));
         document.getElementById('dashboardSection').classList.remove('active-section');
@@ -617,76 +384,29 @@
         if (id === 'history') loadUserHistory();
         if (id === 'dashboard') setActiveServiceCard(null);
     }
-
-    function toggleSidebar() { 
-        document.getElementById('sidebar').classList.toggle('active'); 
-    }
-    
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
     function toggleBalanceDisplay() {
         if (!currentUser) return;
         let hb = document.getElementById('headerBalance');
-        if (isBalanceVisible) { 
-            hb.textContent = 'ব্যালেন্স'; 
-            isBalanceVisible = false; 
-        } else { 
-            hb.textContent = '৳' + (currentUser.balance || 0).toFixed(2); 
-            isBalanceVisible = true; 
-            setTimeout(() => { 
-                hb.textContent = 'ব্যালেন্স'; 
-                isBalanceVisible = false; 
-            }, 5000); 
-        }
+        if (isBalanceVisible) { hb.textContent = 'ব্যালেন্স'; isBalanceVisible = false; }
+        else { hb.textContent = '৳' + (currentUser.balance || 0).toFixed(2); isBalanceVisible = true; setTimeout(() => { hb.textContent = 'ব্যালেন্স'; isBalanceVisible = false; }, 5000); }
     }
-
     function loadSlider() {
         let container = document.getElementById('sliderContainer');
         database.ref('sliderImages').once('value').then(snap => {
             sliderImages = [];
             for (let i = 1; i <= 5; i++) {
                 let s = snap.val();
-                if (s && s['slider' + i] && s['slider' + i].url && s['slider' + i].url.trim()) {
-                    sliderImages.push(s['slider' + i].url);
-                }
+                if (s && s['slider' + i] && s['slider' + i].url && s['slider' + i].url.trim()) sliderImages.push(s['slider' + i].url);
             }
-            if (sliderImages.length === 0) { 
-                container.innerHTML = '<div style="text-align:center;padding:50px;">স্লাইডার নেই</div>'; 
-                return; 
-            }
+            if (sliderImages.length === 0) { container.innerHTML = '<div style="text-align:center;padding:50px;">স্লাইডার নেই</div>'; return; }
             container.innerHTML = '<div style="position:relative;"><img class="slider-image" id="sliderImage" src="' + sliderImages[0] + '"><div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;" id="sliderDots"></div></div>';
-            for (let i = 0; i < sliderImages.length; i++) {
-                document.getElementById('sliderDots').innerHTML += '<div style="width:8px;height:8px;border-radius:50%;background:' + (i===0?'white':'rgba(255,255,255,0.5)') + ';cursor:pointer;" onclick="showSliderImage(' + i + ')"></div>';
-            }
-            if (sliderImages.length > 1) {
-                sliderInterval = setInterval(() => { 
-                    currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length; 
-                    document.getElementById('sliderImage').src = sliderImages[currentSliderIndex]; 
-                    updateSliderDots(); 
-                }, 5000);
-            }
+            for (let i = 0; i < sliderImages.length; i++) document.getElementById('sliderDots').innerHTML += '<div style="width:8px;height:8px;border-radius:50%;background:' + (i===0?'white':'rgba(255,255,255,0.5)') + ';cursor:pointer;" onclick="showSliderImage(' + i + ')"></div>';
+            if (sliderImages.length > 1) sliderInterval = setInterval(() => { currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length; document.getElementById('sliderImage').src = sliderImages[currentSliderIndex]; updateSliderDots(); }, 5000);
         });
     }
-    
-    function showSliderImage(i) { 
-        currentSliderIndex = i; 
-        document.getElementById('sliderImage').src = sliderImages[i]; 
-        updateSliderDots(); 
-        if(sliderInterval) {
-            clearInterval(sliderInterval); 
-            sliderInterval = setInterval(() => {
-                currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length; 
-                document.getElementById('sliderImage').src = sliderImages[currentSliderIndex]; 
-                updateSliderDots();
-            }, 5000);
-        }
-    }
-    
-    function updateSliderDots() { 
-        let dots = document.querySelectorAll('#sliderDots div'); 
-        dots.forEach((d,i) => { 
-            d.style.background = i === currentSliderIndex ? 'white' : 'rgba(255,255,255,0.5)'; 
-        }); 
-    }
-
+    function showSliderImage(i) { currentSliderIndex = i; document.getElementById('sliderImage').src = sliderImages[i]; updateSliderDots(); if(sliderInterval) { clearInterval(sliderInterval); sliderInterval = setInterval(() => { currentSliderIndex = (currentSliderIndex + 1) % sliderImages.length; document.getElementById('sliderImage').src = sliderImages[currentSliderIndex]; updateSliderDots(); }, 5000); } }
+    function updateSliderDots() { let dots = document.querySelectorAll('#sliderDots div'); dots.forEach((d,i) => { d.style.background = i === currentSliderIndex ? 'white' : 'rgba(255,255,255,0.5)'; }); }
     function loadNotice() {
         database.ref('notice').once('value').then(snap => {
             let n = snap.val();
@@ -694,458 +414,238 @@
                 document.getElementById('noticeBox').style.display = 'block';
                 document.getElementById('marqueeContent').textContent = n.message;
                 if (n.color) document.getElementById('marqueeContent').style.color = n.color;
-            } else {
-                document.getElementById('noticeBox').style.display = 'none';
-            }
+                currentNoticeMessage = n.message || '';
+                currentNoticeLink = n.link || '';
+            } else { document.getElementById('noticeBox').style.display = 'none'; currentNoticeMessage = ''; currentNoticeLink = ''; }
         });
     }
-
-    function loadPopupNotice() {
-        database.ref('popupNotice').once('value').then(snap => {
-            let p = snap.val();
-            if (p && p.status === 'active' && p.message) {
-                setTimeout(() => alert("📢 নোটিশ:\n" + p.message + (p.link ? "\nলিংক: "+p.link : "")), 2000);
-            }
-        });
+    function openNoticeModal() {
+        if (!currentNoticeMessage) return;
+        document.getElementById('noticeModalMessage').innerText = currentNoticeMessage;
+        let linkContainer = document.getElementById('noticeModalLinkContainer');
+        let linkAnchor = document.getElementById('noticeModalLink');
+        if (currentNoticeLink && currentNoticeLink.trim() !== '') { linkAnchor.href = currentNoticeLink; linkContainer.style.display = 'block'; }
+        else linkContainer.style.display = 'none';
+        document.getElementById('noticeModal').style.display = 'flex';
     }
-
-    function handleNoticeClick() { 
-        let txt = document.getElementById('marqueeContent').textContent; 
-        alert(txt); 
-    }
-
-    function detectOperator(num) { 
-        if(!num || num.length < 3) return null; 
-        let p = num.substring(0,3); 
-        if(p == '013' || p == '017') return {code:'GP',name:'গ্রামীণফোন'}; 
-        if(p == '014' || p == '019') return {code:'BL',name:'বাংলালিংক'}; 
-        if(p == '018') return {code:'Robi',name:'রবি'}; 
-        if(p == '016') return {code:'Airtel',name:'এয়ারটেল'}; 
-        if(p == '015') return {code:'Teletalk',name:'টেলিটক'}; 
-        return null; 
-    }
-
+    function closeNoticeModal() { document.getElementById('noticeModal').style.display = 'none'; }
+    function detectOperator(num) { if(!num || num.length < 3) return null; let p = num.substring(0,3); if(p == '013' || p == '017') return {code:'GP',name:'গ্রামীণফোন'}; if(p == '014' || p == '019') return {code:'BL',name:'বাংলালিংক'}; if(p == '018') return {code:'Robi',name:'রবি'}; if(p == '016') return {code:'Airtel',name:'এয়ারটেল'}; if(p == '015') return {code:'Teletalk',name:'টেলিটক'}; return null; }
     function updateRechargeSummary() {
         let num = document.getElementById('rechargeNumber').value.trim();
         let amt = document.getElementById('rechargeAmount').value;
         let op = detectOperator(num);
         let opDiv = document.getElementById('operatorDisplay');
-        if (op) { 
-            document.getElementById('operatorName').textContent = op.name; 
-            opDiv.style.display = 'block'; 
-            currentOperator = op; 
-        } else { 
-            opDiv.style.display = 'none'; 
-            currentOperator = null; 
-        }
-        if (op && amt && parseFloat(amt) >= 20) {
-            document.getElementById('rechargeSummary').innerHTML = '<h4>📋 অর্ডার সারাংশ</h4><p>📱 নম্বর: ' + num + '</p><p>📡 অপারেটর: ' + op.name + '</p><p>💰 অ্যামাউন্ট: ৳' + amt + '</p><p>💵 সর্বমোট: ৳' + amt + '</p>';
-            document.getElementById('rechargeSummary').style.display = 'block';
-        } else {
-            document.getElementById('rechargeSummary').style.display = 'none';
-        }
+        if (op) { document.getElementById('operatorName').textContent = op.name; opDiv.style.display = 'block'; currentOperator = op; } else { opDiv.style.display = 'none'; currentOperator = null; }
+        if (op && amt && parseFloat(amt) >= 20) { document.getElementById('rechargeSummary').innerHTML = '<h4>📋 অর্ডার সারাংশ</h4><p>📱 নম্বর: ' + num + '</p><p>📡 অপারেটর: ' + op.name + '</p><p>💰 অ্যামাউন্ট: ৳' + amt + '</p><p>💵 সর্বমোট: ৳' + amt + '</p>'; document.getElementById('rechargeSummary').style.display = 'block'; } else document.getElementById('rechargeSummary').style.display = 'none';
     }
-
-   async function submitRecharge() {
-    let num = document.getElementById('rechargeNumber').value.trim();
-    let amt = document.getElementById('rechargeAmount').value;
-    if (!num || !amt) { showMsg('rechargeMessage', 'সব তথ্য দিন!', 'error'); return; }
-    if (!num.match(/^01[3-9]\d{8}$/)) { showMsg('rechargeMessage', 'সঠিক নাম্বার দিন!', 'error'); return; }
-    let a = parseFloat(amt);
-    if (a < 20 || a > 10000) { showMsg('rechargeMessage', 'ন্যূনতম ২০ টাকা!', 'error'); return; }
-    let op = detectOperator(num);
-    if (!op) { showMsg('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
-    if (currentUser.balance < a) { showMsg('rechargeMessage', 'ব্যালেন্স কম!', 'error'); return; }
-
-    let previousBalance = currentUser.balance;
-    let newBalance = previousBalance - a;
-    
-    try {
-        // 1. প্রথমে ইউজারের ব্যালেন্স আপডেট করুন
-        await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-        
-        // 2. লোকাল ভেরিয়েবল আপডেট করুন
-        currentUser.balance = newBalance;
-        localStorage.setItem('userData', JSON.stringify(currentUser));
-        loadUserData();
-        
-        // 3. অর্ডার তৈরি করুন (সঠিক ব্যালেন্স সহ)
-        let requestData = {
-            category: "মোবাইল রিচার্জ",
-            operator: op.code,
-            operatorName: op.name,
-            amount: a,
-            userId: currentUserId,
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            number: num,
-            time: new Date().toLocaleString('bn-BD'),
-            timestamp: Date.now(),
-            status: "Pending",
-            previousBalance: previousBalance,
-            newBalance: newBalance
-        };
-        await database.ref('orders').push(requestData);
-        
-        showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
-        
-        // ফর্ম রিসেট
-        document.getElementById('rechargeNumber').value = '';
-        document.getElementById('rechargeAmount').value = '';
-        document.getElementById('operatorDisplay').style.display = 'none';
-        document.getElementById('rechargeSummary').style.display = 'none';
-        
-        // হিস্ট্রি রিলোড (যদি ওপেন থাকে)
-        if (document.getElementById('historySection').classList.contains('active-section')) {
-            loadUserHistory();
-        }
-    } catch(e) {
-        showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error');
-    }
-}
-
-    function updateMbankSummary() {
-        let svc = document.getElementById('mbankService').value;
-        let num = document.getElementById('mbankNumber').value.trim();
-        let amt = document.getElementById('mbankAmount').value;
-        let info = document.getElementById('userTransferInfo');
-        info.style.display = svc === 'user_send' ? 'block' : 'none';
-        if (svc && num && amt && parseFloat(amt) >= 10) {
-            let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
-            document.getElementById('mbankSummary').innerHTML = '<h4>📋 অর্ডার সারাংশ</h4><p>🏦 সার্ভিস: ' + svcText + '</p><p>📞 নম্বর: ' + num + '</p><p>💰 অ্যামাউন্ট: ৳' + amt + '</p><p>💵 সর্বমোট: ৳' + amt + '</p>';
-            document.getElementById('mbankSummary').style.display = 'block';
-        } else {
-            document.getElementById('mbankSummary').style.display = 'none';
-        }
-    }
-
-   // অন্যান্য এম-ব্যাংক সার্ভিস (বিকাশ/নগদ/রকেট) - এই অংশটি প্রতিস্থাপন করুন
-let previousBalance = currentUser.balance;
-let newBalance = previousBalance - a;
-
-try {
-    // 1. প্রথমে ইউজারের ব্যালেন্স আপডেট করুন
-    await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-    
-    // 2. লোকাল ভেরিয়েবল আপডেট করুন
-    currentUser.balance = newBalance;
-    localStorage.setItem('userData', JSON.stringify(currentUser));
-    loadUserData();
-    
-    // 3. অর্ডার তৈরি করুন (সঠিক ব্যালেন্স সহ)
-    let requestData = {
-        category: "এম-ব্যাংক",
-        operator: svc,
-        operatorName: operatorDisplayName,
-        serviceDetails: serviceText,
-        amount: a,
-        userId: currentUserId,
-        userName: currentUser.name,
-        userPhone: currentUser.phone,
-        number: num,
-        time: new Date().toLocaleString('bn-BD'),
-        timestamp: Date.now(),
-        status: "Pending",
-        previousBalance: previousBalance,
-        newBalance: newBalance
-    };
-    await database.ref('orders').push(requestData);
-    
-    showMsg('mbankMessage', '✅ অর্ডার রিকোয়েস্ট সফল!\n' + operatorDisplayName + ' - ৳' + a + '\nবর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
-    resetMbankForm();
-    
-    // হিস্ট্রি রিলোড (যদি ওপেন থাকে)
-    if (document.getElementById('historySection').classList.contains('active-section')) {
-        loadUserHistory();
-    }
-} catch(e) {
-    showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error');
-}
-
-        // অন্যান্য এম-ব্যাংক সার্ভিস
+    async function submitRecharge() {
+        let num = document.getElementById('rechargeNumber').value.trim();
+        let amt = document.getElementById('rechargeAmount').value;
+        if (!num || !amt) { showMsg('rechargeMessage', 'সব তথ্য দিন!', 'error'); return; }
+        if (!num.match(/^01[3-9]\d{8}$/)) { showMsg('rechargeMessage', 'সঠিক নাম্বার দিন!', 'error'); return; }
+        let a = parseFloat(amt);
+        if (a < 20 || a > 10000) { showMsg('rechargeMessage', 'ন্যূনতম ২০ টাকা!', 'error'); return; }
+        let op = detectOperator(num);
+        if (!op) { showMsg('rechargeMessage', 'অপারেটর সনাক্ত করতে ব্যর্থ!', 'error'); return; }
+        if (currentUser.balance < a) { showMsg('rechargeMessage', 'ব্যালেন্স কম!', 'error'); return; }
         let previousBalance = currentUser.balance;
         let newBalance = previousBalance - a;
-        
         try {
             await database.ref('users/' + currentUserId + '/balance').set(newBalance);
             currentUser.balance = newBalance;
             localStorage.setItem('userData', JSON.stringify(currentUser));
             loadUserData();
-            
-            let requestData = {
-                category: "এম-ব্যাংক",
-                operator: svc,
-                operatorName: operatorDisplayName,
-                serviceDetails: serviceText,
-                amount: a,
-                userId: currentUserId,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
-                number: num,
-                time: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                status: "Pending",
-                previousBalance: previousBalance,
-                newBalance: newBalance
-            };
+            let requestData = { category: "মোবাইল রিচার্জ", operator: op.code, operatorName: op.name, amount: a, userId: currentUserId, userName: currentUser.name, userPhone: currentUser.phone, number: num, time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Pending", previousBalance: previousBalance, newBalance: newBalance };
             await database.ref('orders').push(requestData);
-            
+            showMsg('rechargeMessage', '✅ রিচার্জ রিকোয়েস্ট সফল! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
+            document.getElementById('rechargeNumber').value = ''; document.getElementById('rechargeAmount').value = ''; document.getElementById('operatorDisplay').style.display = 'none'; document.getElementById('rechargeSummary').style.display = 'none';
+        } catch(e) { showMsg('rechargeMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error'); }
+    }
+    function updateMbankSummary() {
+        let svc = document.getElementById('mbankService').value;
+        let num = document.getElementById('mbankNumber').value.trim();
+        let amt = document.getElementById('mbankAmount').value;
+        document.getElementById('userTransferInfo').style.display = svc === 'user_send' ? 'block' : 'none';
+        if (svc && num && amt && parseFloat(amt) >= 10) { let svcText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text; document.getElementById('mbankSummary').innerHTML = '<h4>📋 অর্ডার সারাংশ</h4><p>🏦 সার্ভিস: ' + svcText + '</p><p>📞 নম্বর: ' + num + '</p><p>💰 অ্যামাউন্ট: ৳' + amt + '</p><p>💵 সর্বমোট: ৳' + amt + '</p>'; document.getElementById('mbankSummary').style.display = 'block'; } else document.getElementById('mbankSummary').style.display = 'none';
+    }
+    async function submitMbank() {
+        let svc = document.getElementById('mbankService').value;
+        let num = document.getElementById('mbankNumber').value.trim();
+        let amt = document.getElementById('mbankAmount').value;
+        if (!svc || !num || !amt) { showMsg('mbankMessage', 'সব তথ্য দিন!', 'error'); return; }
+        let a = parseFloat(amt);
+        if (a < 10 || a > 50000) { showMsg('mbankMessage', 'অ্যামাউন্ট ১০-৫০,০০০ টাকা!', 'error'); return; }
+        if (currentUser.balance < a) { showMsg('mbankMessage', 'ব্যালেন্স কম!', 'error'); return; }
+        let operatorDisplayName = "";
+        let serviceText = document.getElementById('mbankService').options[document.getElementById('mbankService').selectedIndex].text;
+        if (svc.includes('bkash')) operatorDisplayName = "বিকাশ";
+        else if (svc.includes('nagad')) operatorDisplayName = "নগদ";
+        else if (svc.includes('rocket')) operatorDisplayName = "রকেট";
+        else if (svc === 'user_send') operatorDisplayName = "ইউজার ট্রান্সফার";
+        else operatorDisplayName = serviceText;
+        if (svc === 'user_send') {
+            let currentPhone = currentUser.phone || currentUserId.replace('user_','');
+            if (num === currentPhone) { showMsg('mbankMessage', 'নিজের একাউন্টে টাকা পাঠাতে পারবেন না!', 'error'); return; }
+            let targetId = 'user_' + num;
+            try {
+                let targetSnap = await database.ref('users/' + targetId).once('value');
+                if (!targetSnap.exists()) { showMsg('mbankMessage', '"' + num + '" নম্বরের কোনো ইউজার নেই!', 'error'); return; }
+                let targetUser = targetSnap.val();
+                if (targetUser.status === 'blocked') { showMsg('mbankMessage', 'টার্গেট ইউজার ব্লক!', 'error'); return; }
+                let prevSender = currentUser.balance, newSender = prevSender - a;
+                let prevReceiver = targetUser.balance || 0, newReceiver = prevReceiver + a;
+                let trxId = "UTX" + Date.now().toString().slice(-8);
+                await database.ref('users/' + currentUserId + '/balance').set(newSender);
+                await database.ref('users/' + targetId + '/balance').set(newReceiver);
+                currentUser.balance = newSender; localStorage.setItem('userData', JSON.stringify(currentUser)); loadUserData();
+                let senderOrder = { category: "ইউজার ট্রান্সফার", operatorName: "ইউজার ট্রান্সফার", amount: a, userId: currentUserId, userName: currentUser.name, userPhone: currentUser.phone, number: num, time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success", trxID: trxId, previousBalance: prevSender, newBalance: newSender };
+                let receiverOrder = { category: "ইউজার ট্রান্সফার", operatorName: "ইউজার ট্রান্সফার", amount: a, userId: targetId, userName: targetUser.name, userPhone: targetUser.phone, number: currentPhone, time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Success", trxID: trxId, previousBalance: prevReceiver, newBalance: newReceiver };
+                await database.ref('orders').push(senderOrder); await database.ref('orders').push(receiverOrder);
+                showMsg('mbankMessage', '✅ সফল! ' + a + ' টাকা পাঠানো হয়েছে। আপনার বর্তমান ব্যালেন্স: ৳' + newSender.toFixed(2), 'success');
+                resetMbankForm();
+            } catch(e) { showMsg('mbankMessage', 'ট্রান্সফার ব্যর্থ!', 'error'); }
+            return;
+        }
+        let previousBalance = currentUser.balance, newBalance = previousBalance - a;
+        try {
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            currentUser.balance = newBalance; localStorage.setItem('userData', JSON.stringify(currentUser)); loadUserData();
+            let requestData = { category: "এম-ব্যাংক", operator: svc, operatorName: operatorDisplayName, serviceDetails: serviceText, amount: a, userId: currentUserId, userName: currentUser.name, userPhone: currentUser.phone, number: num, time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Pending", previousBalance: previousBalance, newBalance: newBalance };
+            await database.ref('orders').push(requestData);
             showMsg('mbankMessage', '✅ অর্ডার রিকোয়েস্ট সফল!\n' + operatorDisplayName + ' - ৳' + a + '\nবর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2), 'success');
             resetMbankForm();
-        } catch(e) {
-            showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error');
-        }
+        } catch(e) { showMsg('mbankMessage', 'রিকোয়েস্ট ব্যর্থ!', 'error'); }
     }
-
     function resetMbankForm() {
-        document.getElementById('mbankService').value = '';
-        document.getElementById('mbankNumber').value = '';
-        document.getElementById('mbankAmount').value = '';
-        document.getElementById('mbankSummary').style.display = 'none';
-        document.getElementById('userTransferInfo').style.display = 'none';
+        document.getElementById('mbankService').value = ''; document.getElementById('mbankNumber').value = ''; document.getElementById('mbankAmount').value = '';
+        document.getElementById('mbankSummary').style.display = 'none'; document.getElementById('userTransferInfo').style.display = 'none';
     }
-
+    async function processRefund(orderId, refundAmount, userId) {
+        try {
+            const userSnap = await database.ref('users/' + userId).once('value');
+            if (!userSnap.exists()) return false;
+            const userData = userSnap.val();
+            const currentBalance = userData.balance || 0;
+            const newBalance = currentBalance + refundAmount;
+            await database.ref('users/' + userId + '/balance').set(newBalance);
+            await database.ref('orders/' + orderId + '/refundProcessed').set(true);
+            await database.ref('orders/' + orderId + '/refundTime').set(new Date().toLocaleString('bn-BD'));
+            await database.ref('orders/' + orderId + '/newBalance').set(newBalance);
+            if (currentUserId === userId && currentUser) { currentUser.balance = newBalance; localStorage.setItem('userData', JSON.stringify(currentUser)); loadUserData(); }
+            console.log(`✅ রিফান্ড সফল: ${refundAmount} টাকা ${userId} একাউন্টে যোগ হয়েছে`);
+            return true;
+        } catch(e) { console.error("রিফান্ড প্রসেসিং এ ত্রুটি:", e); return false; }
+    }
     async function loadUserHistory() {
-    let list = document.getElementById('historyList');
-    list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
-    
-    try {
-        const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
-        let orders = [];
-        snap.forEach(child => {
-            let order = child.val();
-            order.key = child.key;
-            orders.push(order);
-        });
-        orders.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
-        
-        if(orders.length === 0) { 
-            list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; 
-            return; 
-        }
-        
-        let html = '';
-        for (let o of orders) {
-            let statusClass = '';
-            let statusText = '';
-            let statusBadgeClass = '';
-            
-            if (o.status === 'Success') {
-                statusClass = 'history-status-success';
-                statusText = 'সফল';
-                statusBadgeClass = 'status-success';
-            } else if (o.status === 'Pending') {
-                statusClass = 'history-status-pending';
-                statusText = 'পেন্ডিং';
-                statusBadgeClass = 'status-pending';
-            } else {
-                statusClass = 'history-status-cancelled';
-                statusText = 'বাতিল';
-                statusBadgeClass = 'status-cancelled';
+        let list = document.getElementById('historyList');
+        list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
+        try {
+            const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
+            let orders = [];
+            snap.forEach(child => { let order = child.val(); order.key = child.key; orders.push(order); });
+            for (let order of orders) { if (order.status === 'Cancelled' && order.refundAmount && !order.refundProcessed) { await processRefund(order.key, order.refundAmount, order.userId); const updatedSnap = await database.ref('orders/' + order.key).once('value'); if (updatedSnap.exists()) Object.assign(order, updatedSnap.val()); } }
+            const finalSnap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
+            let finalOrders = [];
+            finalSnap.forEach(child => { let order = child.val(); order.key = child.key; finalOrders.push(order); });
+            finalOrders.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+            if(finalOrders.length === 0) { list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; return; }
+            let html = '';
+            for (let o of finalOrders) {
+                let statusClass = '', statusText = '', statusBadgeClass = '';
+                if (o.status === 'Success') { statusClass = 'history-status-success'; statusText = 'সফল'; statusBadgeClass = 'status-success'; }
+                else if (o.status === 'Pending') { statusClass = 'history-status-pending'; statusText = 'পেন্ডিং'; statusBadgeClass = 'status-pending'; }
+                else { statusClass = 'history-status-cancelled'; statusText = 'বাতিল'; statusBadgeClass = 'status-cancelled'; }
+                let previousBal = o.previousBalance !== undefined ? o.previousBalance : 0;
+                let newBal = o.newBalance !== undefined ? o.newBalance : previousBal;
+                if (o.status === 'Cancelled' && o.refundAmount && o.refundProcessed && currentUser) newBal = currentUser.balance;
+                let displayCategory = o.category || 'N/A';
+                if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') displayCategory = 'এম-ব্যাংক (' + o.operatorName + ')';
+                html += '<div class="history-item ' + statusClass + '">';
+                html += '<div style="display:flex; justify-content:space-between;"><div><strong>' + displayCategory + '</strong><div style="font-size:11px; color:#666;">' + (o.operatorName || '') + '</div>';
+                if (o.refundAmount) html += '<div style="font-size:10px; color:#4CAF50; margin-top:4px;"><i class="fas fa-undo-alt"></i> ফেরত: ৳' + o.refundAmount + (o.refundTime ? ' (' + o.refundTime + ')' : '') + '</div>';
+                html += '</div><div style="font-weight:bold; font-size:16px;">৳' + (o.amount||0).toFixed(2) + '</div></div>';
+                html += '<div style="font-size:12px; margin-top:8px;"><i class="fas fa-mobile-alt"></i> ' + (o.number || 'N/A') + '<br><i class="fas fa-clock"></i> ' + (o.time || 'N/A') + '<br><div class="status-badge ' + statusBadgeClass + '">' + statusText + '</div>';
+                if (o.trxID) html += '<br><i class="fas fa-hashtag"></i> TrxID: ' + o.trxID;
+                if (o.cancellationReason) html += '<br><i class="fas fa-comment"></i> কারণ: ' + o.cancellationReason;
+                html += '</div><div class="balance-info"><i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳' + previousBal.toFixed(2) + '</span> &nbsp;|&nbsp;<i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳' + (newBal || 0).toFixed(2) + '</span></div></div>';
             }
-            
-            // এখানে previousBalance এবং newBalance সঠিকভাবে নেওয়া হচ্ছে
-            let previousBal = (o.previousBalance !== undefined && o.previousBalance !== null) ? o.previousBalance : 0;
-            let newBal = (o.newBalance !== undefined && o.newBalance !== null) ? o.newBalance : previousBal;
-            
-            // যদি ক্যান্সেল হয় এবং রিফান্ড থাকে
-            if (o.status === 'Cancelled' && o.refundAmount) {
-                newBal = o.newBalance || previousBal;
-            }
-            
-            let displayCategory = o.category || 'N/A';
-            if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
-                displayCategory = 'এম-ব্যাংক (' + o.operatorName + ')';
-            }
-            
-            html += '<div class="history-item ' + statusClass + '">';
-            html += '<div style="display:flex; justify-content:space-between;">';
-            html += '<div><strong>' + displayCategory + '</strong>';
-            html += '<div style="font-size:11px; color:#666;">' + (o.operatorName || '') + '</div>';
-            if (o.refundAmount) html += '<div style="font-size:10px; color:#4CAF50;">🔄 ফেরত: ৳' + o.refundAmount + '</div>';
-            html += '</div>';
-            html += '<div style="font-weight:bold; font-size:16px;">৳' + (o.amount||0).toFixed(2) + '</div></div>';
-            html += '<div style="font-size:12px; margin-top:8px;">';
-            html += '<i class="fas fa-mobile-alt"></i> ' + (o.number || 'N/A') + '<br>';
-            html += '<i class="fas fa-clock"></i> ' + (o.time || 'N/A') + '<br>';
-            html += '<div class="status-badge ' + statusBadgeClass + '">' + statusText + '</div>';
-            if (o.trxID) html += '<br><i class="fas fa-hashtag"></i> TrxID: ' + o.trxID;
-            html += '</div>';
-            html += '<div class="balance-info">';
-            html += '<i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳' + parseFloat(previousBal).toFixed(2) + '</span> &nbsp;|&nbsp;';
-            html += '<i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳' + parseFloat(newBal).toFixed(2) + '</span>';
-            html += '</div></div>';
-        }
-        list.innerHTML = html;
-    } catch(error) {
-        console.error("History load error:", error);
-        list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
+            list.innerHTML = html;
+        } catch(error) { console.error("History load error:", error); list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>'; }
     }
-}
-
     function loadSupportLinks() {
-        database.ref('support').once('value').then(snap => {
-            let s = snap.val() || {};
-            if(s.whatsapp) document.getElementById('whatsappLink').href = 'https://wa.me/' + s.whatsapp;
-            if(s.telegram) {
-                let tg = s.telegram;
-                if(tg.startsWith('@')) tg = 'https://t.me/' + tg.substring(1);
-                document.getElementById('telegramLink').href = tg;
-            }
-        });
+        database.ref('support').once('value').then(snap => { let s = snap.val() || {}; if(s.whatsapp) document.getElementById('whatsappLink').href = 'https://wa.me/' + s.whatsapp; if(s.telegram) { let tg = s.telegram; if(tg.startsWith('@')) tg = 'https://t.me/' + tg.substring(1); document.getElementById('telegramLink').href = tg; } });
     }
-
     function requestBalance() {
         let amt = prompt("কত টাকা ব্যালেন্স যোগ করতে চান?", "100");
-        if(!amt) return;
-        let a = parseFloat(amt);
-        if(isNaN(a) || a <= 0) { 
-            alert("সঠিক অ্যামাউন্ট দিন!"); 
-            return; 
-        }
-        
+        if(!amt) return; let a = parseFloat(amt); if(isNaN(a) || a <= 0) { alert("সঠিক অ্যামাউন্ট দিন!"); return; }
         let method = prompt("পেমেন্ট মাধ্যম নির্বাচন করুন:\n1 = বিকাশ\n2 = নগদ\n3 = রকেট", "1");
         let operatorName = "";
         if(method === "1") operatorName = "বিকাশ";
         else if(method === "2") operatorName = "নগদ";
         else if(method === "3") operatorName = "রকেট";
-        else { 
-            alert("সঠিক অপশন নির্বাচন করুন!"); 
-            return; 
-        }
-        
+        else { alert("সঠিক অপশন নির্বাচন করুন!"); return; }
         let trxId = prompt("ট্রানজেকশন আইডি:", "TRX" + Date.now().toString().slice(-6));
         if(!trxId) return;
-        
-        database.ref('balanceRequests').push({
-            userId: currentUserId, 
-            userName: currentUser.name,
-            userPhone: currentUser.phone,
-            amount: a,
-            operator: operatorName,
-            transactionId: trxId, 
-            status: "pending",
-            time: new Date().toLocaleString('bn-BD'), 
-            timestamp: Date.now()
-        }).then(() => alert('ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে!\nপদ্ধতি: ' + operatorName + '\nপরিমাণ: ৳' + a))
-        .catch(e => alert("রিকোয়েস্ট ব্যর্থ!"));
+        database.ref('balanceRequests').push({ userId: currentUserId, userName: currentUser.name, userPhone: currentUser.phone, amount: a, operator: operatorName, transactionId: trxId, status: "pending", time: new Date().toLocaleString('bn-BD'), timestamp: Date.now() }).then(() => alert('ব্যালেন্স রিকোয়েস্ট তৈরি হয়েছে!\nপদ্ধতি: ' + operatorName + '\nপরিমাণ: ৳' + a)).catch(e => alert("রিকোয়েস্ট ব্যর্থ!"));
     }
-
-    function showDriveOffers() { 
-        showSection('driveOffers'); 
-        loadDriveOffers(); 
-    }
-    
+    function showDriveOffers() { showSection('driveOffers'); loadDriveOffers(); }
     function loadDriveOffers() {
         let list = document.getElementById('driveOffersList');
         list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>অফার লোড হচ্ছে...</p></div>';
         database.ref('driveOffers').once('value').then(snap => {
             let offers = [];
-            snap.forEach(c => { 
-                let o = c.val(); 
-                if(o.active !== false) offers.push({key:c.key, ...o}); 
-            });
-            if(offers.length === 0) { 
-                list.innerHTML = '<div style="text-align:center;padding:40px;">কোনো অফার নেই</div>'; 
-                return; 
-            }
+            snap.forEach(c => { let o = c.val(); if(o.active !== false) offers.push({key:c.key, ...o}); });
+            if(offers.length === 0) { list.innerHTML = '<div style="text-align:center;padding:40px;">কোনো অফার নেই</div>'; return; }
             let html = '';
             for(let o of offers) {
                 let save = o.originalPrice - o.offerPrice;
                 let percent = Math.round((save / o.originalPrice) * 100);
-                html += '<div style="background:white;padding:20px;border-radius:15px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">';
-                html += '<div style="display:flex;justify-content:space-between;">';
-                html += '<h3 style="color:#1a237e;">' + o.title + '</h3>';
-                html += '<span style="background:#FF9800;color:white;padding:5px 10px;border-radius:20px;font-size:12px;">' + percent + '% ছাড়</span>';
-                html += '</div>';
-                html += '<div style="margin:10px 0;">';
-                html += '<span style="text-decoration:line-through;color:#666;">৳' + o.originalPrice + '</span>';
-                html += '<strong style="color:#d32f2f;font-size:24px;margin-left:10px;">৳' + o.offerPrice + '</strong>';
-                html += '</div>';
+                html += '<div class="offer-card" style="background:white;padding:20px;border-radius:15px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">';
+                html += '<div style="display:flex;justify-content:space-between;"><h3 style="color:#1a237e;">' + o.title + '</h3><span style="background:#FF9800;color:white;padding:5px 10px;border-radius:20px;font-size:12px;">' + percent + '% ছাড়</span></div>';
+                html += '<div style="margin:10px 0;"><span style="text-decoration:line-through;color:#666;">৳' + o.originalPrice + '</span><strong style="color:#d32f2f;font-size:24px;margin-left:10px;">৳' + o.offerPrice + '</strong></div>';
                 html += '<div style="color:#666;margin-bottom:15px;">' + (o.description||'') + '</div>';
-                html += '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:15px;">';
-                html += '<span><i class="fas fa-calendar"></i> ' + o.validity + ' দিন</span>';
-                html += '<span><i class="fas fa-fire"></i> সীমিত অফার</span>';
-                html += '</div>';
-                html += '<button class="btn btn-orange btn-full" onclick="purchaseDriveOffer(\'' + JSON.stringify(o).replace(/'/g, "\\'") + '\')">ক্রয় করুন</button>';
+                html += '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:15px;"><span><i class="fas fa-calendar"></i> ' + o.validity + ' দিন</span><span><i class="fas fa-fire"></i> সীমিত অফার</span></div>';
+                // ফিক্সড: onclick এ JSON স্ট্রিং না পাঠিয়ে data attribute ব্যবহার করছি
+                html += '<button class="btn btn-orange btn-full" data-offer=\'' + JSON.stringify(o) + '\' onclick="purchaseDriveOffer(this)">ক্রয় করুন</button>';
                 html += '</div>';
             }
             list.innerHTML = html;
-        }).catch(e => { 
-            list.innerHTML = '<div style="text-align:center;padding:40px;">অফার লোড করতে সমস্যা!</div>'; 
-        });
+        }).catch(e => { list.innerHTML = '<div style="text-align:center;padding:40px;">অফার লোড করতে সমস্যা!</div>'; });
     }
-
-    function purchaseDriveOffer(offer) {
-        currentDriveOffer = offer;
-        document.getElementById('modalTitle').textContent = offer.title;
-        document.getElementById('modalDescription').textContent = 'মূল্য: ৳' + offer.offerPrice;
-        document.getElementById('purchaseNumber').value = '';
-        document.getElementById('modalMessage').innerHTML = '';
-        document.getElementById('purchaseModal').style.display = 'flex';
-    }
-    
-    function closePurchaseModal() { 
-        document.getElementById('purchaseModal').style.display = 'none'; 
-        currentDriveOffer = null; 
-    }
-    
-    async function confirmPurchase() {
-    let num = document.getElementById('purchaseNumber').value.trim();
-    if(!num || !num.match(/^01[3-9]\d{8}$/)) { 
-        document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন!</div>'; 
-        return; 
-    }
-    if(!currentDriveOffer) return;
-    if(currentUser.balance < currentDriveOffer.offerPrice) { 
-        document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম!</div>'; 
-        return; 
-    }
-    
-    if(confirm(currentDriveOffer.title + ' ক্রয় করবেন?\nমূল্য: ৳' + currentDriveOffer.offerPrice + '\nনম্বর: ' + num)) {
-        let previousBalance = currentUser.balance;
-        let newBalance = previousBalance - currentDriveOffer.offerPrice;
-        
+    // নতুন purchaseDriveOffer ফাংশন (ইভেন্টের মাধ্যমে)
+    function purchaseDriveOffer(btnElement) {
+        let offerData = btnElement.getAttribute('data-offer');
+        if (!offerData) { console.error("অফার ডাটা পাওয়া যায়নি"); return; }
         try {
-            // 1. ব্যালেন্স আপডেট
-            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
-            
-            // 2. লোকাল আপডেট
-            currentUser.balance = newBalance;
-            localStorage.setItem('userData', JSON.stringify(currentUser));
-            loadUserData();
-            
-            // 3. অর্ডার তৈরি
-            let requestData = {
-                category: "ড্রাইভ অফার",
-                operatorName: currentDriveOffer.title,
-                amount: currentDriveOffer.offerPrice,
-                userId: currentUserId,
-                userName: currentUser.name,
-                userPhone: currentUser.phone,
-                number: num,
-                time: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                status: "Pending",
-                offerId: currentDriveOffer.key,
-                previousBalance: previousBalance,
-                newBalance: newBalance
-            };
-            await database.ref('orders').push(requestData);
-            
-            document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
-            
-            // হিস্ট্রি রিলোড
-            if (document.getElementById('historySection').classList.contains('active-section')) {
-                loadUserHistory();
-            }
-            
-            setTimeout(() => closePurchaseModal(), 3000);
-        } catch(e) { 
-            document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ!</div>';
+            currentDriveOffer = JSON.parse(offerData);
+            document.getElementById('modalTitle').textContent = currentDriveOffer.title;
+            document.getElementById('modalDescription').textContent = 'মূল্য: ৳' + currentDriveOffer.offerPrice;
+            document.getElementById('purchaseNumber').value = '';
+            document.getElementById('modalMessage').innerHTML = '';
+            document.getElementById('purchaseModal').style.display = 'flex';
+        } catch(e) { console.error("JSON পার্সে সমস্যা:", e); alert("অফার লোড করতে সমস্যা!"); }
+    }
+    function closePurchaseModal() { document.getElementById('purchaseModal').style.display = 'none'; currentDriveOffer = null; }
+    async function confirmPurchase() {
+        let num = document.getElementById('purchaseNumber').value.trim();
+        if(!num || !num.match(/^01[3-9]\d{8}$/)) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন!</div>'; return; }
+        if(!currentDriveOffer) return;
+        if(currentUser.balance < currentDriveOffer.offerPrice) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম!</div>'; return; }
+        if(confirm(currentDriveOffer.title + ' ক্রয় করবেন?\nমূল্য: ৳' + currentDriveOffer.offerPrice + '\nনম্বর: ' + num)) {
+            let previousBalance = currentUser.balance;
+            let newBalance = previousBalance - currentDriveOffer.offerPrice;
+            try {
+                await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+                currentUser.balance = newBalance;
+                localStorage.setItem('userData', JSON.stringify(currentUser));
+                loadUserData();
+                let requestData = { category: "ড্রাইভ অফার", operatorName: currentDriveOffer.title, amount: currentDriveOffer.offerPrice, userId: currentUserId, userName: currentUser.name, userPhone: currentUser.phone, number: num, time: new Date().toLocaleString('bn-BD'), timestamp: Date.now(), status: "Pending", offerId: currentDriveOffer.key, previousBalance: previousBalance, newBalance: newBalance };
+                await database.ref('orders').push(requestData);
+                document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
+                setTimeout(() => closePurchaseModal(), 3000);
+            } catch(e) { document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ!</div>'; }
         }
     }
-}
     function handleImageUpload(e) {
         let file = e.target.files[0];
         if(!file || !file.type.match('image.*')) return;
@@ -1156,17 +656,11 @@ try {
             img.onload = function() {
                 let canvas = document.createElement('canvas');
                 let w = img.width, h = img.height;
-                if(w > 500) { 
-                    h = (h * 500) / w; 
-                    w = 500; 
-                }
-                canvas.width = w; 
-                canvas.height = h;
+                if(w > 500) { h = (h * 500) / w; w = 500; }
+                canvas.width = w; canvas.height = h;
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                 let compressed = canvas.toDataURL('image/jpeg', 0.8);
-                document.getElementById('sideUserImg').src = compressed;
-                document.getElementById('userDisplayImg').src = compressed;
-                document.getElementById('profileUserImg').src = compressed;
+                document.getElementById('sideUserImg').src = compressed; document.getElementById('userDisplayImg').src = compressed; document.getElementById('profileUserImg').src = compressed;
                 localStorage.setItem('profileImage_' + currentUserId, compressed);
                 if(currentUser) currentUser.profileImage = compressed;
                 database.ref('users/' + currentUserId + '/profileImage').set(compressed);
@@ -1176,60 +670,24 @@ try {
         reader.readAsDataURL(file);
         e.target.value = '';
     }
-    
-    function openImageUpload() { 
-        document.getElementById('profileImageUpload').click(); 
-    }
-
+    function openImageUpload() { document.getElementById('profileImageUpload').click(); }
     function updateProfile() {
         let name = document.getElementById('profileName').value.trim();
         let email = document.getElementById('profileEmail').value.trim();
-        if(!name) { 
-            showMsg('profileMessage', 'নাম দিন!', 'error'); 
-            return; 
-        }
-        currentUser.name = name; 
-        currentUser.email = email;
+        if(!name) { showMsg('profileMessage', 'নাম দিন!', 'error'); return; }
+        currentUser.name = name; currentUser.email = email;
         localStorage.setItem('userData', JSON.stringify(currentUser));
         loadUserData();
-        database.ref('users/' + currentUserId).update({name: name, email: email})
-            .then(() => showMsg('profileMessage', 'আপডেট হয়েছে!', 'success'))
-            .catch(e => showMsg('profileMessage', 'আপডেট ব্যর্থ!', 'error'));
+        database.ref('users/' + currentUserId).update({name: name, email: email}).then(() => showMsg('profileMessage', 'আপডেট হয়েছে!', 'success')).catch(e => showMsg('profileMessage', 'আপডেট ব্যর্থ!', 'error'));
     }
-
-    function showMsg(el, msg, type) {
-        let d = document.getElementById(el);
-        d.innerHTML = '<div class="' + (type === 'success' ? 'success-message' : 'error-message') + '">' + msg + '</div>';
-        setTimeout(() => d.innerHTML = '', 5000);
-    }
-
-    function checkAutoLogin() {
-        let loggedIn = localStorage.getItem('userLoggedIn') === 'true';
-        let uid = localStorage.getItem('userId');
-        let udata = localStorage.getItem('userData');
-        if(loggedIn && uid && udata) {
-            try {
-                successfulLogin(uid, JSON.parse(udata));
-            } catch(e) { 
-                console.error(e); 
-            }
-        }
-    }
-
+    function showMsg(el, msg, type) { let d = document.getElementById(el); d.innerHTML = '<div class="' + (type === 'success' ? 'success-message' : 'error-message') + '">' + msg + '</div>'; setTimeout(() => d.innerHTML = '', 5000); }
+    function checkAutoLogin() { let loggedIn = localStorage.getItem('userLoggedIn') === 'true'; let uid = localStorage.getItem('userId'); let udata = localStorage.getItem('userData'); if(loggedIn && uid && udata) { try { successfulLogin(uid, JSON.parse(udata)); } catch(e) { console.error(e); } } }
     document.addEventListener('DOMContentLoaded', function() {
-        initializeFirebase();
-        checkDarkMode();
+        initializeFirebase(); checkDarkMode();
         let savedMobile = localStorage.getItem('userFixedMobile');
-        if(savedMobile) {
-            document.getElementById('fixedNumberDisplay').style.display = 'block';
-            document.getElementById('displayMobile').textContent = 'মোবাইল: ' + savedMobile;
-            document.getElementById('mobileInputGroup').style.display = 'none';
-            document.getElementById('loginMobile').value = savedMobile;
-        }
+        if(savedMobile) { document.getElementById('fixedNumberDisplay').style.display = 'block'; document.getElementById('displayMobile').textContent = 'মোবাইল: ' + savedMobile; document.getElementById('mobileInputGroup').style.display = 'none'; document.getElementById('loginMobile').value = savedMobile; }
         checkAutoLogin();
-        document.getElementById('loginPassword').addEventListener('keypress', function(e) { 
-            if(e.key === 'Enter') userLogin(); 
-        });
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) { if(e.key === 'Enter') userLogin(); });
     });
 </script>
 </body>
