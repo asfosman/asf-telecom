@@ -255,21 +255,22 @@
         .profile-image-upload { display: none; }
         .profile-image-container { position: relative; display: inline-block; }
         .profile-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    pointer-events: none;  /* এই লাইনটি যোগ করুন */
+}
         .profile-image-container:hover .profile-image-overlay { opacity: 1; }
         .operator-display { background: #f5f5f5; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: none; }
         .loading-spinner { text-align: center; padding: 40px; color: #666; }
@@ -392,13 +393,13 @@
     </button>
     
     <div class="side-profile-box">
-        <div class="profile-image-container">
-            <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="openImageUpload()">
-            <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
-        </div>
-        <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-        <h3 id="sideUserName">ইউজার</h3>
+    <div class="profile-image-container" onclick="openImageUpload()" style="cursor: pointer;">
+        <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+        <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
     </div>
+    <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)" style="display: none;">
+    <h3 id="sideUserName">ইউজার</h3>
+</div>
     <div class="side-info">
         <p><i class="fas fa-mobile-alt"></i> মোবাইল: <span id="sideUserPhone"></span></p>
         <p><i class="fas fa-wallet"></i> ব্যালেন্স: <span id="sideUserBalance">৳0.00</span></p>
@@ -491,10 +492,10 @@
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>প্রোফাইল ম্যানেজমেন্ট</h3>
         <div style="text-align:center; margin-bottom:20px;">
-            <div class="profile-image-container" style="display:inline-block;">
-                <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e; cursor:pointer;" onclick="openImageUpload()">
-                <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
-            </div>
+            <div class="profile-image-container" onclick="openImageUpload()" style="display:inline-block; cursor: pointer;">
+    <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e;">
+    <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
+</div>
         </div>
         <input type="text" id="profileName" placeholder="আপনার নাম">
         <input type="email" id="profileEmail" placeholder="ইমেইল (ঐচ্ছিক)">
