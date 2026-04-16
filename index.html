@@ -1417,9 +1417,17 @@
         e.target.value = '';
     }
     
-    function openImageUpload() { 
-        document.getElementById('profileImageUpload').click(); 
+    function openImageUpload() {
+    console.log("openImageUpload called"); // ডিবাগিং
+    var fileInput = document.getElementById('profileImageUpload');
+    if (fileInput) {
+        setTimeout(function() {
+            fileInput.click();
+        }, 100);
+    } else {
+        alert("ছবি আপলোড সিস্টেম প্রস্তুত নয়।");
     }
+}
 
     function updateProfile() {
         let name = document.getElementById('profileName').value.trim();
