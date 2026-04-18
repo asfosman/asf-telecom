@@ -158,16 +158,151 @@
     object-fit: contain;       /* পুরো ছবি ভেতরে রাখে */
     max-height: 70vh;          /* বড় স্ক্রিনেও সীমিত (প্রয়োজনে বাদ দিন) */
 }
-        .notice-box {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #4CAF50;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+     /* ========== নোটিশ কার্ড - নতুন ডিজাইন (সরু ও মাঝ বরাবর) ========== */
+.notice-box {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+    padding: 8px 15px;
+    border-radius: 40px;
+    margin: 10px 0;
+    border-left: 4px solid #d32f2f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;      /* 🔥 এটাই মেইন – মাইক ও লেখা এক লাইনে রাখে */
+    gap: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    min-height: 48px;         /* নূন্যতম উচ্চতা নিশ্চিত করে */
+}
+
+.notice-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    background: #d32f2f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notice-icon i {
+    font-size: 18px;
+    color: white;
+}
+
+.notice-marquee {
+    flex: 1;
+    overflow: hidden;
+}
+
+.marquee-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 12s linear infinite;
+    font-size: 14px;
+    font-weight: 600;
+    color: #d32f2f;
+    line-height: 1.4;        /* লাইন হাইট স্বাভাবিক রাখে */
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* লাল মাইক আইকন - ছোট ও মাঝ বরাবর */
+.notice-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: #d32f2f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.notice-icon i {
+    font-size: 16px;
+    color: white;
+    animation: pulse-icon 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* চলন্ত লেখার কন্টেইনার - বাকি জায়গা নেবে */
+.notice-marquee {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+/* মার্কি কন্টেন্ট - ডান থেকে ঢুকে বামে বের হবে */
+.marquee-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 12s linear infinite;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d32f2f;
+    padding: 6px 0;
+}
+
+.marquee-content:hover {
+    animation-play-state: paused;
+}
+
+/* অ্যানিমেশন - ডান থেকে ঢুকবে, বামে বের হবে */
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* ডার্ক মোড সাপোর্ট */
+body.dark-mode .notice-box {
+    background: linear-gradient(135deg, #2a1a1a 0%, #1e1e1e 100%);
+    border-left-color: #ff5252;
+}
+
+body.dark-mode .notice-icon {
+    background: #ff5252;
+}
+
+body.dark-mode .marquee-content {
+    color: #ff5252;
+}
+
+/* মোবাইলের জন্য অতিরিক্ত */
+@media (max-width: 480px) {
+    .notice-box {
+        padding: 5px 12px;
+        gap: 8px;
+        border-radius: 30px;
+    }
+    
+    .notice-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .notice-icon i {
+        font-size: 14px;
+    }
+    
+    .marquee-content {
+        font-size: 12px;
+        animation-duration: 10s;
+    }
+}
         .notice-box:active { transform: scale(0.99); }
         .notice-marquee { overflow: hidden; white-space: nowrap; position: relative; font-size: 14px; }
         .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
@@ -385,10 +520,14 @@
 <div class="container">
     <div id="dashboardSection" class="active-section">
         <div class="slider-container" id="sliderContainer"></div>
-        <div class="notice-box" id="noticeBox" style="display:none;" onclick="openNoticeModal()">
-            <div class="notice-header"><i class="fas fa-bullhorn"></i><h4>নোটিশ</h4></div>
-            <div class="notice-marquee"><div class="marquee-content" id="marqueeContent"></div></div>
-        </div>
+       <div class="notice-box" id="noticeBox" style="display:none;" onclick="openNoticeModal()">
+    <div class="notice-icon">
+        <i class="fas fa-bullhorn"></i>
+    </div>
+    <div class="notice-marquee">
+        <div class="marquee-content" id="marqueeContent"></div>
+    </div>
+</div>
         
         <div class="service-grid">
             <div class="service-card" onclick="setActiveServiceCard(this); showSection('recharge')"><i class="fas fa-mobile-alt" style="color:#f44336;"></i><p>মোবাইল রিচার্জ</p></div>
@@ -758,21 +897,21 @@
     }
 
     function loadNotice() {
-        database.ref('notice').once('value').then(snap => {
-            let n = snap.val();
-            if (n && n.message && n.status !== 'inactive') {
-                document.getElementById('noticeBox').style.display = 'block';
-                document.getElementById('marqueeContent').textContent = n.message;
-                if (n.color) document.getElementById('marqueeContent').style.color = n.color;
-                currentNoticeMessage = n.message || '';
-                currentNoticeLink = n.link || '';
-            } else {
-                document.getElementById('noticeBox').style.display = 'none';
-                currentNoticeMessage = '';
-                currentNoticeLink = '';
-            }
-        });
-    }
+    database.ref('notice').once('value').then(snap => {
+        let n = snap.val();
+        if (n && n.message && n.status !== 'inactive') {
+            document.getElementById('noticeBox').style.display = 'flex';  // 'flex' রাখা জরুরি
+            document.getElementById('marqueeContent').textContent = n.message;  // শুধু টেক্সট সেট করুন
+            if (n.color) document.getElementById('marqueeContent').style.color = n.color;
+            currentNoticeMessage = n.message || '';
+            currentNoticeLink = n.link || '';
+        } else {
+            document.getElementById('noticeBox').style.display = 'none';
+            currentNoticeMessage = '';
+            currentNoticeLink = '';
+        }
+    });
+}
 
     function openNoticeModal() {
         if (!currentNoticeMessage) return;
