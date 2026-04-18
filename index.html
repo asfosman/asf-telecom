@@ -510,7 +510,7 @@ body.dark-mode .marquee-content {
 </div>
 
 <div class="user-nav">
-    <div><h4>ASF Telecom</h4><p style="font-size:10px;">ইউজার প্যানেল</p></div>
+    <div><h3>ASF Telecom</h3></div>
     <div style="display:flex; align-items:center; gap:15px;">
         <div><p style="font-size:12px; font-weight:bold; cursor:pointer;" id="headerBalance" onclick="toggleBalanceDisplay()">ব্যালেন্স</p></div>
         <img id="userDisplayImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="user-profile-img" onclick="toggleSidebar()">
@@ -798,7 +798,9 @@ body.dark-mode .marquee-content {
         document.getElementById('sideUserImg').src = img;
         document.getElementById('userDisplayImg').src = img;
         document.getElementById('profileUserImg').src = img;
-        
+        // ব্যালেন্স ফন্ট সাইজ বড় করার লাইন
+    document.getElementById('headerBalance').style.fontSize = '18px';
+    document.getElementById('headerBalance').style.fontWeight = 'bold';
     }
 
     function userLogout() {
