@@ -8,6 +8,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
+    <input type="file" id="profileImageUpload" accept="image/*" onchange="handleImageUpload(event)">
     
     <script>
         const firebaseConfig = {
@@ -469,7 +470,13 @@ body.dark-mode .marquee-content {
         }
         body.dark-mode .modal-content { background: #1e1e1e; }
         .close-modal { position: absolute; top: 15px; right: 15px; color: #d32f2f; cursor: pointer; font-size: 24px; }
-        .profile-image-upload { display: none; }
+        ..profile-image-upload {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    z-index: -1;
+}
         .profile-image-container { position: relative; display: inline-block; }
         .profile-image-overlay {
             position: absolute;
@@ -1578,9 +1585,23 @@ body.dark-mode .marquee-content {
         e.target.value = '';
     }
     
-    function openImageUpload() { 
-        document.getElementById('profileImageUpload').click(); 
+    function openImageUpload() {
+    console.log("openImageUpload called");
+    var fileInput = document.getElementById('profileImageUpload');
+    if (fileInput) {
+        // মোবাইল WebView-এর জন্য force click
+        fileInput.click();
+    } else {
+        // বিকল্প: create করে click ট্রিগার
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+            handleImageUpload(e);
+        };
+        input.click();
     }
+}
 
     function updateProfile() {
         let name = document.getElementById('profileName').value.trim();
