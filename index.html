@@ -22,6 +22,70 @@
     </script>
     
     <style>
+    /* অ্যানিমেটেড অ্যাড বাটন স্টাইল */
+.ad-wrapper {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.animated-ad-btn {
+    position: relative;
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ff0055, #ffdd00, #00ff55, #0055ff);
+    background-size: 400%;
+    border-radius: 50px;
+    z-index: 1;
+    animation: glow-animation 8s linear infinite, pulse-animation 1.5s ease-in-out infinite;
+    border: none;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+@keyframes glow-animation {
+    0% { background-position: 0%; }
+    100% { background-position: 400%; }
+}
+
+@keyframes pulse-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.animated-ad-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+}
+
+.animated-ad-btn::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: inherit;
+    filter: blur(20px);
+    border-radius: 55px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.animated-ad-btn:hover::before {
+    opacity: 1;
+}
+
+.animated-ad-btn:active {
+    transform: scale(0.96);
+}
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Kalpurush', sans-serif; }
         body { background-color: #f0f2f5; color: #333; padding-bottom: 80px; transition: all 0.3s ease; }
         body.dark-mode { background-color: #121212; color: #e0e0e0; }
@@ -651,6 +715,7 @@ body.dark-mode .marquee-content {
         </div>
         <button class="btn btn-blue btn-full" onclick="closeNoticeModal()" style="margin-top:15px;">বন্ধ করুন</button>
     </div>
+    
 </div>
 
 <script>
@@ -1568,5 +1633,12 @@ body.dark-mode .marquee-content {
         });
     });
 </script>
+<div class="ad-wrapper">
+    <a href="https://www.profitablecpmratenetwork.com/gh2kfhy1?key=a9bb172bf236ef11ded7d695303a6d29" 
+       target="_blank" 
+       class="animated-ad-btn">
+        🔥 স্পেশাল অফার দেখুন! 🎁
+    </a>
+</div>
 </body>
 </html>
