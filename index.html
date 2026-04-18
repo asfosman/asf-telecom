@@ -445,6 +445,27 @@ body.dark-mode .marquee-content {
     .service-grid { grid-template-columns: repeat(3, 1fr); }
     /* slider-container এর height সরিয়ে দেওয়া হয়েছে, কারণ আমরা aspect-ratio ব্যবহার করছি */
 }
+
+/* হেডারে ইউজারের নামের স্টাইল */
+#userNameDisplay {
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.9;
+    color: #ffd700;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+/* মোবাইলের জন্য */
+@media (max-width: 480px) {
+    #userNameDisplay {
+        font-size: 10px;
+        max-width: 120px;
+    }
+}
     </style>
 </head>
 <body>
@@ -510,7 +531,10 @@ body.dark-mode .marquee-content {
 </div>
 
 <div class="user-nav">
-    <div><h3>ASF Telecom</h3></div>
+    <div>
+        <h4>ASF Telecom</h4>
+        <p id="userNameDisplay" style="font-size: 11px; margin-top: 3px; opacity: 0.9; color: #ffd700;">--</p>
+    </div>
     <div style="display:flex; align-items:center; gap:15px;">
         <div><p style="font-size:12px; font-weight:bold; cursor:pointer;" id="headerBalance" onclick="toggleBalanceDisplay()">ব্যালেন্স</p></div>
         <img id="userDisplayImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="user-profile-img" onclick="toggleSidebar()">
@@ -785,20 +809,29 @@ body.dark-mode .marquee-content {
     }
 
     function loadUserData() {
-        if (!currentUser) return;
-        document.getElementById('headerBalance').textContent = 'ব্যালেন্স';
-        document.getElementById('sideUserName').textContent = currentUser.name || 'ইউজার';
-        document.getElementById('sideUserPhone').textContent = currentUser.phone || '';
-        document.getElementById('sideUserBalance').textContent = '৳' + (currentUser.balance || 0).toFixed(2);
-        document.getElementById('sideUserExpiry').textContent = currentUser.expiryDate || 'N/A';
-        document.getElementById('sideUserRole').textContent = currentUser.role || 'user';
-        document.getElementById('profileName').value = currentUser.name || '';
-        document.getElementById('profileEmail').value = currentUser.email || '';
-        let img = currentUser.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-        document.getElementById('sideUserImg').src = img;
-        document.getElementById('userDisplayImg').src = img;
-        document.getElementById('profileUserImg').src = img;
-        // ব্যালেন্স ফন্ট সাইজ বড় করার লাইন
+    if (!currentUser) return;
+    
+    // ব্যালেন্স ও সাইডবারের তথ্য আপডেট
+    document.getElementById('headerBalance').textContent = 'ব্যালেন্স';
+    document.getElementById('sideUserName').textContent = currentUser.name || 'ইউজার';
+    document.getElementById('sideUserPhone').textContent = currentUser.phone || '';
+    document.getElementById('sideUserBalance').textContent = '৳' + (currentUser.balance || 0).toFixed(2);
+    document.getElementById('sideUserExpiry').textContent = currentUser.expiryDate || 'N/A';
+    document.getElementById('sideUserRole').textContent = currentUser.role || 'user';
+    document.getElementById('profileName').value = currentUser.name || '';
+    document.getElementById('profileEmail').value = currentUser.email || '';
+    
+    // 🔥 হেডারে ইউজারের নাম দেখানো (নতুন অংশ)
+    let userNameDisplay = document.getElementById('userNameDisplay');
+    if (userNameDisplay) {
+        userNameDisplay.textContent = currentUser.name || 'গেস্ট ইউজার';
+    }
+    
+    let img = currentUser.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+    document.getElementById('sideUserImg').src = img;
+    document.getElementById('userDisplayImg').src = img;
+    document.getElementById('profileUserImg').src = img;
+    // ব্যালেন্স ফন্ট সাইজ বড় করার লাইন
     document.getElementById('headerBalance').style.fontSize = '18px';
     document.getElementById('headerBalance').style.fontWeight = 'bold';
     }
