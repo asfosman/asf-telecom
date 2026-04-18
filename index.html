@@ -140,20 +140,24 @@
         .service-card p { font-size: 10px; font-weight: bold; }
         .slider-container {
     width: 100%;
-    aspect-ratio: 16 / 9;      /* 16:9 অনুপাত (বেশিরভাগ স্লাইডারের জন্য) */
+    height: auto;               /* উচ্চতা নিজেই ঠিক করবে */
+    min-height: 120px;          /* খুব ছোট হলে কমপক্ষে এতটুকু */
     border-radius: 15px;
     overflow: hidden;
     margin: 15px 0;
     background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;         /* পুরো কন্টেইনার ভরবে, কিন্তু ছবি কাটতে পারে */
-    /* অথবা object-fit: contain; ব্যবহার করলে ছবি পুরো দেখাবে কিন্তু ফাঁকা জায়গা থাকবে */
+    height: auto;
+    display: block;
+    object-fit: contain;       /* পুরো ছবি ভেতরে রাখে */
+    max-height: 70vh;          /* বড় স্ক্রিনেও সীমিত (প্রয়োজনে বাদ দিন) */
 }
-        .slider-image { width: 100%; height: 100%; object-fit: cover; }
         .notice-box {
             background: white;
             padding: 15px;
@@ -162,7 +166,7 @@
             border-left: 5px solid #4CAF50;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
         .notice-box:active { transform: scale(0.99); }
         .notice-marquee { overflow: hidden; white-space: nowrap; position: relative; font-size: 14px; }
@@ -269,22 +273,21 @@
         .profile-image-upload { display: none; }
         .profile-image-container { position: relative; display: inline-block; }
         .profile-image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s;
-    cursor: pointer;
-    pointer-events: none;  /* এই লাইনটি যোগ করুন */
-}
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
         .profile-image-container:hover .profile-image-overlay { opacity: 1; }
         .operator-display { background: #f5f5f5; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: none; }
         .loading-spinner { text-align: center; padding: 40px; color: #666; }
@@ -303,69 +306,9 @@
             word-break: break-word;
         }
         
-/* অ্যানিমেটেড অ্যাড বাটন স্টাইল */
-.ad-wrapper {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.animated-ad-btn {
-    position: relative;
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #ff0055, #ffdd00, #00ff55, #0055ff);
-    background-size: 400%;
-    border-radius: 50px;
-    z-index: 1;
-    animation: glow-animation 8s linear infinite, pulse-animation 1.5s ease-in-out infinite;
-    border: none;
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-@keyframes glow-animation {
-    0% { background-position: 0%; }
-    100% { background-position: 400%; }
-}
-
-@keyframes pulse-animation {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.animated-ad-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
-}
-
-.animated-ad-btn::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-    background: inherit;
-    filter: blur(20px);
-    border-radius: 55px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.animated-ad-btn:hover::before {
-    opacity: 1;
-}
-
-.animated-ad-btn:active {
-    transform: scale(0.96);
+        @media (max-width: 480px) {
+    .service-grid { grid-template-columns: repeat(3, 1fr); }
+    /* slider-container এর height সরিয়ে দেওয়া হয়েছে, কারণ আমরা aspect-ratio ব্যবহার করছি */
 }
     </style>
 </head>
@@ -403,13 +346,13 @@
     </button>
     
     <div class="side-profile-box">
-    <div class="profile-image-container" onclick="openImageUpload()" style="cursor: pointer;">
-        <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
-        <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
+        <div class="profile-image-container">
+            <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="openImageUpload()">
+            <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
+        </div>
+        <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+        <h3 id="sideUserName">ইউজার</h3>
     </div>
-    <input type="file" id="profileImageUpload" class="profile-image-upload" accept="image/*" onchange="handleImageUpload(event)" style="display: none;">
-    <h3 id="sideUserName">ইউজার</h3>
-</div>
     <div class="side-info">
         <p><i class="fas fa-mobile-alt"></i> মোবাইল: <span id="sideUserPhone"></span></p>
         <p><i class="fas fa-wallet"></i> ব্যালেন্স: <span id="sideUserBalance">৳0.00</span></p>
@@ -502,10 +445,10 @@
         <button class="back-btn" onclick="showSection('dashboard')"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান</button>
         <h3>প্রোফাইল ম্যানেজমেন্ট</h3>
         <div style="text-align:center; margin-bottom:20px;">
-            <div class="profile-image-container" onclick="openImageUpload()" style="display:inline-block; cursor: pointer;">
-    <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e;">
-    <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
-</div>
+            <div class="profile-image-container" style="display:inline-block;">
+                <img id="profileUserImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; border:3px solid #1a237e; cursor:pointer;" onclick="openImageUpload()">
+                <div class="profile-image-overlay"><i class="fas fa-camera"></i></div>
+            </div>
         </div>
         <input type="text" id="profileName" placeholder="আপনার নাম">
         <input type="email" id="profileEmail" placeholder="ইমেইল (ঐচ্ছিক)">
@@ -546,13 +489,7 @@
         <button class="btn btn-blue btn-full" onclick="closeNoticeModal()" style="margin-top:15px;">বন্ধ করুন</button>
     </div>
 </div>
-<div class="ad-wrapper">
-    <a href="https://www.profitablecpmratenetwork.com/gh2kfhy1?key=a9bb172bf236ef11ded7d695303a6d29" 
-       target="_blank" 
-       class="animated-ad-btn">
-        🔥 স্পেশাল অফার দেখুন! 🎁
-    </a>
-</div>
+
 <script>
     let database;
     let currentUser = null;
@@ -1136,118 +1073,92 @@
     }
 
     async function loadUserHistory() {
-    let list = document.getElementById('historyList');
-    list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
-    try {
-        // ১. সাধারণ অর্ডার লোড করুন
-        const ordersSnap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
-        let allTransactions = [];
-        
-        ordersSnap.forEach(child => {
-            let order = child.val();
-            order.key = child.key;
-            order.source = 'order';
-            allTransactions.push(order);
-        });
-        
-        // ২. অ্যাপ্রুভড ব্যালেন্স রিকোয়েস্ট লোড করুন (যা এডমিন অ্যাপ্রুভ করেছে)
-        const balanceReqSnap = await database.ref('balanceRequests').orderByChild('userId').equalTo(currentUserId).once('value');
-        balanceReqSnap.forEach(child => {
-            let req = child.val();
-            if (req.status === 'approved' || req.status === 'Success') {  // এডমিন অ্যাপ্রুভ করলে
-                // ভার্চুয়াল অর্ডার তৈরি করুন
-                let virtualOrder = {
-                    category: "ব্যালেন্স এড",
-                    operatorName: req.operator || "এডমিন",
-                    amount: req.amount,
-                    userId: req.userId,
-                    userName: req.userName,
-                    userPhone: req.userPhone,
-                    number: req.transactionId || "N/A",
-                    time: req.time,
-                    timestamp: req.timestamp || Date.now(),
-                    status: "Success",
-                    trxID: req.transactionId || "N/A",
-                    previousBalance: req.previousBalance || 0,
-                    newBalance: (req.previousBalance || 0) + req.amount,
-                    source: 'balanceRequest'
-                };
-                allTransactions.push(virtualOrder);
+        let list = document.getElementById('historyList');
+        list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>লেনদেন লোড হচ্ছে...</p></div>';
+        try {
+            const snap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
+            let orders = [];
+            snap.forEach(child => {
+                let order = child.val();
+                order.key = child.key;
+                orders.push(order);
+            });
+            for (let order of orders) {
+                if (order.status === 'Cancelled' && order.refundAmount && !order.refundProcessed) {
+                    await processRefund(order.key, order.refundAmount, order.userId);
+                    const updatedSnap = await database.ref('orders/' + order.key).once('value');
+                    if (updatedSnap.exists()) {
+                        Object.assign(order, updatedSnap.val());
+                    }
+                }
             }
-        });
-        
-        // ৩. টাইমস্ট্যাম্প অনুযায়ী সাজানো (নতুন থেকে পুরোনো)
-        allTransactions.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
-        
-        if(allTransactions.length === 0) { 
-            list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; 
-            return; 
-        }
-        
-        // ৪. HTML তৈরি করুন
-        let html = '';
-        for (let o of allTransactions) {
-            let statusClass = '', statusText = '', statusBadgeClass = '';
-            if (o.status === 'Success') {
-                statusClass = 'history-status-success';
-                statusText = 'সফল';
-                statusBadgeClass = 'status-success';
-            } else if (o.status === 'Pending') {
-                statusClass = 'history-status-pending';
-                statusText = 'পেন্ডিং';
-                statusBadgeClass = 'status-pending';
-            } else {
-                statusClass = 'history-status-cancelled';
-                statusText = 'বাতিল';
-                statusBadgeClass = 'status-cancelled';
+            const finalSnap = await database.ref('orders').orderByChild('userId').equalTo(currentUserId).once('value');
+            let finalOrders = [];
+            finalSnap.forEach(child => {
+                let order = child.val();
+                order.key = child.key;
+                finalOrders.push(order);
+            });
+            finalOrders.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+            if(finalOrders.length === 0) { 
+                list.innerHTML = '<div style="text-align:center;padding:40px; color:#666;">কোনো লেনদেন নেই</div>'; 
+                return; 
             }
-            
-            let previousBal = o.previousBalance !== undefined ? o.previousBalance : 0;
-            let newBal = o.newBalance !== undefined ? o.newBalance : previousBal;
-            
-            let displayCategory = o.category || 'N/A';
-            if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
-                displayCategory = 'এম-ব্যাংক (' + o.operatorName + ')';
-            }
-            
-            html += '<div class="history-item ' + statusClass + '">';
-            html += '<div style="display:flex; justify-content:space-between;">';
-            html += '<div><strong>' + displayCategory + '</strong>';
-            html += '<div style="font-size:11px; color:#666;">' + (o.operatorName || '') + '</div>';
-            if (o.refundAmount) {
-                html += '<div style="font-size:10px; color:#4CAF50; margin-top:4px;">';
-                html += '<i class="fas fa-undo-alt"></i> ফেরত: ৳' + o.refundAmount;
-                if (o.refundTime) html += ' (' + o.refundTime + ')';
+            let html = '';
+            for (let o of finalOrders) {
+                let statusClass = '', statusText = '', statusBadgeClass = '';
+                if (o.status === 'Success') {
+                    statusClass = 'history-status-success';
+                    statusText = 'সফল';
+                    statusBadgeClass = 'status-success';
+                } else if (o.status === 'Pending') {
+                    statusClass = 'history-status-pending';
+                    statusText = 'পেন্ডিং';
+                    statusBadgeClass = 'status-pending';
+                } else {
+                    statusClass = 'history-status-cancelled';
+                    statusText = 'বাতিল';
+                    statusBadgeClass = 'status-cancelled';
+                }
+                let previousBal = o.previousBalance !== undefined ? o.previousBalance : 0;
+                let newBal = o.newBalance !== undefined ? o.newBalance : previousBal;
+                if (o.status === 'Cancelled' && o.refundAmount && o.refundProcessed && currentUser) {
+                    newBal = currentUser.balance;
+                }
+                let displayCategory = o.category || 'N/A';
+                if (o.category === 'এম-ব্যাংক' && o.operatorName && o.operatorName !== 'এম-ব্যাংক') {
+                    displayCategory = 'এম-ব্যাংক (' + o.operatorName + ')';
+                }
+                html += '<div class="history-item ' + statusClass + '">';
+                html += '<div style="display:flex; justify-content:space-between;">';
+                html += '<div><strong>' + displayCategory + '</strong>';
+                html += '<div style="font-size:11px; color:#666;">' + (o.operatorName || '') + '</div>';
+                if (o.refundAmount) {
+                    html += '<div style="font-size:10px; color:#4CAF50; margin-top:4px;">';
+                    html += '<i class="fas fa-undo-alt"></i> ফেরত: ৳' + o.refundAmount;
+                    if (o.refundTime) html += ' (' + o.refundTime + ')';
+                    html += '</div>';
+                }
                 html += '</div>';
+                html += '<div style="font-weight:bold; font-size:16px;">৳' + (o.amount||0).toFixed(2) + '</div></div>';
+                html += '<div style="font-size:12px; margin-top:8px;">';
+                html += '<i class="fas fa-mobile-alt"></i> ' + (o.number || 'N/A') + '<br>';
+                html += '<i class="fas fa-clock"></i> ' + (o.time || 'N/A') + '<br>';
+                html += '<div class="status-badge ' + statusBadgeClass + '">' + statusText + '</div>';
+                if (o.trxID) html += '<br><i class="fas fa-hashtag"></i> TrxID: ' + o.trxID;
+                if (o.cancellationReason) html += '<br><i class="fas fa-comment"></i> কারণ: ' + o.cancellationReason;
+                html += '</div>';
+                html += '<div class="balance-info">';
+                html += '<i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳' + previousBal.toFixed(2) + '</span> &nbsp;|&nbsp;';
+                html += '<i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳' + (newBal || 0).toFixed(2) + '</span>';
+                html += '</div></div>';
             }
-            html += '</div>';
-            html += '<div style="font-weight:bold; font-size:16px;">৳' + (o.amount||0).toFixed(2) + '</div></div>';
-            html += '<div style="font-size:12px; margin-top:8px;">';
-            html += '<i class="fas fa-mobile-alt"></i> ' + (o.number || 'N/A') + '<br>';
-            html += '<i class="fas fa-clock"></i> ' + (o.time || 'N/A') + '<br>';
-            html += '<div class="status-badge ' + statusBadgeClass + '">' + statusText + '</div>';
-            if (o.trxID) html += '<br><i class="fas fa-hashtag"></i> TrxID: ' + o.trxID;
-            if (o.cancellationReason) html += '<br><i class="fas fa-comment"></i> কারণ: ' + o.cancellationReason;
-            html += '</div>';
-            html += '<div class="balance-info">';
-            html += '<i class="fas fa-arrow-left"></i> <span class="previous-balance">পূর্বের ব্যালেন্স: ৳' + previousBal.toFixed(2) + '</span> &nbsp;|&nbsp;';
-            html += '<i class="fas fa-arrow-right"></i> <span class="current-balance">বর্তমান ব্যালেন্স: ৳' + (newBal || 0).toFixed(2) + '</span>';
-            html += '</div></div>';
+            list.innerHTML = html;
+        } catch(error) {
+            console.error("History load error:", error);
+            list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
         }
-        list.innerHTML = html;
-        
-        // ৫. রিফান্ড প্রসেসিং (আগের মতো)
-        for (let order of allTransactions) {
-            if (order.source === 'order' && order.status === 'Cancelled' && order.refundAmount && !order.refundProcessed) {
-                await processRefund(order.key, order.refundAmount, order.userId);
-            }
-        }
-        
-    } catch(error) {
-        console.error("History load error:", error);
-        list.innerHTML = '<div style="text-align:center;padding:40px; color:#d32f2f;">লেনদেন লোড করতে সমস্যা!</div>';
     }
-}
 
     function loadSupportLinks() {
         database.ref('support').once('value').then(snap => {
@@ -1427,17 +1338,9 @@
         e.target.value = '';
     }
     
-    function openImageUpload() {
-    console.log("openImageUpload called"); // ডিবাগিং
-    var fileInput = document.getElementById('profileImageUpload');
-    if (fileInput) {
-        setTimeout(function() {
-            fileInput.click();
-        }, 100);
-    } else {
-        alert("ছবি আপলোড সিস্টেম প্রস্তুত নয়।");
+    function openImageUpload() { 
+        document.getElementById('profileImageUpload').click(); 
     }
-}
 
     function updateProfile() {
         let name = document.getElementById('profileName').value.trim();
