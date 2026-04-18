@@ -140,24 +140,18 @@
         .service-card p { font-size: 10px; font-weight: bold; }
         .slider-container {
     width: 100%;
-    height: auto;               /* উচ্চতা স্বয়ংক্রিয় */
-    min-height: 150px;         /* কমপক্ষে এতটুকু জায়গা থাকবে */
+    aspect-ratio: 16 / 9;      /* 16:9 অনুপাত (বেশিরভাগ স্লাইডারের জন্য) */
     border-radius: 15px;
     overflow: hidden;
     margin: 15px 0;
-    position: relative;
-    background: #e9ecef;       /* ব্যাকগ্রাউন্ড কালার (ছবি লোড না হলে দেখাবে) */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #e9ecef;
 }
 
 .slider-image {
     width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;       /* পুরো ছবি ভেতরে রাখবে, ক্রপ করবে না */
-    max-height: 250px;         /* প্রয়োজনে সর্বোচ্চ উচ্চতা সীমিত করুন */
+    height: 100%;
+    object-fit: cover;         /* পুরো কন্টেইনার ভরবে, কিন্তু ছবি কাটতে পারে */
+    /* অথবা object-fit: contain; ব্যবহার করলে ছবি পুরো দেখাবে কিন্তু ফাঁকা জায়গা থাকবে */
 }
         .slider-image { width: 100%; height: 100%; object-fit: cover; }
         .notice-box {
