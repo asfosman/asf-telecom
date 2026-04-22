@@ -9,10 +9,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
     
-    
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyACKaxw5Gk0K7bH6xqPkwDnX3VbimXAbw8",
+            apiKey: "AIzaSyACKaxw5Gk0K7bH6xqPkwDn3XVbimXAbw8",
             authDomain: "asftelicompro.firebaseapp.com",
             databaseURL: "https://asftelicompro-default-rtdb.firebaseio.com",
             projectId: "asftelicompro",
@@ -23,70 +22,62 @@
     </script>
     
     <style>
-    /* অ্যানিমেটেড অ্যাড বাটন স্টাইল */
-.ad-wrapper {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.animated-ad-btn {
-    position: relative;
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #ff0055, #ffdd00, #00ff55, #0055ff);
-    background-size: 400%;
-    border-radius: 50px;
-    z-index: 1;
-    animation: glow-animation 8s linear infinite, pulse-animation 1.5s ease-in-out infinite;
-    border: none;
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-@keyframes glow-animation {
-    0% { background-position: 0%; }
-    100% { background-position: 400%; }
-}
-
-@keyframes pulse-animation {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.animated-ad-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
-}
-
-.animated-ad-btn::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-    background: inherit;
-    filter: blur(20px);
-    border-radius: 55px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.animated-ad-btn:hover::before {
-    opacity: 1;
-}
-
-.animated-ad-btn:active {
-    transform: scale(0.96);
-}
+    .ad-wrapper {
+        text-align: center;
+        margin: 10px 0;
+    }
+    .animated-ad-btn {
+        position: relative;
+        display: inline-block;
+        padding: 12px 25px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        background: linear-gradient(90deg, #ff0055, #ffdd00, #00ff55, #0055ff);
+        background-size: 400%;
+        border-radius: 50px;
+        z-index: 1;
+        animation: glow-animation 8s linear infinite, pulse-animation 1.5s ease-in-out infinite;
+        border: none;
+        box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    @keyframes glow-animation {
+        0% { background-position: 0%; }
+        100% { background-position: 400%; }
+    }
+    @keyframes pulse-animation {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    .animated-ad-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+    }
+    .animated-ad-btn::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        z-index: -1;
+        background: inherit;
+        filter: blur(20px);
+        border-radius: 55px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .animated-ad-btn:hover::before {
+        opacity: 1;
+    }
+    .animated-ad-btn:active {
+        transform: scale(0.96);
+    }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Kalpurush', sans-serif; }
         body { background-color: #f0f2f5; color: #333; padding-bottom: 80px; transition: all 0.3s ease; }
         body.dark-mode { background-color: #121212; color: #e0e0e0; }
@@ -204,174 +195,97 @@
         .service-card i { font-size: 22px; margin-bottom: 8px; display: block; }
         .service-card p { font-size: 10px; font-weight: bold; }
         .slider-container {
-    width: 100%;
-    height: auto;               /* উচ্চতা নিজেই ঠিক করবে */
-    min-height: 120px;          /* খুব ছোট হলে কমপক্ষে এতটুকু */
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 15px 0;
-    background: #e9ecef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.slider-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;       /* পুরো ছবি ভেতরে রাখে */
-    max-height: 70vh;          /* বড় স্ক্রিনেও সীমিত (প্রয়োজনে বাদ দিন) */
-}
-     /* ========== নোটিশ কার্ড - নতুন ডিজাইন (সরু ও মাঝ বরাবর) ========== */
-.notice-box {
-    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
-    padding: 8px 15px;
-    border-radius: 40px;
-    margin: 10px 0;
-    border-left: 4px solid #d32f2f;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;      /* 🔥 এটাই মেইন – মাইক ও লেখা এক লাইনে রাখে */
-    gap: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    min-height: 48px;         /* নূন্যতম উচ্চতা নিশ্চিত করে */
-}
-
-.notice-icon {
-    flex-shrink: 0;
-    width: 34px;
-    height: 34px;
-    background: #d32f2f;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.notice-icon i {
-    font-size: 18px;
-    color: white;
-}
-
-.notice-marquee {
-    flex: 1;
-    overflow: hidden;
-}
-
-.marquee-content {
-    display: inline-block;
-    white-space: nowrap;
-    animation: marquee 12s linear infinite;
-    font-size: 18px;           /* আগে 13px বা 14px ছিল, এখন 18px */
-    font-weight: 700;          /* বোল্ড করার জন্য (ঐচ্ছিক) */
-    color: #d32f2f;
-    padding: 8px 0;
-}
-
-@keyframes marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* লাল মাইক আইকন - ছোট ও মাঝ বরাবর */
-.notice-icon {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    background: #d32f2f;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
-}
-
-.notice-icon i {
-    font-size: 16px;
-    color: white;
-    animation: pulse-icon 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse-icon {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.08); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* চলন্ত লেখার কন্টেইনার - বাকি জায়গা নেবে */
-.notice-marquee {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-}
-
-/* মার্কি কন্টেন্ট - ডান থেকে ঢুকে বামে বের হবে */
-.marquee-content {
-    display: inline-block;
-    white-space: nowrap;
-    animation: marquee 12s linear infinite;
-    font-size: 13px;
-    font-weight: 600;
-    color: #d32f2f;
-    padding: 6px 0;
-}
-
-.marquee-content:hover {
-    animation-play-state: paused;
-}
-
-/* অ্যানিমেশন - ডান থেকে ঢুকবে, বামে বের হবে */
-@keyframes marquee {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
-/* ডার্ক মোড সাপোর্ট */
-body.dark-mode .notice-box {
-    background: linear-gradient(135deg, #2a1a1a 0%, #1e1e1e 100%);
-    border-left-color: #ff5252;
-}
-
-body.dark-mode .notice-icon {
-    background: #ff5252;
-}
-
-body.dark-mode .marquee-content {
-    color: #ff5252;
-}
-
-/* মোবাইলের জন্য অতিরিক্ত */
-@media (max-width: 480px) {
-    .notice-box {
-        padding: 5px 12px;
-        gap: 8px;
-        border-radius: 30px;
-    }
-    
-    .notice-icon {
-        width: 28px;
-        height: 28px;
-    }
-    
-    .notice-icon i {
-        font-size: 14px;
-    }
-    
-    .marquee-content {
-        font-size: 12px;
-        animation-duration: 10s;
-    }
-}
-        .notice-box:active { transform: scale(0.99); }
-        .notice-marquee { overflow: hidden; white-space: nowrap; position: relative; font-size: 14px; }
-        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+            width: 100%;
+            height: auto;
+            min-height: 120px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slider-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            max-height: 70vh;
+        }
+        .notice-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+            padding: 8px 15px;
+            border-radius: 40px;
+            margin: 10px 0;
+            border-left: 4px solid #d32f2f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            min-height: 48px;
+        }
+        .notice-icon {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            background: #d32f2f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .notice-icon i {
+            font-size: 18px;
+            color: white;
+        }
+        .notice-marquee {
+            flex: 1;
+            overflow: hidden;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 12s linear infinite;
+            font-size: 18px;
+            font-weight: 700;
+            color: #d32f2f;
+            padding: 8px 0;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 480px) {
+            .notice-box {
+                padding: 5px 12px;
+                gap: 8px;
+                border-radius: 30px;
+            }
+            .notice-icon {
+                width: 28px;
+                height: 28px;
+            }
+            .notice-icon i {
+                font-size: 14px;
+            }
+            .marquee-content {
+                font-size: 12px;
+                animation-duration: 10s;
+            }
+        }
+        body.dark-mode .notice-box {
+            background: linear-gradient(135deg, #2a1a1a 0%, #1e1e1e 100%);
+            border-left-color: #ff5252;
+        }
+        body.dark-mode .notice-icon {
+            background: #ff5252;
+        }
+        body.dark-mode .marquee-content {
+            color: #ff5252;
+        }
         .service-section { display: none; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 15px; }
         body.dark-mode .service-section { background: #1e1e1e; }
         .active-section { display: block; }
@@ -470,13 +384,6 @@ body.dark-mode .marquee-content {
         }
         body.dark-mode .modal-content { background: #1e1e1e; }
         .close-modal { position: absolute; top: 15px; right: 15px; color: #d32f2f; cursor: pointer; font-size: 24px; }
-        ..profile-image-upload {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-    z-index: -1;
-}
         .profile-image-container { position: relative; display: inline-block; }
         .profile-image-overlay {
             position: absolute;
@@ -502,7 +409,6 @@ body.dark-mode .marquee-content {
         .success-message { background: #4CAF50; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .error-message { background: #d32f2f; color: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
         .balance-info { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; font-size: 11px; font-weight: bold; }
-        .refund-badge { background: #4CAF50; color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; display: inline-block; margin-left: 5px; }
         
         .notice-modal-message {
             font-size: 16px;
@@ -513,30 +419,30 @@ body.dark-mode .marquee-content {
         }
         
         @media (max-width: 480px) {
-    .service-grid { grid-template-columns: repeat(3, 1fr); }
-    /* slider-container এর height সরিয়ে দেওয়া হয়েছে, কারণ আমরা aspect-ratio ব্যবহার করছি */
-}
-
-/* হেডারে ইউজারের নামের স্টাইল */
-#userNameDisplay {
-    font-size: 11px;
-    margin-top: 4px;
-    opacity: 0.9;
-    color: #ffd700;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
-}
-
-/* মোবাইলের জন্য */
-@media (max-width: 480px) {
-    #userNameDisplay {
-        font-size: 10px;
-        max-width: 120px;
-    }
-}
+            .service-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        #userNameDisplay {
+            font-size: 11px;
+            margin-top: 4px;
+            opacity: 0.9;
+            color: #ffd700;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+        
+        @media (max-width: 480px) {
+            #userNameDisplay {
+                font-size: 10px;
+                max-width: 120px;
+            }
+        }
+        .profile-image-upload {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -615,14 +521,14 @@ body.dark-mode .marquee-content {
 <div class="container">
     <div id="dashboardSection" class="active-section">
         <div class="slider-container" id="sliderContainer"></div>
-       <div class="notice-box" id="noticeBox" style="display:none;" onclick="openNoticeModal()">
-    <div class="notice-icon">
-        <i class="fas fa-bullhorn"></i>
-    </div>
-    <div class="notice-marquee">
-        <div class="marquee-content" id="marqueeContent"></div>
-    </div>
-</div>
+        <div class="notice-box" id="noticeBox" style="display:none;" onclick="openNoticeModal()">
+            <div class="notice-icon">
+                <i class="fas fa-bullhorn"></i>
+            </div>
+            <div class="notice-marquee">
+                <div class="marquee-content" id="marqueeContent"></div>
+            </div>
+        </div>
         
         <div class="service-grid">
             <div class="service-card" onclick="setActiveServiceCard(this); showSection('recharge')"><i class="fas fa-mobile-alt" style="color:#f44336;"></i><p>মোবাইল রিচার্জ</p></div>
@@ -709,7 +615,6 @@ body.dark-mode .marquee-content {
     </div>
 </div>
 
-<!-- নোটিশ মডাল (টাচ করলে পপআপ) -->
 <div id="noticeModal" class="modal">
     <div class="modal-content">
         <div class="close-modal" onclick="closeNoticeModal()"><i class="fas fa-times"></i></div>
@@ -722,7 +627,6 @@ body.dark-mode .marquee-content {
         </div>
         <button class="btn btn-blue btn-full" onclick="closeNoticeModal()" style="margin-top:15px;">বন্ধ করুন</button>
     </div>
-    
 </div>
 
 <script>
@@ -735,11 +639,7 @@ body.dark-mode .marquee-content {
     let sliderImages = [];
     let currentSliderIndex = 0;
     let sliderInterval = null;
-    
-    // রিয়েল-টাইম লিসেনার রেফারেন্স রাখার জন্য
     let userDataListener = null;
-    
-    // নোটিশ সংক্রান্ত ভেরিয়েবল
     let currentNoticeMessage = "";
     let currentNoticeLink = "";
 
@@ -864,53 +764,46 @@ body.dark-mode .marquee-content {
         loadNotice();
         loadSupportLinks();
         
-        // ***** রিয়েল-টাইম লিসেনার যোগ করা হলো *****
         if (userDataListener) {
             database.ref('users/' + currentUserId).off('value', userDataListener);
         }
         userDataListener = database.ref('users/' + currentUserId).on('value', (snapshot) => {
             if (snapshot.exists()) {
                 const updatedUser = snapshot.val();
-                // লোকাল ভেরিয়েবল আপডেট
                 currentUser = updatedUser;
                 localStorage.setItem('userData', JSON.stringify(currentUser));
-                loadUserData();  // UI আপডেট
-                console.log('ইউজার ডাটা রিয়েল-টাইম আপডেট হয়েছে (ব্যালেন্স, নাম ইত্যাদি)');
+                loadUserData();
             }
         });
     }
 
     function loadUserData() {
-    if (!currentUser) return;
-    
-    // ব্যালেন্স ও সাইডবারের তথ্য আপডেট
-    document.getElementById('headerBalance').textContent = 'ব্যালেন্স';
-    document.getElementById('sideUserName').textContent = currentUser.name || 'ইউজার';
-    document.getElementById('sideUserPhone').textContent = currentUser.phone || '';
-    document.getElementById('sideUserBalance').textContent = '৳' + (currentUser.balance || 0).toFixed(2);
-    document.getElementById('sideUserExpiry').textContent = currentUser.expiryDate || 'N/A';
-    document.getElementById('sideUserRole').textContent = currentUser.role || 'user';
-    document.getElementById('profileName').value = currentUser.name || '';
-    document.getElementById('profileEmail').value = currentUser.email || '';
-    
-    // 🔥 হেডারে ইউজারের নাম দেখানো (নতুন অংশ)
-    let userNameDisplay = document.getElementById('userNameDisplay');
-    if (userNameDisplay) {
-        userNameDisplay.textContent = currentUser.name || 'গেস্ট ইউজার';
-    }
-    
-    let img = currentUser.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-    document.getElementById('sideUserImg').src = img;
-    document.getElementById('userDisplayImg').src = img;
-    document.getElementById('profileUserImg').src = img;
-    // ব্যালেন্স ফন্ট সাইজ বড় করার লাইন
-    document.getElementById('headerBalance').style.fontSize = '18px';
-    document.getElementById('headerBalance').style.fontWeight = 'bold';
+        if (!currentUser) return;
+        
+        document.getElementById('headerBalance').textContent = 'ব্যালেন্স';
+        document.getElementById('sideUserName').textContent = currentUser.name || 'ইউজার';
+        document.getElementById('sideUserPhone').textContent = currentUser.phone || '';
+        document.getElementById('sideUserBalance').textContent = '৳' + (currentUser.balance || 0).toFixed(2);
+        document.getElementById('sideUserExpiry').textContent = currentUser.expiryDate || 'N/A';
+        document.getElementById('sideUserRole').textContent = currentUser.role || 'user';
+        document.getElementById('profileName').value = currentUser.name || '';
+        document.getElementById('profileEmail').value = currentUser.email || '';
+        
+        let userNameDisplay = document.getElementById('userNameDisplay');
+        if (userNameDisplay) {
+            userNameDisplay.textContent = currentUser.name || 'গেস্ট ইউজার';
+        }
+        
+        let img = currentUser.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+        document.getElementById('sideUserImg').src = img;
+        document.getElementById('userDisplayImg').src = img;
+        document.getElementById('profileUserImg').src = img;
+        document.getElementById('headerBalance').style.fontSize = '18px';
+        document.getElementById('headerBalance').style.fontWeight = 'bold';
     }
 
     function userLogout() {
         if (confirm("লগ আউট করবেন?")) {
-            // লিসেনার বন্ধ করা
             if (userDataListener) {
                 database.ref('users/' + currentUserId).off('value', userDataListener);
                 userDataListener = null;
@@ -1005,21 +898,21 @@ body.dark-mode .marquee-content {
     }
 
     function loadNotice() {
-    database.ref('notice').once('value').then(snap => {
-        let n = snap.val();
-        if (n && n.message && n.status !== 'inactive') {
-            document.getElementById('noticeBox').style.display = 'flex';  // 'flex' রাখা জরুরি
-            document.getElementById('marqueeContent').textContent = n.message;  // শুধু টেক্সট সেট করুন
-            if (n.color) document.getElementById('marqueeContent').style.color = n.color;
-            currentNoticeMessage = n.message || '';
-            currentNoticeLink = n.link || '';
-        } else {
-            document.getElementById('noticeBox').style.display = 'none';
-            currentNoticeMessage = '';
-            currentNoticeLink = '';
-        }
-    });
-}
+        database.ref('notice').once('value').then(snap => {
+            let n = snap.val();
+            if (n && n.message && n.status !== 'inactive') {
+                document.getElementById('noticeBox').style.display = 'flex';
+                document.getElementById('marqueeContent').textContent = n.message;
+                if (n.color) document.getElementById('marqueeContent').style.color = n.color;
+                currentNoticeMessage = n.message || '';
+                currentNoticeLink = n.link || '';
+            } else {
+                document.getElementById('noticeBox').style.display = 'none';
+                currentNoticeMessage = '';
+                currentNoticeLink = '';
+            }
+        });
+    }
 
     function openNoticeModal() {
         if (!currentNoticeMessage) return;
@@ -1177,7 +1070,6 @@ body.dark-mode .marquee-content {
         else if (svc === 'user_send') operatorDisplayName = "ইউজার ট্রান্সফার";
         else operatorDisplayName = serviceText;
 
-        // ইউজার টু ইউজার ট্রান্সফার
         if (svc === 'user_send') {
             let currentPhone = currentUser.phone || currentUserId.replace('user_','');
             if (num === currentPhone) { 
@@ -1251,7 +1143,6 @@ body.dark-mode .marquee-content {
             return;
         }
 
-        // অন্যান্য এম-ব্যাংক সার্ভিস
         let previousBalance = currentUser.balance;
         let newBalance = previousBalance - a;
         
@@ -1294,7 +1185,6 @@ body.dark-mode .marquee-content {
         document.getElementById('userTransferInfo').style.display = 'none';
     }
 
-    // রিফান্ড প্রসেসিং ফাংশন
     async function processRefund(orderId, refundAmount, userId) {
         try {
             const userSnap = await database.ref('users/' + userId).once('value');
@@ -1311,7 +1201,6 @@ body.dark-mode .marquee-content {
                 localStorage.setItem('userData', JSON.stringify(currentUser));
                 loadUserData();
             }
-            console.log(`✅ রিফান্ড সফল: ${refundAmount} টাকা ${userId} একাউন্টে যোগ হয়েছে`);
             return true;
         } catch(e) {
             console.error("রিফান্ড প্রসেসিং এ ত্রুটি:", e);
@@ -1457,26 +1346,37 @@ body.dark-mode .marquee-content {
         loadDriveOffers(); 
     }
     
+       // ===================== ড্রাইভ অফার (সঠিক সংস্করণ) =====================
     function loadDriveOffers() {
         let list = document.getElementById('driveOffersList');
         list.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i><p>অফার লোড হচ্ছে...</p></div>';
+        
+        if(!database) {
+            list.innerHTML = '<div style="text-align:center;padding:40px;">ডাটাবেস সংযোগ নেই!</div>';
+            return;
+        }
+        
         database.ref('driveOffers').once('value').then(snap => {
             let offers = [];
-            snap.forEach(c => { 
-                let o = c.val(); 
-                if(o.active !== false) offers.push({key:c.key, ...o}); 
+            snap.forEach(c => {
+                let o = c.val();
+                if(o.active !== false) offers.push({key:c.key, ...o});
             });
-            if(offers.length === 0) { 
-                list.innerHTML = '<div style="text-align:center;padding:40px;">কোনো অফার নেই</div>'; 
-                return; 
+            
+            if(offers.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:40px;">কোনো অফার নেই</div>';
+                return;
             }
+            
             let html = '';
-            for(let o of offers) {
+            for(let i = 0; i < offers.length; i++) {
+                let o = offers[i];
                 let save = o.originalPrice - o.offerPrice;
                 let percent = Math.round((save / o.originalPrice) * 100);
+                
                 html += '<div style="background:white;padding:20px;border-radius:15px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">';
                 html += '<div style="display:flex;justify-content:space-between;">';
-                html += '<h3 style="color:#1a237e;">' + o.title + '</h3>';
+                html += '<h3 style="color:#1a237e;">' + (o.title || 'অফার') + '</h3>';
                 html += '<span style="background:#FF9800;color:white;padding:5px 10px;border-radius:20px;font-size:12px;">' + percent + '% ছাড়</span>';
                 html += '</div>';
                 html += '<div style="margin:10px 0;">';
@@ -1485,25 +1385,135 @@ body.dark-mode .marquee-content {
                 html += '</div>';
                 html += '<div style="color:#666;margin-bottom:15px;">' + (o.description||'') + '</div>';
                 html += '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:15px;">';
-                html += '<span><i class="fas fa-calendar"></i> ' + o.validity + ' দিন</span>';
+                html += '<span><i class="fas fa-calendar"></i> ' + (o.validity || 'N/A') + ' দিন</span>';
                 html += '<span><i class="fas fa-fire"></i> সীমিত অফার</span>';
                 html += '</div>';
-                html += '<button class="btn btn-orange btn-full" onclick="purchaseDriveOffer(\'' + JSON.stringify(o).replace(/'/g, "\\'") + '\')">ক্রয় করুন</button>';
+                
+                // store offer in a global variable using index
+                html += '<button class="btn btn-orange btn-full" onclick="selectOffer(' + i + ')">ক্রয় করুন</button>';
                 html += '</div>';
             }
             list.innerHTML = html;
+            
+            // store offers globally for access
+            window.currentOffersList = offers;
+            
         }).catch(e => { 
-            list.innerHTML = '<div style="text-align:center;padding:40px;">অফার লোড করতে সমস্যা!</div>'; 
+            console.error("Error loading offers:", e);
+            list.innerHTML = '<div style="text-align:center;padding:40px;">অফার লোড করতে সমস্যা! <br>Error: ' + e.message + '</div>'; 
         });
     }
+    
+    // Select offer by index
+    function selectOffer(index) {
+        if(window.currentOffersList && window.currentOffersList[index]) {
+            currentDriveOffer = window.currentOffersList[index];
+            document.getElementById('modalTitle').textContent = currentDriveOffer.title || 'ড্রাইভ অফার';
+            document.getElementById('modalDescription').textContent = 'মূল্য: ৳' + (currentDriveOffer.offerPrice || 0);
+            document.getElementById('purchaseNumber').value = '';
+            document.getElementById('modalMessage').innerHTML = '';
+            document.getElementById('purchaseModal').style.display = 'flex';
+        } else {
+            alert("অফার নির্বাচনে সমস্যা!");
+        }
+    }
+    
+    function closePurchaseModal() { 
+        document.getElementById('purchaseModal').style.display = 'none'; 
+        currentDriveOffer = null; 
+    }
+    
+    async function confirmPurchase() {
+        let num = document.getElementById('purchaseNumber').value.trim();
+        
+        if(!num) { 
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">মোবাইল নাম্বার দিন!</div>'; 
+            return; 
+        }
+        
+        if(!num.match(/^01[3-9]\d{8}$/)) { 
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">সঠিক নাম্বার দিন! (01XXXXXXXXX)</div>'; 
+            return; 
+        }
+        
+        if(!currentDriveOffer) {
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">অফার তথ্য পাওয়া যায়নি!</div>'; 
+            return;
+        }
+        
+        if(!currentUser) {
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">ইউজার তথ্য পাওয়া যায়নি!</div>'; 
+            return;
+        }
+        
+        let offerPrice = parseFloat(currentDriveOffer.offerPrice);
+        let currentBalance = parseFloat(currentUser.balance || 0);
+        
+        if(currentBalance < offerPrice) { 
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যালেন্স কম! আপনার ব্যালেন্স: ৳' + currentBalance.toFixed(2) + '</div>'; 
+            return; 
+        }
+        
+        let confirmMsg = currentDriveOffer.title + ' ক্রয় করবেন?\nমূল্য: ৳' + offerPrice + '\nনম্বর: ' + num;
+        if(!confirm(confirmMsg)) return;
+        
+        let previousBalance = currentBalance;
+        let newBalance = previousBalance - offerPrice;
+        
+        try {
+            // Deduct balance
+            await database.ref('users/' + currentUserId + '/balance').set(newBalance);
+            currentUser.balance = newBalance;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadUserData();
+            
+            // Create order
+            let requestData = {
+                category: "ড্রাইভ অফার",
+                operatorName: currentDriveOffer.title,
+                amount: offerPrice,
+                userId: currentUserId,
+                userName: currentUser.name || 'ইউজার',
+                userPhone: currentUser.phone || currentUserId.replace('user_',''),
+                number: num,
+                time: new Date().toLocaleString('bn-BD'),
+                timestamp: Date.now(),
+                status: "Pending",
+                offerId: currentDriveOffer.key,
+                previousBalance: previousBalance,
+                newBalance: newBalance
+            };
+            
+            await database.ref('orders').push(requestData);
+            
+            document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল!<br>আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
+            
+            setTimeout(() => {
+                closePurchaseModal();
+                if(document.getElementById('historySection').classList.contains('active-section')) {
+                    loadUserHistory();
+                }
+            }, 3000);
+            
+        } catch(e) { 
+            console.error("Purchase error:", e);
+            document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ! ত্রুটি: ' + e.message + '</div>';
+        }
+    }
 
-    function purchaseDriveOffer(offer) {
-        currentDriveOffer = offer;
-        document.getElementById('modalTitle').textContent = offer.title;
-        document.getElementById('modalDescription').textContent = 'মূল্য: ৳' + offer.offerPrice;
-        document.getElementById('purchaseNumber').value = '';
-        document.getElementById('modalMessage').innerHTML = '';
-        document.getElementById('purchaseModal').style.display = 'flex';
+    function purchaseDriveOffer(offerJson) {
+        try {
+            let offer = JSON.parse(offerJson);
+            currentDriveOffer = offer;
+            document.getElementById('modalTitle').textContent = offer.title || 'ড্রাইভ অফার';
+            document.getElementById('modalDescription').textContent = 'মূল্য: ৳' + (offer.offerPrice || 0);
+            document.getElementById('purchaseNumber').value = '';
+            document.getElementById('modalMessage').innerHTML = '';
+            document.getElementById('purchaseModal').style.display = 'flex';
+        } catch(e) {
+            console.error("JSON parse error:", e);
+            alert("অফার লোড করতে সমস্যা, পুনরায় চেষ্টা করুন।");
+        }
     }
     
     function closePurchaseModal() { 
@@ -1549,7 +1559,8 @@ body.dark-mode .marquee-content {
                 document.getElementById('modalMessage').innerHTML = '<div class="success-message">✅ রিকোয়েস্ট সফল! আপনার বর্তমান ব্যালেন্স: ৳' + newBalance.toFixed(2) + '</div>';
                 setTimeout(() => closePurchaseModal(), 3000);
             } catch(e) { 
-                document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ!</div>';
+                console.error(e);
+                document.getElementById('modalMessage').innerHTML = '<div class="error-message">ব্যর্থ! আবার চেষ্টা করুন।</div>';
             }
         }
     }
@@ -1586,22 +1597,19 @@ body.dark-mode .marquee-content {
     }
     
     function openImageUpload() {
-    console.log("openImageUpload called");
-    var fileInput = document.getElementById('profileImageUpload');
-    if (fileInput) {
-        // মোবাইল WebView-এর জন্য force click
-        fileInput.click();
-    } else {
-        // বিকল্প: create করে click ট্রিগার
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = function(e) {
-            handleImageUpload(e);
-        };
-        input.click();
+        var fileInput = document.getElementById('profileImageUpload');
+        if (fileInput) {
+            fileInput.click();
+        } else {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                handleImageUpload(e);
+            };
+            input.click();
+        }
     }
-}
 
     function updateProfile() {
         let name = document.getElementById('profileName').value.trim();
